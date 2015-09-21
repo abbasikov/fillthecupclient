@@ -1,0 +1,42 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>All Projects <small>{{companyName}}</small>
+	<small class="badge pull-right bg-green">Total Projects : {{totalProjects}}</small>
+	</h1>
+
+</section>
+
+<!-- Main content -->
+<section class="content" style="min-height:1768px;"> <!-- make the size of the project page 1768 -->
+	<div class="rows animated fadeInRight">
+		<ul class="project">
+			<li ng-repeat="project in projects" class="new-project" style="background: url(img/existing_project_icon.png);height:295px;width: 175px; background-repeat: no-repeat;overflow: visible;">
+				<div class="ttl">
+					<a class="new-project-anchor" ng-click="goProject(project)" style="cursor: pointer;">
+          				{{project.name}}
+        			</a>
+        			<a style="cursor:pointer; margin-left: 118px;margin-top: 50px; position: absolute;" aria-disabled="false" data-toggle="dropdown" class="dropdown">
+        				<span style=" background: url('img/action_icon.png') no-repeat scroll 0 -70px transparent;display: block;height: 25px;width: 25px;"></span>
+        			</a>
+        			<ul class="dropdown-menu" role="menu" style="margin: 75px 115px;min-width: 116px;border-radius:0px;font-size: 11px;position:relative;">
+      					<li><a ui-sref="home" style="cursor: pointer;padding: 3px 9px" ng-click="showProjectName(project.name)"><i class="fa fa-pencil" ></i>Edit</a></li>
+      					<li><a ui-sref="home" style="cursor: pointer;padding: 3px 9px"><i class="fa fa-font"></i>Rename</a></li>
+      					<li><a ui-sref="home" style="cursor: pointer;padding: 3px 9px"><i class="fa fa-files-o"></i>Clone</a></li>
+      					<li><a ui-sref="home" style="cursor: pointer;padding: 3px 9px"><i class="fa fa-download"></i>Export to PDF</a></li>
+      					<li><a ui-sref="home" style="cursor: pointer;padding: 3px 9px"><i class="fa fa-file-image-o"></i>Delete</a></li>
+      				</ul>
+        		</div>	
+			</li>
+			
+			<li class="new-project">
+				<div class="ttl">
+					<a class="new-project-anchor" style="cursor:pointer;" ng-click="createNewProject()">
+          				Add New Project...
+        			</a>
+        		</div>	
+			</li>
+		</ul>
+		
+	</div>
+</section>
+<!-- /.content -->

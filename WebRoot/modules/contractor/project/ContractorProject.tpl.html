@@ -1,0 +1,87 @@
+
+<!-- Right side column. Contains the navbar and content of the page [Change here for strech] -->
+<aside id="rightSide" class="right-side strech ui-view">
+
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>Project&nbsp;&#45;&nbsp;{{projectName}}</h1>
+		<p class="help-block" style="font-size: 12px;margin-top: 0px;margin-bottom: 0px">Created On: {{createdOn}}</p>
+		<ol class="breadcrumb" style="padding:0px 0px">
+                        <li><a class="btn btn-primary btn-sm" style="color:white" ui-sref="contractor.home.allprojects"><i class="fa fa-home"></i> Home</a></li>
+                        
+                    
+                        
+                    </ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+
+
+		<div class="row animated fadeInRight">
+			<div class="col-md-12">
+				<!-- Custom Tabs -->
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs" ng-init="tab = 1">
+						<li ng-class="{active : tab === 1}">
+							<a href ng-click="tab = 1">Survey</a>
+						</li>
+						<li ng-class="{active : tab === 2}">
+							<a href ng-click="tab = 2">SoW</a>
+						</li>
+						<li ng-class="{active : tab === 3}">
+							<a href ng-click="tab = 3">Equipment/Material</a>
+						</li>
+						<li ng-class="{active : tab === 4}">
+							<a href ng-click="tab = 4">Summary</a>
+						</li>
+
+						<li class="pull-right">
+							<div style="text-align: center; margin-top: 8px;">
+                        		<img id="spinner" ng-src="img/spinner.gif" style="display:none;">
+                        	</div>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<!-- [START] SURVEY TAB -->
+						<div ng-class="(tab === 1) ? 'tab-pane active' : 'tab-pane'" style="height:410px;overflow: scroll;" ng-show="tab === 1">
+							<div style="padding-bottom: 4px;">
+								<button class="btn btn-success btn-sm" ng-click="addNewSurveyEntry()">Add New</button>
+							</div>
+							<!-- SURVEY SUMMARY TABLE CUSTOM TAG -->
+							<ce-survey-summary-table survey-data="surveyData"></ce-survey-summary-table>
+						</div>
+						<!-- [END] SURVEY TAB -->
+						
+						<!-- [START] SCOPE OF WORK TAB -->
+						<div ng-class="(tab === 2) ? 'tab-pane active' : 'tab-pane'" style="height:400px" ng-show="tab === 2">
+							<strong>Scope of work</strong> 
+						</div>
+						<!-- [END] SCOPE OF WORK TAB -->
+						
+						<!-- [START] EQUIPMENT TAB -->
+						<div ng-class="(tab === 3) ? 'tab-pane active' : 'tab-pane'" style="height:400px" ng-show="tab === 3">
+							<strong>Equipment</strong>
+						</div>
+						<!-- [END] EQUIPMENT TAB -->
+						
+						<!-- [START] SUMMARY TAB -->
+						<div ng-class="(tab === 4) ? 'tab-pane active' : 'tab-pane'" style="height:400px" ng-show="tab === 4">
+							<strong>Summary</strong>
+						</div>
+						<!-- [END] SUMMARY TAB -->
+					</div>
+					<!-- /.tab-content -->
+				</div>
+				<!-- nav-tabs-custom -->
+			</div>
+			<!-- /.col -->
+
+
+		</div>
+		<!-- /.row -->
+
+	</section>
+	<!-- /.content -->
+
+</aside>

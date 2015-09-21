@@ -1,0 +1,132 @@
+<!-- Content Header (Page header) -->
+<section class="content-header no-margin">
+	<h1 class="text-left">Mailbox</h1>
+</section>
+<div class="wrapper row-offcanvas row-offcanvas-left">
+	<!-- Main content -->
+	<section class="content">
+		<!-- MAILBOX BEGIN -->
+		<div class="mailbox row">
+			<div class="col-xs-12">
+				<div class="box box-solid">
+               	<div class="box-body">
+               		<div class="row">
+               			<div class="col-md-3 col-sm-4">
+               				
+               				<!-- compose message btn -->
+               				<a class="btn btn-block btn-primary" href ng-click="newMessage()"><i class="fa fa-pencil"></i> Compose Message</a><!-- data-toggle="modal" data-target="#compose-modal" -->
+               				<!-- Navigation - folders-->
+               				<div style="margin-top: 15px;" ng-init="tab = 1">
+               					<ul class="nav nav-pills nav-stacked">
+               						<li class="header">Folders</li>
+               						<li ng-class="{active : tab === 1}"><a href ng-click="tabSwitch(1)"><i class="fa fa-inbox"></i>&nbsp;Inbox</a></li>
+									<li ng-class="{active : tab === 2}"><a href ng-click="tabSwitch(2)"><i class="fa fa-mail-forward"></i>&nbsp;Sent</a></li>
+									<li ng-class="{active : tab === 3}"><a href ng-click="tabSwitch(3)"><i class="fa fa-trash"></i>&nbsp;Trash</a></li>
+               					</ul>
+               				</div>
+               			</div><!-- /.col (LEFT) -->
+               				<div class="col-md-9 col-sm-8">
+               					<div class="row pad">
+               						<div class="col-sm-6" style="padding-left: 23px">
+               							<label style="margin-right: 10px;">
+               								<input type="checkbox" ng-model="globalCheck" ng-change="globalCheckChange()"/>
+               							</label>
+               							<!-- Action button -->
+               							<div class="btn-group">
+               								<button type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" 
+               										data-toggle="dropdown">Action <span class="caret"></span>
+               								</button>
+               								<ul class="dropdown-menu" role="menu">
+               									<li><a ng-click="markReadGlobal()" style="cursor: pointer;">Mark as read</a></li>
+               									<li><a ng-click="markUnReadGlobal()" style="cursor: pointer;">Mark as unread</a></li>
+               									<li class="divider"></li>
+               									<li><a ng-click="moveTrashGlobal()" style="cursor: pointer;">Move to trash</a></li>
+               								</ul>
+               							</div>
+               							<div class="btn btn-success btn-xs" style="padding: 5px 9px" ng-click="tabSwitch(tab)">
+               								<i class="fa fa-refresh"></i>
+										</div>
+               						</div>
+               						<div class="col-sm-6" style="padding-right: 5px;">
+               							<form action="#" class="text-right">
+               								<div class="input-group">
+               									<input type="text" class="form-control input-sm" placeholder="Search" ng-model="searchText">
+               									
+               									<div class="input-group-btn">
+               										<button type="submit" name="q" class="btn btn-sm btn-primary">
+               											<i class="fa fa-search"></i>
+               										</button>
+               									</div>
+               								</div>
+               							</form>
+               						</div>
+               					</div><!-- /.row -->
+               					
+               					<div class="box box-success" >
+               						<div  class="box-body">
+               							<!-- Inbox  -->
+               							<table class="table table-mailbox"  ng-show="tab == 1">
+											<tr ng-class="{unread: message.messageStatus == 'UNREAD'  }" ng-repeat="message in inboxMessages | orderBy: '-createdOnISO8601' | filter:searchText">
+												<td class="small-col"><input type="checkbox" ng-model="message.checked"/></td>
+												<td class="name" ng-style="{'font-weight' : ( message.messageStatus == 'UNREAD' ? '600' : 'normal' )}"><a href="">{{message.from.name}}</a></td>
+												<td class="subject"><a href="">{{message.subject}}</a></td>
+												<td class="time">{{message.createdOnISO8601 | date:'MMM dd HH:mm a'}}</td>
+											</tr>
+											<tr ng-show="inboxMessages.length<1">
+												<td class="col-xs-12" style="text-align: center; color: red">No Messages Found</td>
+											</tr>
+										</table>
+										
+										<!-- Sent -->
+										<table class="table table-mailbox" ng-show="tab == 2">
+											<tr ng-class="{unread: message.messageStatus == 'UNREAD'  }" ng-repeat="message in sentboxMessages | orderBy: '-createdOnISO8601'  | filter:searchText">
+												<td class="small-col"><input type="checkbox" ng-model="message.checked"/></td>
+												<td class="name" ng-style="{'font-weight' : ( message.messageStatus == 'UNREAD' ? '600' : 'normal' )}"><a href="">{{message.to.name}}</a></td>
+												<td class="subject"><a href="">{{message.subject}}</a></td>
+												<td class="time">{{message.createdOnISO8601 | date:'MMM dd HH:mm a'}}</td>
+											</tr>
+											<tr ng-show="sentboxMessages.length<1">
+												<td class="col-xs-12" style="text-align: center; color: red">No Messages Found</td>
+											</tr>
+										</table>
+										
+										<!-- Trash -->
+										<table class="table table-mailbox"  ng-show="tab == 3">
+											<tr ng-class="{unread: message.messageStatus == 'UNREAD'  }" ng-repeat="message in trashMessages | orderBy: '-createdOnISO8601'  | filter:searchText">
+												<td class="small-col"><input type="checkbox" ng-model="message.checked"/></td>
+												<td class="name" ng-style="{'font-weight' : ( message.messageStatus == 'UNREAD' ? '600' : 'normal' )}"><a href="">{{message.to.name}}</a></td>
+												<td class="subject"><a href="">{{message.subject}}</a></td>
+												<td class="time">{{message.createdOnISO8601 | date:'MMM dd HH:mm a'}}</td>
+											</tr>
+											<tr ng-show="trashMessages.length<1">
+												<td class="col-xs-12" style="text-align: center; color: red">No Messages Found</td>
+											</tr>
+										</table>
+										
+									</div>
+									<div class="overlay" ng-show="showLoading"></div>
+									<div class="loading-img" ng-show="showLoading"></div>
+								</div>
+									
+								
+									
+							</div><!-- /.col (RIGHT) -->
+						</div><!-- /.row -->
+					</div><!-- /.box-body -->
+					
+					<div class="box-footer clearfix">
+					<!-- 
+						<div class="pull-right">
+							<small>Showing 1-12/1,240</small>
+							<button class="btn btn-xs btn-primary"><i class="fa fa-caret-left"></i></button>
+							<button class="btn btn-xs btn-primary"><i class="fa fa-caret-right"></i></button>
+						</div>
+					 -->
+					</div><!-- box-footer -->
+					
+				
+				</div><!-- /.box -->
+			</div><!-- /.col (MAIN) -->
+		</div><!-- MAILBOX END -->
+	</section><!-- /.content -->
+</div><!-- ./wrapper -->

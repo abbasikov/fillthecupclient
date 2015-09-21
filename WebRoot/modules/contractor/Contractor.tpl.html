@@ -1,0 +1,65 @@
+
+<!-- header logo: style can be found in header.less [<header> is moved in body] -->
+<!-- [START] MENU BAR  -->   
+<header class="header">     
+            <a  class="logo" style="cursor: pointer;" ui-sref="contractor.home.allprojects">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                  <strong>CleanEstimateX</strong>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                    	<!-- Messages: style can be found in dropdown.less-->
+                    	<!-- 
+                        <li style="cursor:pointer" class="dropdown messages-menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope"></i>
+                                <span class="label label-success">4</span>  
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 0 messages</li>                                
+                                <li class="footer"><a style="cursor:pointer">See All Messages</a></li>
+                            </ul>
+                        </li>
+                         -->
+                        
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li style="cursor:pointer" class="dropdown user user-menu">
+                            <a  class="dropdown-toggle pointer" data-toggle="dropdown" >
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span>{{firstName}} {{lastName}} <i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header bg-light-blue">
+                                    <img src="img/company_default_logo.png" class="img-circle" alt="User Image" />
+                                    <p>
+                                        {{firstName}} {{lastName}} - {{companyName}}
+                                        <small>Member since Nov. 2015</small>
+                                    </p>
+                                </li>
+                                
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a  ui-sref="contractor.home.allprojects" class="btn btn-default btn-flat">Home</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a ui-sref="signout" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+</header>
+<!-- [END] MENU BAR  -->
+
+        <div class="wrapper row-offcanvas row-offcanvas-left ui-view">
+            
+        
+        </div>
