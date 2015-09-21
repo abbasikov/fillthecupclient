@@ -6,17 +6,17 @@ angular.module('context.service',[])
 			var instance = null;
 			
 			function init(){
-				var _employee		= null;
+				var _user		= null;
 				
 				return {
-					setEmployee	: function(model){
-						_employee = model;
+					setUser	: function(model){
+						_user = model;
 					},
-					getEmployee	: function(){
-						return _employee;
+					getUser	: function(){
+						return _user;
 					},
 					clearContext : function(){
-						this.setEmployee(null);
+						this.setUser(null);
 					}
 				};
 			}
@@ -39,14 +39,14 @@ angular.module('context.service',[])
 					Context.getInstance().clearContext();
 					return Context.getInstance();
 				},
-				getEmployee	: function(){
-					return Context.getInstance().getEmployee();
+				getUser	: function(){
+					return Context.getInstance().getUser();
 				},
-				setEmployee	: function(model){
-					Context.getInstance().setEmployee(model);
+				setUser	: function(model){
+					Context.getInstance().setUser(model);
 				},
 				isReady		: function(){
-					return (this.getEmployee() != null);
+					return (this.getUser() != null);
 				}
 				
 		};
@@ -64,12 +64,12 @@ angular.module('context.service',[])
 				}
 				else{
 					if(window.console){
-						console.log("Context is not ready. Getting employee from session storage");
+						console.log("Context is not ready. Getting user from session storage");
 					}
 					
-					if(sessionStorage.getItem("employee") != null){
+					if(sessionStorage.getItem("user") != null){
 						try{
-							context.setEmployee($.parseJSON(sessionStorage.getItem("employee")));
+							context.setUser($.parseJSON(sessionStorage.getItem("user")));
 						}
 						catch(err){
 							console.log(err.message);
@@ -78,7 +78,7 @@ angular.module('context.service',[])
 					}
 					else{
 						if(window.console)
-							console.log("Employee not found in session storage. Login again.");
+							console.log("User not found in session storage. Login again.");
 					}
 					return null;
 				}
@@ -86,15 +86,8 @@ angular.module('context.service',[])
 			redirectToHomePage : function(){
 				if(context.isReady()){
 					
-					//If Supplier, redirect to supplier home page.
-					//If Contractor, redirect to contractor home page.
-					if(context.getEmployee().company.companyType == "Supplier"){
-						$state.go("supplier.machines");
-					}
-					else if(context.getEmployee().company.companyType == "Contractor"){
-						$state.go("contractor.home.allprojects");
-					}
-					
+					//Start Module
+					$state.go("home.hypothesis");
 					
 				}
 				else{

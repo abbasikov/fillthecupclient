@@ -31,6 +31,16 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			templateUrl	:"modules/admin/Admin.tpl.html",
 			controller	: AdminController
 		})
+		.state("home",{
+			url			:"/home",
+			templateUrl	:"modules/home/Home.tpl.html",
+			controller	: HomeController
+		})
+		.state("home.hypothesis",{
+			url			:"/hypothesis",
+			templateUrl	:"modules/home/hypothesis/Hypothesis.tpl.html",
+			controller	: HypothesisController
+		})
 		.state("admin.users",{
 			url			:"/users",
 			templateUrl	:"modules/admin/users/Users.tpl.html",

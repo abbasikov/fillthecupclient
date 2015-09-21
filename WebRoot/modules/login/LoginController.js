@@ -21,15 +21,15 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 						if(data.meta.code == 200){
 							Notification.success({message: 'Logged in successfully.', title: 'Success'});
 							
-							context.setEmployee(data.data);
+							context.setUser(data.data);
 							
-							//Store employee in session storage
-							sessionStorage.setItem('employee',JSON.stringify(context.getEmployee()) );
+							//Store user in session storage
+							sessionStorage.setItem('user',JSON.stringify(context.getUser()) );
 							
-							$scope.profileObject = context.getEmployee();
+							$scope.profileObject = context.getUser();
 							
 							//Redirect to admin module if the user is Admin
-							if($scope.profileObject.isAdmin == 'true'){
+							if($scope.profileObject.isSuperAdmin == 'true'){
 								$state.go('admin.users');
 							}
 							else{
