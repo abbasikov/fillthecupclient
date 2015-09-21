@@ -4,9 +4,6 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 	$scope.loginText = "SIGN IN";
 	$scope.showLoading = false;
 	
-	//$scope.email = "neoumair@gmail.com";
-	//$scope.password = "a";
-	
 	$scope.login = function(){
 		
 		
