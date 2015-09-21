@@ -9,7 +9,7 @@ function AdminController($scope,$state,Notification,FileUploader,$http,context){
 	else{
 		$scope.firstName 	= context.getEmployee().firstName;
 		$scope.lastName		= context.getEmployee().lastName;
-		$scope.companyType  = 'CleanEstimateX';
+		$scope.companyType  = 'FillTheCup';
 		
 		//Add page-signin class in body tag
 		angular.element('#id-body').removeClass('page-signin');
