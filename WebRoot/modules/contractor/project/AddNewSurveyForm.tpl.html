@@ -1,0 +1,162 @@
+
+<div class="modal-header" style="background-color: #ececec">
+	<h3 class="modal-title">Add New Survey Entry</h3>
+</div>
+<div class="modal-body">
+
+	<form role="form">
+
+		<div class="form-group">
+			<select class="form-control" ng-options="item.name for item in areaTypes" ng-model="areaType"></select>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Enter Description (Max 25 characters)" ng-model="newSurveyEntry.description" maxlength="25">
+		</div>
+		<div class="form-group" ng-init="tab = -1">
+		 	<h4 style="margin-bottom:0px;margin-top:0px"><strong>Service Types</strong></h4>
+    		<hr style="margin-top:2px;margin-bottom:10px">
+			<div class="checkbox" ng-repeat="item in serviceTypes" style="font-size:14px">
+	            <label>
+	              <input type="checkbox" ng-model="item.checked" style="cursor: pointer;">{{item.name}}
+	            </label>
+	            <a class="label label-success" href ng-click="toggleDiv(item)">
+	            	<i class="fa fa-plus" ng-if="!item.expand"></i>
+	            	<i class="fa fa-minus" ng-if="item.expand"></i>
+	            </a>
+	            <!--  <span  style="cursor: pointer;" ng-click="tab = 1"><i class="fa fa-plus"></i></span>-->
+	            <div ng-show="item.expand" style="padding-left: 30px;">
+	            	<div class="row" style="margin-top: 6px">
+	            		<div class="col-xs-12">
+	            		
+	            			<!-- THIS TABLE IS FOR 'FACADE CLEANING' AND 'FLOOR CLEANING' -->
+		            		<table style="font-size:10px" class="table table-bordered table-striped dataTable" ng-if="item.name == 'Facade Cleaning' || item.name == 'Floor Cleaning'">
+		            			<thead>
+									<tr>
+										<th>Service Area</th>
+										<th>Length (Feet)</th>
+										<th>Width (Feet)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item2 in item.cleaningAreas">
+										<td>
+												<label style="display: block;padding-left: 15px;text-indent: -15px;">
+			              							<input type="checkbox" ng-model="item2.checked" style="height: 13px;margin:0;vertical-align: bottom;position: relative;top: -1px;">&nbsp;{{item2.name}}
+			            						</label>
+		            						
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Length" ng-model="item2.length"  ng-disabled="!item2.checked">
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Width" ng-model="item2.width" ng-disabled="!item2.checked">
+										</td>
+									</tr>
+								</tbody>
+		            		</table>
+		            		
+		            		<!-- THIS TABLE IS FOR 'OFFICE FURNITURE' -->
+		            		<table style="font-size:10px" class="table table-bordered table-striped dataTable" ng-if="item.name == 'Office Furniture'">
+		            			<thead>
+									<tr>
+										<th>Service Area</th>
+										<th>No. Of Quantity</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item2 in item.cleaningAreas">
+										<td>
+												<label style="display: block;padding-left: 15px;text-indent: -15px;">
+			              							<input type="checkbox" ng-model="item2.checked" style="height: 13px;margin:0;vertical-align: bottom;position: relative;top: -1px;">&nbsp;{{item2.name}}
+			            						</label>
+		            						
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Quantity" ng-model="item2.quantity"  ng-disabled="!item2.checked">
+										</td>
+										
+									</tr>
+								</tbody>
+		            		</table>
+		            		
+		            		<!-- THIS TABLE IS FOR 'WASHROOM CLEANING' -->
+		            		<table style="font-size:10px" class="table table-bordered table-striped dataTable" ng-if="item.name == 'Washroom Cleaning'">
+		            			<thead>
+									<tr>
+										<th>Service Area</th>
+										<th>Length (Sq.ft)</th>
+										<th>Width (Sq.ft)</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat-start="item2 in item.cleaningAreas">
+										<td>
+												<label style="display: block;padding-left: 15px;text-indent: -15px;">
+			              							<input type="checkbox" ng-model="item2.checked" style="height: 13px;margin:0;vertical-align: bottom;position: relative;top: -1px;">&nbsp;{{item2.name}}
+			            						</label>
+		            						
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Length" ng-model="item2.length"  ng-disabled="!item2.checked">
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Width" ng-model="item2.width" ng-disabled="!item2.checked">
+										</td>
+										<td>
+											<a class="label label-success" href ng-click="addCleaningItem(item2)">
+	            								<i class="fa fa-plus"></i>
+	            							</a>
+										 </td>
+									</tr>
+									<tr ng-repeat-start="item3 in item2.cleaningItems">
+										<td></td>
+										<td>
+											<input type="text" placeholder="Enter Service Item" ng-model="item3.name">
+										</td>
+										<td>
+											<input type="text" placeholder="Enter Quantity" ng-model="item3.quantity">
+										</td>
+										<td>
+											<a class="label label-danger" href ng-click="deleteCleaningItem(3,$parent.$index,$index);">
+	            								<i class="fa fa-minus"></i>
+	            							</a>
+										 </td>
+									</tr>
+									<tr ng-repeat-end>
+										
+										
+									</tr>
+									<tr ng-repeat-end>
+										
+									</tr>
+								</tbody>
+		            		</table>
+		            			
+	            		</div>
+	            		
+	            	</div>
+	            	
+	            	
+	            	
+	            </div>
+          	</div>
+          
+          
+		</div>
+		
+		
+		<div class="form-group animated fadeInRight" ng-show="isError">
+			<div style="color:red">{{errorMsg}}</div>
+		</div>
+		
+		
+	</form>
+
+</div>
+<div class="modal-footer">
+	
+	
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	<button id="addButton" class="btn btn-primary" ng-click="add()">Add</button>
+</div>

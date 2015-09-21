@@ -1,0 +1,171 @@
+
+<section class="content-header">
+	<h1>Machine Entry Form</h1>
+</section>
+<section class="content">
+	<div class="row animated fadeInRight">
+		<div class="col-md-6">
+			<div class="box box-success">
+				<div class="box-body">
+					<form role="form">
+						<div class="form-group">
+							<select title="Application" ng-click="checkMachineType()"
+								ng-options="item.name for item in applications"
+								ng-model="application" class="form-control"></select>
+						</div>
+						<div class="form-group">
+							<select title="Machine Type" ng-disabled="application.value==0"
+								ng-options="item.name for item in machineTypes"
+								ng-model="machineType" class="form-control"></select>
+						</div>
+						<div class="form-group">
+
+							<input type="text" title="Brand" ng-model="brand"
+								placeholder="Enter Brand" id="brd" class="form-control">
+						</div>
+						<div class="form-group">
+
+							<input type="text" title="Model" ng-model="model"
+								placeholder="Enter Model" id="model" class="form-control">
+						</div>
+						<div class="form-group">
+
+							<input type="text" title="Origin" ng-model="origin"
+								placeholder="Enter Origin" id="origin" class="form-control">
+						</div>
+						<div class="form-group">
+							<select title="Fuel Type"
+								ng-options="item.name for item in fuelTypes" ng-model="fuelType"
+								class="form-control"></select>
+						</div>
+						<div class="form-group">
+
+							<input type="text" title="Runtime" ng-model="runTime"
+								placeholder="Enter Run time" id="rt" class="form-control">
+						</div>
+						<div class="form-group">
+
+							<input type="text" title="Area Coverage" ng-model="areaCoverage"
+								placeholder="Enter Area Coverage" id="ac" class="form-control">
+						</div>
+						<div class="form-group">
+
+              <input type="text" title="Capacity" ng-model="capacity"
+                placeholder="Enter Capacity" id="ctl" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" title="Machine Image" disabled="disabled"
+                  ng-model="imageFileName" placeholder="Upload Machine Image"
+                  class="form-control"> <span class="input-group-btn">
+                  <span class="btn btn-file btn-success">Browse <input
+                    type="file" uploader="imageUploader" nv-file-select="">
+                </span>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" title="Catalog Image" disabled="disabled"
+                  ng-model="catalogFileName" placeholder="Upload Machine Catalog"
+                  class="form-control"> 
+	                <span class="input-group-btn">
+	                  	<span class="btn btn-file btn-success">Browse <input type="file" uploader="catalogUploader" nv-file-select=""></span>
+	                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div style="color:red">* All fields are mandatory.</div>
+            </div>
+					</form>
+				</div><!-- /.box-body -->
+				<div class="box-footer">
+					<button ng-click="submitMachine()" class="btn btn-success"
+						type="submit">Submit</button>
+
+				</div>
+				<div class="overlay" ng-show="showMachineEntryOverlay"></div>
+				<div class="loading-img" ng-show="showMachineEntryLoading"></div>
+			</div><!-- /.box -->
+		</div>
+	</div>
+	<div class="row animated fadeInRight">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">Machines List</h3>
+					<div class="box-tools">
+						<div class="input-group">
+							<input type="text" name="table_search"
+								class="form-control input-sm pull-right" style="width: 150px;"
+								placeholder="Search" ng-model="searchText">
+							<div class="input-group-btn">
+								<button class="btn btn-sm btn-default">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body table-responsive no-padding">
+					<table style="font-size:12px" id="example1"
+						class="table table-bordered table-striped dataTable"
+						ng-if="machinesList.length>0">
+						<thead>
+							<tr>
+								<th>Application</th>
+								<th>Machine Type</th>
+								<th>Brand</th>
+								<th>Model</th>
+								<th>Origin</th>
+								<th>Fuel Type</th>
+								<th>Run Time</th>
+								<th>Area Coverage</th>
+								<th>Capacity</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in machinesList | filter:searchText">
+								<td>{{ item.applicationPurpose }}</td>
+								<td>{{item.machineType}}</td>
+								<td>{{item.brand}}</td>
+								<td>{{item.model}}</td>
+								<td>{{item.origin}}</td>
+								<td>{{item.fuelType}}</td>
+								<td>{{item.runtime}}</td>
+								<td>{{item.areaCoverage}}</td>
+								<td>{{item.capacity}}</td>
+								<td>
+									<div class="btn-group">
+   											<button type="button" class="btn btn-primary btn-xs">Preview</button>
+   											<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+      											<span class="caret"></span>
+      											<span class="sr-only">Toggle Dropdown</span>
+   											</button>
+   											<ul class="dropdown-menu" role="menu">
+      											<li><a ng-href="{{item.imageUrl}}" target="_blank"><i class="fa fa-file-image-o"></i>Image</a></li>
+      											<li><a ng-href="{{item.catalogUrl}}" target="_blank"><i class="fa fa-list-alt"></i>Catalog</a></li>
+      										</ul>
+									</div>
+									<button class="btn btn-primary btn-xs" ng-click="editMachine($index)">Edit</button>
+									<button class="btn btn-danger btn-xs" ng-click="deleteMachine(item.uuid,$index)">Delete</button>											
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="overlay" ng-show="showMachineListOverlay"></div>
+				<div class="loading-img" ng-show="showMachineListLoading"></div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+
+

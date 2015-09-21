@@ -1,0 +1,25 @@
+
+<div class="modal-header">
+            <h3 class="modal-title">Create New Project</h3>
+        </div>
+        <div class="modal-body">
+            
+        <form role="form">
+			<div class="form-group">
+				<label for="pName">Project Name:</label>	      		
+	      		<input id="pName" type="text" class="form-control" placeholder="Enter Project Name ( Max 20 characters )" maxlength="25" ng-model="project.name">
+	    	</div>
+	    	<div class="form-group">
+      			<label for="pDescription">Project Description:</label>
+      			<textarea class="form-control" rows="5" id="pDescription" placeholder="Enter Project Description" ng-model="project.description" style="resize:none"></textarea>
+    		</div>
+    		<div class="form-group">
+      			<div ng-show="showErrorMessage" style="color:red">* All fields are mandatory</div>
+    		</div>
+	    </form>
+            
+        </div>
+        <div class="modal-footer">
+        	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" ng-click="create()">Create</button> 
+        </div>
