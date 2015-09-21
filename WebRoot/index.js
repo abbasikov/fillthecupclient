@@ -46,7 +46,7 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 	
 }
 
-angular.module('eEstimateApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','model.service','ngTagsInput'])
+angular.module('eEstimateApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','ngTagsInput'])
 	.config(config)
 	.factory('myHttpInterceptor', function($q) {
 	    return {
