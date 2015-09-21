@@ -1,5 +1,5 @@
 function PasswordChangeController($scope,$state,$timeout,$location,PasswordChangeService,Notification,FileUploader,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
-	Notification.success({message: 'Please provide Email to recover Password.', title: 'Welcome to CleanEstimateX System'});
+	Notification.success({message: 'Please provide Email to recover Password.', title: 'Welcome to FillTheCup'});
 	
 	//Add page-signup class in body tag 
 	angular.element('#id-body').addClass('page-signin');

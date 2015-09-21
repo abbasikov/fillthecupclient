@@ -1,5 +1,5 @@
 function RegisterController($scope,$state,Notification,FileUploader,RegisterService,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
-	Notification.success({message: 'Please fill the form for new registration.', title: 'Welcome to CleanEstimateX System'});
+	Notification.success({message: 'Please fill the form for new registration.', title: 'Welcome to FillTheCup'});
 	
 	$scope.registerText = "SIGN UP";
 	$scope.showLoading  = false;

@@ -1,5 +1,5 @@
 function LoginController($scope,$state,Notification,FileUploader,LoginService,loadContext,ErrorUtils,context,$timeout){
-	Notification.success({message: 'Please login to begin.', title: 'Welcome to CleanEstimateX'});
+	Notification.success({message: 'Please login to begin.', title: 'Welcome to FillTheCup'});
 	
 	$scope.loginText = "SIGN IN";
 	$scope.showLoading = false;
