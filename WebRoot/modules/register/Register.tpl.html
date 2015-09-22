@@ -1,31 +1,48 @@
-<!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Hypothesis
-                    </h1>
-                    
-                </section>
-
-                <!-- Main content -->
-                <section class="content">
-<div class="rows animated fadeInRight">
-                    <div class="error-page">
-                        <h2 class="headline text-info"> 404</h2>
-                        <div class="error-content">
-                            <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
-                            <p>
-                                This page is under construction.
-                                Meanwhile, you may <a href='../../index.html'>return to dashboard</a> or try using the search form.
-                            </p>
-                            <form class='search-form'>
-                                <div class='input-group'>
-                                    <input type="text" name="search" class='form-control' placeholder="Search"/>
-                                    <div class="input-group-btn">
-                                        <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div><!-- /.input-group -->
-                            </form>
-                        </div><!-- /.error-content -->
-                    </div><!-- /.error-page -->
+<div id="page-signin-bg" class="ng-scope">
+		<!-- Background overlay -->
+		<div class="overlay"></div>
+		<!-- Replace this with your bg image -->
+		<img alt="" src="img/macys_logo.jpg" style="">
 </div>
-                </section><!-- /.content -->
+<div class="signup-container animated fadeInRight">
+		<!-- Header -->
+		<div class="signup-header">
+			<a class="logo-signup" href="index.html">
+				<img style="margin-top: -5px;" alt="" src="img/logo-big.png">&nbsp;
+				FillTheCup
+			</a> <!-- / .logo -->
+			<div class="slogan">
+				Simple. Flexible. Intelligent.
+			</div> <!-- / .slogan -->
+		</div>
+		<!-- / Header -->
+
+		<!-- Form -->
+		<div class="signup-form">
+		
+			<form id="signup-form_id"   name="registerForm" novalidate>
+                    <div class="form-group">
+						<input class="form-control" type="text" name="firstName" placeholder="First Name" required>
+						                    
+                    </div>
+                  
+                <div class="form-actions">
+                    <button type="button" class="signup-btn bg-primary-macys">
+                    	<img ng-show="showLoading" ng-src="img/ajax-loader_signup.gif" >&nbsp;{{registerText}}
+                    </button>
+                   
+                </div>
+            </form>
+			
+			
+ 
+			<!-- "Sign In with" block -->
+			<div class="signup-with">
+				<div class="have-account">
+					Already have an account? <a ui-sref="login">Sign In</a>
+				</div>
+			</div>
+			<!-- / "Sign In with" block -->
+		</div>
+		<!-- Right side -->
+	</div>
