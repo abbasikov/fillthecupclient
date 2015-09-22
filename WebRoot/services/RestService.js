@@ -1,6 +1,6 @@
 angular.module('rest.service',['ngResource'])
 	.constant("CONSTANTS", {
-	    "BASE_REST_URL"	: "http://jbossews-abbasikov.rhcloud.com/fillthecup",
+	    "BASE_REST_URL"	: "http://jbossews-abbasikov.rhcloud.com/fillthecupserver",
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"
 	    	
 	})
