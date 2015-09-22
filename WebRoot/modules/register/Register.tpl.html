@@ -50,47 +50,15 @@
 						</span> 
                     </div>
                     
-                    <div class="form-group">
-                        <input type="text" ng-model="phone" name="phone" class="form-control" placeholder="Phone" required/> 
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" ng-model="companyName" name="companyName" class="form-control" placeholder="Company Name" required/>
-                        <span style="color:red" ng-show="registerForm.companyName.$dirty && registerForm.companyName.$invalid">
-							<span ng-show="registerForm.companyName.$error.required">Company Name is required.</span>
-						</span> 
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" ng-model="companyWebsite" name="companyWebsite" class="form-control" placeholder="Company Website" required/> 
-                    </div>
-
-					<div class="form-group">
-						<select class="form-control" ng-model="companyType" ng-options="item.name for item in companyTypes"></select>
-					</div>
-
-					<div class="input-group">
-		                <input type="text" class="form-control" placeholder="Company Trade License" ng-model="uploader.queue[0].file.name" disabled="disabled">
-		                	<span class="input-group-btn">
-		                		
-		                    	<span class="btn btn-file btn-success">Browse
-		                    			<input type="file" nv-file-select="" uploader="uploader" />
-		                    	</span>
-		                    </span>
-		            </div>
+					
+					<div>
+                            <div ng-dropdown-multiselect="" options="example1data" selected-model="example1model" extra-settings="settings" button-display-text="Select Labs"></div>
+                        </div>
 		            
-		            <div class="form-group" ng-if="uploader.queue.length>0">
-		            	
-		                <button type="button" class="btn btn-danger btn-xs" ng-click="uploader.queue[0].remove()">
-                        	<span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                       
-                        
-		            </div> 
                     
                 
                 <div class="form-actions">
-                    <button type="button" class="signup-btn bg-primary" ng-click="register()" ng-disabled="registerForm.firstName.$dirty && registerForm.firstName.$invalid || 
+                    <button type="button" class="signup-btn bg-primary-macys" ng-click="register()" ng-disabled="registerForm.firstName.$dirty && registerForm.firstName.$invalid || 
                     																						registerForm.lastName.$dirty && registerForm.lastName.$invalid ||
                     																						registerForm.email.$dirty && registerForm.email.$invalid ||
                     																						registerForm.password.$dirty && registerForm.password.$invalid ||
@@ -101,37 +69,7 @@
                 </div>
             </form>
 			
-			<!-- 
-			<form id="signup-form_id" action="index.html" novalidate="novalidate">
-				
-				<div class="signup-text">
-					<span>Create an account</span>
-				</div>
-
-				<div class="form-group">
-					<input type="text" placeholder="Full name" class="form-control input-lg" id="name_id" name="signup_name">
-					
-				</div>
-
-				<div class="form-group">
-					<input type="text" placeholder="E-mail" class="form-control input-lg" id="email_id" name="signup_email">
-				</div>
-
-				<div class="form-group">
-					<input type="text" placeholder="Username" class="form-control input-lg" id="username_id" name="signup_username">
-					
-				</div>
-
-				<div class="form-group">
-					<input type="password" placeholder="Password" class="form-control input-lg" id="password_id" name="signup_password">
-					
-				</div>
-
-				<div class="form-actions">
-					<input type="submit" class="signup-btn bg-primary" value="SIGN UP">
-				</div>
-			</form>
-			<!-- / Form -->
+			
  
 			<!-- "Sign In with" block -->
 			<div class="signup-with">
