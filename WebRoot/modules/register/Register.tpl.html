@@ -1,83 +1,31 @@
-<div id="page-signin-bg" class="ng-scope">
-		<!-- Background overlay -->
-		<div class="overlay"></div>
-		<!-- Replace this with your bg image -->
-		<img alt="" src="img/macys_logo.jpg" style="">
-</div>
-<div class="signup-container animated fadeInRight">
-		<!-- Header -->
-		<div class="signup-header">
-			<a class="logo-signup" href="index.html">
-				<img style="margin-top: -5px;" alt="" src="img/logo-big.png">&nbsp;
-				FillTheCup
-			</a> <!-- / .logo -->
-			<div class="slogan">
-				Simple. Flexible. Intelligent.
-			</div> <!-- / .slogan -->
-		</div>
-		<!-- / Header -->
+<!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>
+                        Hypothesis
+                    </h1>
+                    
+                </section>
 
-		<!-- Form -->
-		<div class="signup-form">
-		
-			<form id="signup-form_id"   name="registerForm" novalidate>
-                    <div class="form-group">
-						<input class="form-control" type="text" name="firstName" ng-model="firstName" placeholder="First Name" required>
-						<span style="color:red" ng-show="registerForm.firstName.$dirty && registerForm.firstName.$invalid">
-							<span ng-show="registerForm.firstName.$error.required">First Name is required.</span>
-						</span>                      
-                    </div>
-                    
-                    <div class="form-group">
-						<input class="form-control" type="text" name="lastName" ng-model="lastName" placeholder="Last Name" required>
-						<span style="color:red" ng-show="registerForm.lastName.$dirty && registerForm.lastName.$invalid">
-							<span ng-show="registerForm.lastName.$error.required">Last Name is required.</span>
-						</span>                      
-                    </div>
-                    
-                    <div class="form-group">
-						<input class="form-control" type="email" name="email" ng-model="email" placeholder="Email" required>
-						<span style="color:red" ng-show="registerForm.email.$dirty && registerForm.email.$invalid">
-							<span ng-show="registerForm.email.$error.required">Email is required.</span>
-							<span ng-show="registerForm.email.$error.email">Invalid email.</span>
-						</span>                 
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="password" ng-model="password" name="password" class="form-control" placeholder="Password" required/>
-                        <span style="color:red" ng-show="registerForm.password.$dirty && registerForm.password.$invalid">
-							<span ng-show="registerForm.password.$error.required">Password is required.</span>
-						</span> 
-                    </div>
-                    
-					
-					<div>
-                            <div ng-dropdown-multiselect="" options="example1data" selected-model="example1model" extra-settings="settings" button-display-text="Select Labs"></div>
-                        </div>
-		            
-                    
-                
-                <div class="form-actions">
-                    <button type="button" class="signup-btn bg-primary-macys" ng-click="register()" ng-disabled="registerForm.firstName.$dirty && registerForm.firstName.$invalid || 
-                    																						registerForm.lastName.$dirty && registerForm.lastName.$invalid ||
-                    																						registerForm.email.$dirty && registerForm.email.$invalid ||
-                    																						registerForm.password.$dirty && registerForm.password.$invalid ||
-                    																						registerForm.companyName.$dirty && registerForm.companyName.$invalid">
-                    	<img ng-show="showLoading" ng-src="img/ajax-loader_signup.gif" >&nbsp;{{registerText}}
-                    </button>
-                   
-                </div>
-            </form>
-			
-			
- 
-			<!-- "Sign In with" block -->
-			<div class="signup-with">
-				<div class="have-account">
-					Already have an account? <a ui-sref="login">Sign In</a>
-				</div>
-			</div>
-			<!-- / "Sign In with" block -->
-		</div>
-		<!-- Right side -->
-	</div>
+                <!-- Main content -->
+                <section class="content">
+<div class="rows animated fadeInRight">
+                    <div class="error-page">
+                        <h2 class="headline text-info"> 404</h2>
+                        <div class="error-content">
+                            <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+                            <p>
+                                This page is under construction.
+                                Meanwhile, you may <a href='../../index.html'>return to dashboard</a> or try using the search form.
+                            </p>
+                            <form class='search-form'>
+                                <div class='input-group'>
+                                    <input type="text" name="search" class='form-control' placeholder="Search"/>
+                                    <div class="input-group-btn">
+                                        <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div><!-- /.input-group -->
+                            </form>
+                        </div><!-- /.error-content -->
+                    </div><!-- /.error-page -->
+</div>
+                </section><!-- /.content -->
