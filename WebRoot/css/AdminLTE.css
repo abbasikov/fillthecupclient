@@ -227,6 +227,9 @@ img {
 .bg-maroon {
   background-color: #85144b !important;
 }
+.bg-macys{
+	background-color: #c00 !important;
+}
 /* Text colors */
 .text-red {
   color: #f56954 !important;
@@ -1039,7 +1042,7 @@ body > .header .logo .icon {
   clear: both;
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-footer .btn-default {
-  color: #666666;
+  color: #000000;
 }
 /* Add fade animation to dropdown menus */
 .open:not(.dropup) > .dropdown-menu {
@@ -2554,7 +2557,8 @@ Component: timeline
 */
 /* skin-blue navbar */
 .skin-blue .navbar {
-  background-color: #3c8dbc;
+  /*background-color: #3c8dbc;*/
+  background-color: #c00;
 }
 .skin-blue .navbar .nav a {
   color: rgba(255, 255, 255, 0.8);
@@ -2579,14 +2583,16 @@ Component: timeline
 }
 /* skin-blue logo */
 .skin-blue .logo {
-  background-color: #367fa9;
+  /*background-color: #367fa9;*/
+  background-color:#b70000;  
   color: #f9f9f9;
 }
 .skin-blue .logo > a {
   color: #f9f9f9;
 }
 .skin-blue .logo:hover {
-  background: #357ca5;
+  /*background: #357ca5;*/
+  background: #c00;
 }
 /* skin-blue content header */
 .skin-blue .right-side > .content-header {
@@ -2651,7 +2657,7 @@ Component: timeline
   -moz-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid #dbdbdb;
-  margin: 10px 10px;
+  margin: 5px 5px;
 }
 .skin-blue .sidebar-form input[type="text"],
 .skin-blue .sidebar-form .btn {
@@ -3811,4 +3817,8 @@ a.expand {
 
 .settings-portlet-height{
 	height: 300px
+}
+
+.macys-font-color{
+	color: #000000;
 }

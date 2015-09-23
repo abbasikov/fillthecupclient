@@ -16,7 +16,6 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 					function(data){
 						$scope.toggleLoading();
 						if(data.meta.code == 200){
-							Notification.success({message: 'Logged in successfully.', title: 'Success'});
 							
 							context.setUser(data.data);
 							
@@ -36,7 +35,12 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 									$state.go('passwordchange');
 								}
 								else{
-									loadContext.redirectToHomePage();
+									
+									//If no labs assigned. dont redirect to home page
+									if($scope.profileObject.labs.length > 0)
+										loadContext.redirectToHomePage();
+									else
+										Notification.error({message:"No labs assigned. Please check with admin.", title: 'UnAuthorized'});
 								}								
 							}							
 							

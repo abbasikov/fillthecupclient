@@ -28,14 +28,14 @@
                         <li style="cursor:pointer" class="dropdown user user-menu">
                             <a  class="dropdown-toggle pointer" data-toggle="dropdown" >
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>{{firstName}} {{lastName}} <i class="caret"></i></span>
+                                <span>{{profileObject.firstName}} {{profileObject.lastName}} <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
-                                <li class="user-header bg-light-blue">
+                                <li class="user-header bg-macys">
                                     <img src="img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        {{firstName}} {{lastName}} - {{companyType}}
+                                        {{profileObject.firstName}} {{profileObject.lastName}} - {{companyType}}
                                         <small>Member since Nov. 2015</small>
                                     </p>
                                 </li>
@@ -43,7 +43,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a  ui-sref="profile" class="btn btn-default btn-flat">Profile</a>
+                                        <a  ui-sref="profile" ng-show="isSuperAdmin" class="btn btn-default btn-flat">Admin</a>
                                     </div>
                                     <div class="pull-right">
                                         <a ui-sref="signout" class="btn btn-default btn-flat">Sign out</a>
@@ -70,25 +70,16 @@
                             <img src="img/avatar5.png" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p>Hello, {{firstName}}</p>
+                            <p class="macys-font-color">Hello, {{profileObject.firstName}}</p>
 
                             <a ><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                    <!-- search form -->
-                    <form  method="get" class="sidebar-form">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search"/>
-                            <span class="input-group-btn">
-                                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                     		<select ng-options="item.name for item in profileObject.labs" ng-model="lab" class="form-control sidebar-form"></select>
+					<!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="active">
-                            <a ui-sref="supplier.machines">
+                            <a ui-sref="home.hypothesis">
                                 <i class="fa fa-file-text"></i> <span> Hypothesis</span>
                             </a>
                         </li>

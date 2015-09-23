@@ -5,13 +5,13 @@ function HomeController($scope,$state,Notification,context){
 		$state.go('login');
 	}
 	else{
-		$scope.firstName 	= context.getUser().firstName;
-		$scope.lastName		= context.getUser().lastName;
-		$scope.companyType  = "Macys";
+		$scope.profileObject 	= context.getUser();
+		$scope.companyType  	= "Macys";
+		$scope.isSuperAdmin		= ($scope.profileObject.isSuperAdmin == undefined || $scope.profileObject.isSuperAdmin == 'false') ? true:true;
+		$scope.lab 				= $scope.profileObject.labs[0];
 		
 		//Add page-signin class in body tag
-		angular.element('#id-body').removeClass('page-signin');
-		
+		angular.element('#id-body').removeClass('page-signin');		
 	}	
 	
 }
