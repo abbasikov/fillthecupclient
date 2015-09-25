@@ -1,18 +1,56 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-	<h1>Labs</h1>
-</section>
-
-<!-- Main content -->
 <section class="content">
-	<div class="rows animated fadeInRight">
-		<div class="col-xs-12">
-			<!-- .box -->	
-			<div class="box box-primary">
-			
-				<!-- .box-header -->
+	<div class="row animated fadeInRight">
+		<div class="col-xs-6">
+			<div class="box box-success">
 				<div class="box-header">
-					<h3 class="box-title">Registered Users</h3>
+					<h3 class="box-title">Create Lab</h3>
+
+				</div>
+				<div class="box-body">
+					<form role="form">
+						<div class="form-group" style="margin-bottom: 10px;">
+							<input type="text" title="Lab Name" 	ng-model="labname" placeholder="Enter Lab Name" class="form-control">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px;">
+							<input type="text" title="Manager Name" ng-model="managername" placeholder="Enter Manager Name" class="form-control">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px;">
+							<input type="text" title="PDM Name" 	ng-model="pdmname" placeholder="Enter PDM Name" class="form-control">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px;">
+							<input type="text" title="User Name" 	ng-model="username" placeholder="Enter UserName" class="form-control">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px;">
+							<input type="password" title="User Name" 	ng-model="password" placeholder="Enter Password" class="form-control">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px;">
+						 <div class="checkbox">
+  							<label><input type="checkbox" ng-model="makeSuperAdmin">Make Super Admin</label>
+						</div>
+						<div class="form-group">
+      						<div style="color:red">* All fields are mandatory except PDM Name.</div>
+      					</div>
+						
+						</div>
+						
+					</form>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button ng-click="submitLab()" class="btn btn-success"
+						type="submit">Submit</button>
+				</div>
+				<div class="overlay" 		ng-show="rcOverlay"></div>
+				<div class="loading-img" 	ng-show="rcLoading"></div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="row animated fadeInRight">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">Labs List</h3>
 					<div class="box-tools">
 						<div class="input-group">
 							<input type="text" name="table_search"
@@ -24,37 +62,57 @@
 								</button>
 							</div>
 						</div>
-					</div>	
+					</div>
 				</div>
 				<!-- /.box-header -->
-				
-				<!-- .box-body -->
 				<div class="box-body table-responsive no-padding">
 					<table style="font-size:12px" id="example1"
-						class="table table-bordered table-striped dataTable">
+						class="table table-bordered table-striped dataTable"
+						ng-if="labsList.length>0">
 						<thead>
 							<tr>
+								<th>Lab Name</th>
+								<th>Manager Name</th>
+								<th>PDM Name</th>
 								<th>User Name</th>
-								<th>Company Name</th>
-								<th>Last Login</th>
-								<th>Status</th>
-								<th>Actions</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							
+							<tr ng-repeat="item in labsList | filter:searchText">
+								<td>{{ item.applicationPurpose }}</td>
+								<td>{{item.machineType}}</td>
+								<td>{{item.brand}}</td>
+								<td>{{item.model}}</td>
+								<td>{{item.origin}}</td>
+								<td>{{item.fuelType}}</td>
+								<td>{{item.runtime}}</td>
+								<td>{{item.areaCoverage}}</td>
+								<td>{{item.capacity}}</td>
+								<td>
+									<div class="btn-group">
+   											<button type="button" class="btn btn-primary btn-xs">Preview</button>
+   											<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+      											<span class="caret"></span>
+      											<span class="sr-only">Toggle Dropdown</span>
+   											</button>
+   											<ul class="dropdown-menu" role="menu">
+      											<li><a ng-href="{{item.imageUrl}}" target="_blank"><i class="fa fa-file-image-o"></i>Image</a></li>
+      											<li><a ng-href="{{item.catalogUrl}}" target="_blank"><i class="fa fa-list-alt"></i>Catalog</a></li>
+      										</ul>
+									</div>
+									<button class="btn btn-primary btn-xs" ng-click="editMachine($index)">Edit</button>
+									<button class="btn btn-danger btn-xs" ng-click="deleteMachine(item.uuid,$index)">Delete</button>											
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
+				<div class="overlay" ng-show="listOverlay"></div>
+				<div class="loading-img" ng-show="listLoading"></div>
 				<!-- /.box-body -->
-				
-				<div class="overlay" ng-show="showToolsListOverlay"></div>
-				<div class="loading-img" ng-show="showToolsListLoading"></div>
-				
 			</div>
 			<!-- /.box -->
-			
 		</div>
-		
 	</div>
-</section><!-- /.content -->
+</section>

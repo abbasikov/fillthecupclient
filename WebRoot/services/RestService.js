@@ -4,8 +4,8 @@ angular.module('rest.service',['ngResource'])
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"
 	    	
 	})
-	.factory('RegisterService',function($resource,CONSTANTS){
-		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/register',{},{
+	.factory('RegisterLabService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/labs',{},{
 			save:{
 				method:'POST',
 				headers:{'Content-Type':'application/x-www-form-urlencoded '}

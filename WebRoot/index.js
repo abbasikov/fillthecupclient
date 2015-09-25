@@ -41,10 +41,10 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			templateUrl	:"modules/home/hypothesis/Hypothesis.tpl.html",
 			controller	: HypothesisController
 		})
-		.state("admin.users",{
-			url			:"/users",
-			templateUrl	:"modules/admin/users/Users.tpl.html",
-			controller	: UsersController
+		.state("admin.labs",{
+			url			:"/labs",
+			templateUrl	:"modules/admin/labs/Labs.tpl.html",
+			controller	: LabsController
 		})
 		.state("mobilenotsuported",{
 			url			:"/mobilenotsupported",

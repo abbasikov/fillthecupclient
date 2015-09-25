@@ -39,13 +39,12 @@
 				</div> <!-- / .signin-text -->
 
 				<div class="form-group w-icon">
-					<input name="email" id="username_id" class="form-control input-lg" placeholder="Email" type="email" ng-model="email" required>
-					<span style="color:red" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
-							<span ng-show="loginForm.email.$error.required">Email is required.</span>
-							<span ng-show="loginForm.email.$error.email">Invalid email.</span>
+					<input name="username" id="username_id" class="form-control input-lg" placeholder="Enter username" type="text" ng-model="username" required>
+					<span style="color:red" ng-show="loginForm.username.$dirty">
+							<span ng-show="loginForm.username.$error.required">Username is required.</span>
 					</span>
 					<span class="fa fa-user signin-form-icon"></span>
-				</div> <!-- / Username -->
+				</div> 
 					
 					
 	
@@ -62,8 +61,9 @@
 					
 					<button ng-click="login()" class="signin-btn bg-primary-macys" >
                     	<img ng-show="showLoading" ng-src="img/ajax-loader_signup.gif" >&nbsp;{{registerText}}{{loginText}}</button>
-					
+					<!--
 					<a  class="forgot-password" id="forgot-password-link" style="padding-left:20px;"  ui-sref="">Forgot your password?</a>
+					 -->
 				</div> <!-- / .form-actions -->
 			</form>
 			<!-- / Form -->

@@ -8,7 +8,7 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 		
 		
 		if($scope.validate()){
-			var data = "email="+$scope.email+"&password="+$scope.password;
+			var data = "userName="+$scope.username+"&password="+$scope.password;
 			$scope.toggleLoading();
 			var login = LoginService.save(data);
 			
@@ -26,7 +26,7 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 							
 							//Redirect to admin module if the user is Admin
 							if($scope.profileObject.isSuperAdmin == 'true'){
-								$state.go('admin.users');
+								$state.go('admin.labs');
 							}
 							else{
 								$scope.isPasswordResetFlag = $scope.profileObject['isPasswordReset'];
@@ -60,16 +60,16 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 	
 	$scope.validate = function(){
 		
-		if($scope.loginForm.email.$error.required != undefined && $scope.loginForm.email.$error.required){
-			Notification.error({message:'Email is required', title: 'Error'});
+		if($scope.loginForm.username.$error.required != undefined && $scope.loginForm.username.$error.required){
+			Notification.error({message:'Username is required', title: 'Error'});
 			return false;
 		}
-		
+		/*
 		if($scope.loginForm.email.$error.email != undefined && $scope.loginForm.email.$error.email){
 			Notification.error({message:'Email is invalid', title: 'Error'});
 			return false;
 		}
-		
+		*/
 		if($scope.password == undefined || $scope.password == ''){
 			Notification.error({message:'Password is required', title: 'Error'});
 			return false;
