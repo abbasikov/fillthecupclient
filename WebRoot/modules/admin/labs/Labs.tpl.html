@@ -66,9 +66,7 @@
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body table-responsive no-padding">
-					<table style="font-size:12px" id="example1"
-						class="table table-bordered table-striped dataTable"
-						ng-if="labsList.length>0">
+					<table style="font-size:12px" id="example1" class="table table-bordered table-striped dataTable" ng-if="labsList.length>0">
 						<thead>
 							<tr>
 								<th>Lab Name</th>
@@ -80,27 +78,9 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="item in labsList | filter:searchText">
-								<td>{{ item.applicationPurpose }}</td>
-								<td>{{item.machineType}}</td>
-								<td>{{item.brand}}</td>
-								<td>{{item.model}}</td>
-								<td>{{item.origin}}</td>
-								<td>{{item.fuelType}}</td>
-								<td>{{item.runtime}}</td>
-								<td>{{item.areaCoverage}}</td>
+								
 								<td>{{item.capacity}}</td>
 								<td>
-									<div class="btn-group">
-   											<button type="button" class="btn btn-primary btn-xs">Preview</button>
-   											<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-      											<span class="caret"></span>
-      											<span class="sr-only">Toggle Dropdown</span>
-   											</button>
-   											<ul class="dropdown-menu" role="menu">
-      											<li><a ng-href="{{item.imageUrl}}" target="_blank"><i class="fa fa-file-image-o"></i>Image</a></li>
-      											<li><a ng-href="{{item.catalogUrl}}" target="_blank"><i class="fa fa-list-alt"></i>Catalog</a></li>
-      										</ul>
-									</div>
 									<button class="btn btn-primary btn-xs" ng-click="editMachine($index)">Edit</button>
 									<button class="btn btn-danger btn-xs" ng-click="deleteMachine(item.uuid,$index)">Delete</button>											
 								</td>

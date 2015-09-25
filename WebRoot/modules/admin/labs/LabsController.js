@@ -25,7 +25,6 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,RegisterLa
 				function(data){
 					$scope.toggleRecordCreation();
 					if(data.meta.code == 200){
-						
 						Notification.success({message:"Record created successfully.", title: 'Success'});
 					}
 					else{
