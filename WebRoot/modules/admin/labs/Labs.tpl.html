@@ -1,0 +1,60 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>Labs</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+	<div class="rows animated fadeInRight">
+		<div class="col-xs-12">
+			<!-- .box -->	
+			<div class="box box-primary">
+			
+				<!-- .box-header -->
+				<div class="box-header">
+					<h3 class="box-title">Registered Users</h3>
+					<div class="box-tools">
+						<div class="input-group">
+							<input type="text" name="table_search"
+								class="form-control input-sm pull-right" style="width: 150px;"
+								placeholder="Search" ng-model="searchText">
+							<div class="input-group-btn">
+								<button class="btn btn-sm btn-default">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>	
+				</div>
+				<!-- /.box-header -->
+				
+				<!-- .box-body -->
+				<div class="box-body table-responsive no-padding">
+					<table style="font-size:12px" id="example1"
+						class="table table-bordered table-striped dataTable">
+						<thead>
+							<tr>
+								<th>User Name</th>
+								<th>Company Name</th>
+								<th>Last Login</th>
+								<th>Status</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+				</div>
+				<!-- /.box-body -->
+				
+				<div class="overlay" ng-show="showToolsListOverlay"></div>
+				<div class="loading-img" ng-show="showToolsListLoading"></div>
+				
+			</div>
+			<!-- /.box -->
+			
+		</div>
+		
+	</div>
+</section><!-- /.content -->
