@@ -4,6 +4,34 @@ angular.module('rest.service',['ngResource'])
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"
 	    	
 	})
+	.factory('ReleasesService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/releases',{},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
+	.factory('DeleteBusinessObject',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/deletebusinessobject',{},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
 	.factory('SysComponentService',function($resource,CONSTANTS){
 		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/systemcomponents',{},{
 			save:{
