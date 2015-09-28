@@ -31,6 +31,16 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			templateUrl	:"modules/admin/Admin.tpl.html",
 			controller	: AdminController
 		})
+		.state("admin.labs",{
+			url			:"/labs",
+			templateUrl	:"modules/admin/labs/Labs.tpl.html",
+			controller	: LabsController
+		})
+		.state("admin.releases",{
+			url			:"/releases",
+			templateUrl	:"modules/admin/releases/Releases.tpl.html",
+			controller	: ReleasesController
+		})
 		.state("home",{
 			url			:"/home",
 			templateUrl	:"modules/home/Home.tpl.html",
@@ -40,11 +50,6 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			url			:"/hypothesis",
 			templateUrl	:"modules/home/hypothesis/Hypothesis.tpl.html",
 			controller	: HypothesisController
-		})
-		.state("admin.labs",{
-			url			:"/labs",
-			templateUrl	:"modules/admin/labs/Labs.tpl.html",
-			controller	: LabsController
 		})
 		.state("mobilenotsuported",{
 			url			:"/mobilenotsupported",

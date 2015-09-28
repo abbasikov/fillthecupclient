@@ -1,0 +1,36 @@
+<section class="content">
+	<div class="row animated fadeInRight">
+		<div class="col-xs-6">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">Create Releases</h3>
+
+				</div>
+				<div class="box-body">
+					<form role="form" name="createReleaseForm" novalidate>
+						<p class="input-group">
+              				<input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="status.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+              				<span class="input-group-btn">
+                				<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              				</span>
+            			</p>
+						
+					</form>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button ng-click="submitLab()" type="submit"  class="btn btn-success">Submit</button>
+				</div>
+				<div class="overlay" 		ng-show="releaseOverlay"></div>
+				<div class="loading-img" 	ng-show="releaseLoading"></div>
+			</div>
+			
+		</div>
+		
+	</div>
+	<div class="row animated fadeInRight">
+		<div class="col-xs-12">
+			
+		</div>
+	</div>
+</section>

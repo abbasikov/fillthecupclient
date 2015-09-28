@@ -1,7 +1,5 @@
 function AdminController($scope,$state,context){
 	
-	
-
 	if(context.getUser() == null)
 	{
 		$state.go('login');

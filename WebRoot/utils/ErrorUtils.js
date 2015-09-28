@@ -12,7 +12,8 @@ angular.module('error.utils',[])
 						'1007':'Invalid request',
 						'1008':'Length not equal',
 						'1009':'Business object not found',
-						'1010':'Invalid path key. File upload failed'
+						'1010':'Invalid path key. File upload failed',
+						'1015':'Username already exists.'
 					};
 		
 		var service = {

@@ -7,21 +7,21 @@
 
 				</div>
 				<div class="box-body">
-					<form role="form">
-						<div class="form-group" style="margin-bottom: 10px;">
-							<input type="text" title="Lab Name" 	ng-model="labname" placeholder="Enter Lab Name" class="form-control">
+					<form role="form" name="createLabForm" novalidate>
+						<div style="margin-bottom: 10px;" ng-class="(createLabForm.labname.$dirty && createLabForm.labname.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input type="text" title="Lab Name" name="labname"	ng-model="labname" placeholder="Enter Lab Name" class="form-control" required>
 						</div>
-						<div class="form-group" style="margin-bottom: 10px;">
-							<input type="text" title="Manager Name" ng-model="managername" placeholder="Enter Manager Name" class="form-control">
+						<div style="margin-bottom: 10px;" ng-class="(createLabForm.managername.$dirty && createLabForm.managername.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input type="text" title="Manager Name" name="managername" ng-model="managername" placeholder="Enter Manager Name" class="form-control" required>
 						</div>
 						<div class="form-group" style="margin-bottom: 10px;">
 							<input type="text" title="PDM Name" 	ng-model="pdmname" placeholder="Enter PDM Name" class="form-control">
 						</div>
-						<div class="form-group" style="margin-bottom: 10px;">
-							<input type="text" title="User Name" 	ng-model="username" placeholder="Enter UserName" class="form-control">
+						<div style="margin-bottom: 10px;" ng-class="(createLabForm.username.$dirty && createLabForm.username.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input type="text" title="User Name" name="username"	ng-model="username" placeholder="Enter UserName" class="form-control" required>
 						</div>
-						<div class="form-group" style="margin-bottom: 10px;">
-							<input type="password" title="User Name" 	ng-model="password" placeholder="Enter Password" class="form-control">
+						<div style="margin-bottom: 10px;" ng-class="(createLabForm.password.$dirty && createLabForm.password.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input type="password" title="User Name" name="password"	ng-model="password" placeholder="Enter Password" class="form-control" required>
 						</div>
 						<div class="form-group" style="margin-bottom: 10px;">
 						 <div class="checkbox">
@@ -37,18 +37,45 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<button ng-click="submitLab()" class="btn btn-success"
-						type="submit">Submit</button>
+					<button ng-click="submitLab()" type="submit" ng-class="(createLabForm.labname.$error.required || createLabForm.managername.$error.required || createLabForm.username.$error.required || createLabForm.password.$error.required) ? 'btn btn-success disabled' : 'btn btn-success'">Submit</button>
 				</div>
 				<div class="overlay" 		ng-show="rcOverlay"></div>
 				<div class="loading-img" 	ng-show="rcLoading"></div>
 			</div>
 			
 		</div>
+		<!-- SYSTEM COMPONENTS -->
+		<div class="col-xs-6">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">Global System Components</h3>
+
+				</div>
+				<div class="box-body">
+					
+					<div ng-repeat="item in globalSystemComponents" style="background: rgb(248, 250, 255) none repeat scroll 0px 0px; border: 1px solid rgb(218, 226, 234); color: rgb(124, 158, 178); padding: 10px;">
+                  		<a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  						<span style="font-weight: 800; padding: 6px; font-size: 14px;">{{item.name}}</span>
+                  		<a class="pull-right btn btn-danger btn-xs" ng-click="removeComponent($index)"><span class="glyphicon glyphicon-remove"></span></a>
+                  	</div>
+                  	<div class="form-group" style="margin-top: 25px;">
+	                  	<div class="input-group">
+			                <input type="text" ng-model="componentName" placeholder="Enter component name" class="form-control">
+			                	<span class="input-group-btn">
+			                		<span class="btn btn-file btn-success" ng-click="addComponent()">Add</span>
+			                    </span>
+			            </div>
+		            </div>
+				</div>
+				<div class="overlay" ng-show="componentOverlay"></div>
+				<div class="loading-img" ng-show="componentLoading"></div>
+			</div>
+			
+		</div>
 	</div>
 	<div class="row animated fadeInRight">
 		<div class="col-xs-12">
-			<div class="box box-primary">
+			<div class="box box-success">
 				<div class="box-header">
 					<h3 class="box-title">Labs List</h3>
 					<div class="box-tools">
@@ -73,16 +100,21 @@
 								<th>Manager Name</th>
 								<th>PDM Name</th>
 								<th>User Name</th>
+								<th>SuperAdmin</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="item in labsList | filter:searchText">
+							<tr ng-repeat="lab in labsList | filter:searchText">
 								
-								<td>{{item.capacity}}</td>
+								<td>{{lab.name}}</td>
+								<td>{{lab.managerName}}</td>
+								<td>{{lab.pdmName}}</td>
+								<td>{{lab.users[0].username}}</td>
+								<td>{{lab.users[0].isSuperAdmin == 'true' ? 'Yes' : 'No'}}</td>
 								<td>
-									<button class="btn btn-primary btn-xs" ng-click="editMachine($index)">Edit</button>
-									<button class="btn btn-danger btn-xs" ng-click="deleteMachine(item.uuid,$index)">Delete</button>											
+									<button class="btn btn-primary btn-xs" ng-click="editLab($index)">Edit</button>
+									<button class="btn btn-danger btn-xs" ng-click="deleteLab(lab.uuid,$index)">Delete</button>											
 								</td>
 							</tr>
 						</tbody>

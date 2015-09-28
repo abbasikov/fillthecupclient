@@ -8,6 +8,7 @@
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
+            	<div class="navbar-left" style="padding-left: 45%; font-weight: bolder; font-size: 22px; padding-top: 10px;">Super Admin</div>
                 <!-- Sidebar toggle button-->
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
@@ -44,7 +45,7 @@
 
         
         
-        <div class="wrapper row-offcanvas row-offcanvas-left">
+        <div class="wrapper row-offcanvas row-offcanvas-left" ng-init="navsection = 1">
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="left-side sidebar-offcanvas" style="min-height:1768px;">
                 <!-- sidebar: style can be found in sidebar.less -->
@@ -53,13 +54,18 @@
                     
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="active">
-                            <a ui-sref="admin.labs">
+                        <li ng-class="(navsection == 1) ? 'active' : '' ">
+                            <a ui-sref="admin.labs" ng-click="navsection = 1">
                                 <i class="fa fa-flask"></i> <span>Labs</span>
                             </a>
                         </li>
+                        <li ng-class="(navsection == 2) ? 'active' : '' ">
+                            <a ui-sref="admin.releases" ng-click="navsection = 2">
+                                <i class="fa fa-cubes"></i> <span>Releases</span>
+                            </a>
+                        </li>
                         
-                         <li class="treeview">
+                         <li class="treeview" style="display: none;">
                         	<div style="text-align:center">
                         		<img id="spinner" ng-src="img/spinner.gif" style="display:none;">
                         	</div>
