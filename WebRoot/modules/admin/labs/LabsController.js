@@ -278,6 +278,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 						$scope.toggleComponentShow();
 						if(data.meta.code == 200){
 							$scope.globalSystemComponents.push(data.data);
+							$scope.componentName = "";
 						}
 						else{
 							Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
