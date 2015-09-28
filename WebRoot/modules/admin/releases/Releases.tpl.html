@@ -8,13 +8,24 @@
 				</div>
 				<div class="box-body">
 					<form role="form" name="createReleaseForm" novalidate>
-						<p class="input-group">
-              				<input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="status.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-              				<span class="input-group-btn">
-                				<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              				</span>
-            			</p>
-						
+						<div class="form-group" style="margin-bottom: 10px">
+							<input class="form-control" type="text" ng-model="releaseName" placeholder="Enter Release Name">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<input class="form-control" type="text" ng-model="branchDate" placeholder="Enter Branch Cut Date">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<input class="form-control" type="text" ng-model="hardlockDate" placeholder="Enter Hardlock Date">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<input class="form-control" type="text" ng-model="mcomDate" placeholder="Enter MCOM Date">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<input class="form-control" type="text" ng-model="bcomDate" placeholder="Enter BCOM Date">
+						</div>
+						<div class="form-group">
+      						<div style="color:red">* All fields are mandatory.</div>
+      					</div>
 					</form>
 				</div>
 				<!-- /.box-body -->
@@ -30,7 +41,56 @@
 	</div>
 	<div class="row animated fadeInRight">
 		<div class="col-xs-12">
-			
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">Releases List</h3>
+					<div class="box-tools">
+						<div class="input-group">
+							<input type="text" name="table_search"
+								class="form-control input-sm pull-right" style="width: 150px;"
+								placeholder="Search" ng-model="searchText">
+							<div class="input-group-btn">
+								<button class="btn btn-sm btn-default">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body table-responsive no-padding">
+					<table style="font-size:12px" id="example1" class="table table-bordered table-striped dataTable" ng-if="labsList.length>0">
+						<thead>
+							<tr>
+								<th>Lab Name</th>
+								<th>Manager Name</th>
+								<th>PDM Name</th>
+								<th>User Name</th>
+								<th>SuperAdmin</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="lab in labsList | filter:searchText">
+								
+								<td>{{lab.name}}</td>
+								<td>{{lab.managerName}}</td>
+								<td>{{lab.pdmName}}</td>
+								<td>{{lab.users[0].username}}</td>
+								<td>{{lab.users[0].isSuperAdmin == 'true' ? 'Yes' : 'No'}}</td>
+								<td>
+									<button class="btn btn-primary btn-xs" ng-click="editLab($index)">Edit</button>
+									<button class="btn btn-danger btn-xs" ng-click="deleteLab(lab.uuid,$index)">Delete</button>											
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="overlay" ng-show="listOverlay"></div>
+				<div class="loading-img" ng-show="listLoading"></div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
 		</div>
 	</div>
 </section>
