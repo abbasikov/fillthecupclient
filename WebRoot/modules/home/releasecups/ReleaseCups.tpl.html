@@ -1,0 +1,99 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+	<h1>Release Cups Section</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+	<div class="row animated fadeInRight">
+		<div class="col-md-6">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">Create Release Cups</h3>
+
+				</div>
+				<div class="box-body">
+					<form role="form" name="rcForm" novalidate>
+						<div class="form-group" style="margin-bottom: 10px">
+							<select id="release" title="Release" ng-options="item.name for item in releases" ng-change="changeRelease()" ng-model="release" class="form-control"></select>
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<label for="bcutdate">Branch Cut Date:</label>
+							<input id="bcutdate" class="form-control" ng-model="branchCutDate"  type="text" disabled="disabled">
+						</div>
+						<div class="form-group" style="margin-bottom: 10px">
+							<label for="hldate">Hardlock Date:</label>
+							<input id="hldate" class="form-control" ng-model="hardLockDate" type="text" disabled="disabled">
+						</div>
+						
+						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.availableDevDays.$dirty && rcForm.availableDevDays.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<label for="adevDays">Available Dev Days:</label>
+							<input id="adevDays" class="form-control" name="availableDevDays" ng-model="availableDevDays" type="text" required>
+						</div>
+						
+						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.devDays.$dirty && rcForm.devDays.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<label for="devDays">Dev Days:</label>
+							<input id="devDays" class="form-control" name="devDays" ng-model="devDays" type="text" required>
+						</div>
+						
+						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.regDays.$dirty && rcForm.regDays.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<label for="regDays">Regression Days:</label>
+							<input id="regDays" class="form-control" name="regDays" ng-model="regDays" type="text" required>
+						</div>
+						<div class="form-group">
+      						<div style="color:red">* All fields are mandatory.</div>
+      					</div>
+					</form>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button ng-click="submitReleaseCup()" type="submit" ng-class="(rcForm.availableDevDays.$error.required || rcForm.devDays.$error.required || rcForm.regDays.$error.required || release.uuid =='0') ? 'btn btn-success disabled' : 'btn btn-success'">Submit</button>
+				</div>
+				<div class="overlay" 		ng-show="showReleaseCupsOverlay"></div>
+				<div class="loading-img" 	ng-show="showReleaseCupsLoading"></div>
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+
+
+	<div class="row animated fadeInRight">
+		<div class="col-xs-12">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">Release Cups List</h3>
+					<div class="box-tools">
+						<div class="input-group">
+							<input type="text" name="table_search"
+								class="form-control input-sm pull-right" style="width: 150px;"
+								placeholder="Search" ng-model="searchText">
+							<div class="input-group-btn">
+								<button class="btn btn-sm">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body table-responsive no-padding">
+					<table style="font-size:12px" id="example1"
+						class="table table-bordered table-striped dataTable">
+						<thead>
+							
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="overlay ng-hide" ng-show="showMachineListOverlay"></div>
+				<div class="loading-img ng-hide" ng-show="showMachineListLoading"></div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+
+</section>

@@ -30,7 +30,10 @@
                                 </li>
                                 
                                 <!-- Menu Footer-->
-                                <li class="user-footer">
+                                <li	 class="user-footer">
+                                	<div class="pull-left">
+                                        <a  ui-sref="home.releasecups" ng-show="profileObject.labs.length>0" class="btn btn-default btn-flat">Lab User</a>
+                                    </div>
                                     <div class="pull-right">
                                         <a ui-sref="signout" class="btn btn-default btn-flat">Sign out</a>
                                     </div>

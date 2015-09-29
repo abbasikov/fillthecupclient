@@ -8,6 +8,7 @@
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-left" style="padding-left: 42%; font-weight: bolder; font-size: 22px; padding-top: 10px;color: white">{{lab.name}}</div>
                 <!-- Sidebar toggle button-->
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
@@ -28,7 +29,7 @@
                         <li style="cursor:pointer" class="dropdown user user-menu">
                             <a  class="dropdown-toggle pointer" data-toggle="dropdown" >
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>{{profileObject.firstName}} {{profileObject.lastName}} <i class="caret"></i></span>
+                                <span>{{profileObject.username | uppercase}} <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -43,7 +44,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a  ui-sref="profile" ng-show="isSuperAdmin" class="btn btn-default btn-flat">Admin</a>
+                                        <a  ui-sref="admin.labs" ng-show="isSuperAdmin" class="btn btn-default btn-flat">Admin</a>
                                     </div>
                                     <div class="pull-right">
                                         <a ui-sref="signout" class="btn btn-default btn-flat">Sign out</a>
@@ -79,8 +80,8 @@
 					<!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="active">
-                            <a ui-sref="home.hypothesis">
-                                <i class="fa fa-file-text"></i> <span> Hypothesis</span>
+                            <a ui-sref="home.releasecups">
+                                <i class="fa fa-file-text"></i> <span> Release Cups</span>
                             </a>
                         </li>
                         <li class="treeview">

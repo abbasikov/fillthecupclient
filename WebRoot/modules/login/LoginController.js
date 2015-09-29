@@ -24,24 +24,17 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 							
 							$scope.profileObject = context.getUser();
 							
-							//Redirect to admin module if the user is Admin
-							if($scope.profileObject.isSuperAdmin == 'true'){
+							//Redirect to admin module if the user is FTC_ADMIN
+							if($scope.profileObject.username == 'ftcadmin'){
 								$state.go('admin.labs');
 							}
 							else{
-								$scope.isPasswordResetFlag = $scope.profileObject['isPasswordReset'];
-								
-								if($scope.isPasswordResetFlag == "true"){
-									$state.go('passwordchange');
-								}
-								else{
-									
-									//If no labs assigned. dont redirect to home page
-									if($scope.profileObject.labs.length > 0)
-										loadContext.redirectToHomePage();
-									else
-										Notification.error({message:"No labs assigned. Please check with admin.", title: 'UnAuthorized'});
-								}								
+								//If no labs assigned. dont redirect to home page
+								if($scope.profileObject.labs.length > 0)
+									loadContext.redirectToHomePage();
+								else
+									Notification.error({message:"No labs assigned. Please check with admin.", title: 'UnAuthorized'});
+																
 							}							
 							
 						}

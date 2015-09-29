@@ -87,7 +87,7 @@ angular.module('context.service',[])
 				if(context.isReady()){
 					
 					//Start Module
-					$state.go("home.hypothesis");
+					$state.go("home.releasecups");
 					
 				}
 				else{

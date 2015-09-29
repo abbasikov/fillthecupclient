@@ -7,7 +7,7 @@ function HomeController($scope,$state,Notification,context){
 	else{
 		$scope.profileObject 	= context.getUser();
 		$scope.companyType  	= "Macys";
-		$scope.isSuperAdmin		= ($scope.profileObject.isSuperAdmin == undefined || $scope.profileObject.isSuperAdmin == 'false') ? true:true;
+		$scope.isSuperAdmin		= ($scope.profileObject.isSuperAdmin == undefined || $scope.profileObject.isSuperAdmin == 'false') ? false:true;
 		$scope.lab 				= $scope.profileObject.labs[0];
 		
 		//Add page-signin class in body tag
