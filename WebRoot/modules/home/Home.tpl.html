@@ -29,14 +29,14 @@
                         <li style="cursor:pointer" class="dropdown user user-menu">
                             <a  class="dropdown-toggle pointer" data-toggle="dropdown" >
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span>{{profileObject.username | uppercase}} <i class="caret"></i></span>
+                                <span> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-macys">
                                     <img src="img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        {{profileObject.firstName}} {{profileObject.lastName}} - {{companyType}}
+                                        {{profileObject.username | uppercase}} - {{companyType}}
                                         <small>Member since Nov. 2015</small>
                                     </p>
                                 </li>
@@ -60,7 +60,7 @@
 
         
         
-        <div class="wrapper row-offcanvas row-offcanvas-left">
+        <div class="wrapper row-offcanvas row-offcanvas-left" ng-init="navsection = -1">
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="left-side sidebar-offcanvas" style="min-height:1768px;">
                 <!-- sidebar: style can be found in sidebar.less -->
@@ -76,12 +76,17 @@
                             <a ><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
-                     		<select ng-options="item.name for item in profileObject.labs" ng-model="lab" class="form-control sidebar-form"></select>
-					<!-- sidebar menu: : style can be found in sidebar.less -->
-                    <ul class="sidebar-menu">
-                        <li class="active">
-                            <a ui-sref="home.releasecups">
-                                <i class="fa fa-file-text"></i> <span> Release Cups</span>
+                     <ul class="sidebar-menu">
+                        <li ng-class="(navsection == -1) ? 'active' : '' ">
+                            <a ui-sref="home.releasecups" ng-click="navsection = -1">
+                                <i class="fa fa-coffee"></i> <span> Release Cups</span>
+                            </a>
+                        </li>
+                        <li ng-repeat="releaseCup in lab.releaseCups">
+                            <a ng-href="#home/releasecupdetail/{{$index}}">
+                                <i class="fa fa-coffee"></i> 
+                                <span>{{releaseCup.name}}</span><br>
+                                <span style="color:green;font-size:9px;">Available Dev Days:&nbsp;{{releaseCup.availableDevDays}}</span>
                             </a>
                         </li>
                         <li class="treeview">

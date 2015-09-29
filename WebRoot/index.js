@@ -51,6 +51,11 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			templateUrl	:"modules/home/releasecups/ReleaseCups.tpl.html",
 			controller	: ReleaseCupsController
 		})
+		.state("home.releasecupdetail",{
+			url			:"/releasecupdetail/:id",
+			templateUrl	:"modules/home/releasecupdetails/ReleaseCupDetail.tpl.html",
+			controller	: ReleaseCupDetailController
+		})
 		.state("mobilenotsuported",{
 			url			:"/mobilenotsupported",
 			templateUrl	:"templates/not_suported.tpl.html"
