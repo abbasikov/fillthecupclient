@@ -44,7 +44,7 @@
 						
       					<div class="form-group">
       					<label for="regDays">Select System Components:</label>
-      						<div class="checkbox" ng-repeat="sysComp in globalSysComponents">
+      						<div class="checkbox" ng-repeat="sysComp in globalSysComponents" ng-if="sysComp.name != 'MVPs'">
                             	<label><input type="checkbox" ng-model="sysComp.checked"/>{{sysComp.name}}</label>
                              </div>
                             

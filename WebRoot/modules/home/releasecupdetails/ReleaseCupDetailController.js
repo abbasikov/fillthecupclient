@@ -1,14 +1,21 @@
 function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService){
+	
 	$scope.selectedLab 			= $scope.profileObject.labs[0];
-	$scope.selectedReleaseCup	= $scope.profileObject.labs[0].releaseCups[$stateParams.id];
-	console.log("selectedReleaseCup : ",$scope.selectedReleaseCup);
-	$scope.$parent.navsection = $stateParams.id;
+	$scope.sysComponents		= $scope.profileObject.labs[0].releaseCups[$stateParams.id].sysComponents;
+	$scope.$parent.navsection 	= $stateParams.id;
 	
-	$scope.selectedReleaseCup.sysComponents.unshift({name:'MVP',uuid:'0'})
-	for(index in $scope.selectedReleaseCup.sysComponents){
-		$scope.selectedReleaseCup.sysComponents.data = '';
+	$scope.sysComponentsSorted = [];
+	for(index1 in $scope.sysComponents){
+		if($scope.sysComponents[index1].name == 'MVPs'){
+			$scope.sysComponentsSorted.push($scope.sysComponents[index1]);
+			break;
+		}	
 	}
-	
+	for(index2 in $scope.sysComponents){
+		if($scope.sysComponents[index2].name != 'MVPs'){
+			$scope.sysComponentsSorted.push($scope.sysComponents[index2]);
+		}	
+	}
 	$scope.matrix = {
 			settings:{
 				height: '400',
@@ -17,13 +24,15 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				contextMenu: ['row_above', 'row_below', 'remove_row'],
 				colWidth : '200',
 				stretchH:'all',
-				className:'htCenter'
+				className:'htCenter',
+				colHeaders : true
 				
 			},
-			columns:$scope.selectedReleaseCup.sysComponents,
-			data:[[]]
+			columns:$scope.sysComponentsSorted,
+			data:[[]]			
 	};
-	      
+	  
+	console.log("Matrix : ",$scope.matrix);
 	
 	$scope.test = function(){
 		console.log("Data : "+$scope.matrix.data);

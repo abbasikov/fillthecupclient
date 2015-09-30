@@ -188,7 +188,7 @@ function ReleaseCupsController($scope,$state,Notification,loadContext,ErrorUtils
 					if(data.meta.code == 200){
 						for(index in data.dataList){
 							var obj = data.dataList[index];
-							obj.checked = false;
+							obj.checked = (obj.name == 'MVPs') ? true:false;
 							$scope.globalSysComponents.push(obj);
 						}
 						
