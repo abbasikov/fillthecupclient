@@ -3,7 +3,31 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.selectedReleaseCup	= $scope.profileObject.labs[0].releaseCups[$stateParams.id];
 	console.log("selectedReleaseCup : ",$scope.selectedReleaseCup);
 	$scope.$parent.navsection = $stateParams.id;
-	//alert("ReleaseCupDetailController");
+	
+	$scope.selectedReleaseCup.sysComponents.unshift({name:'MVP',uuid:'0'})
+	for(index in $scope.selectedReleaseCup.sysComponents){
+		$scope.selectedReleaseCup.sysComponents.data = '';
+	}
+	
+	$scope.matrix = {
+			settings:{
+				height: '400',
+				width : '100%',
+				colHeaders: true,
+				contextMenu: ['row_above', 'row_below', 'remove_row'],
+				colWidth : '200',
+				stretchH:'all',
+				className:'htCenter'
+				
+			},
+			columns:$scope.selectedReleaseCup.sysComponents,
+			data:[[]]
+	};
+	      
+	
+	$scope.test = function(){
+		console.log("Data : "+$scope.matrix.data);
+	};
 }
 
 

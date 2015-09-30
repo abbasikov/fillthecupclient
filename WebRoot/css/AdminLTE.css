@@ -3823,3 +3823,7 @@ a.expand {
 .macys-font-color{
 	color: #000000;
 }
+
+span.colHeader {
+	font-weight: 700;
+}

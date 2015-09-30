@@ -41,10 +41,17 @@
 							<label for="regDays">Regression Days:</label>
 							<input id="regDays" class="form-control" name="regDays" ng-model="regDays" type="text" ng-pattern="/^\d{0,9}$/" required>
 						</div>
-						<div class="form-group">
+						
+      					<div class="form-group">
+      					<label for="regDays">Select System Components:</label>
+      						<div class="checkbox" ng-repeat="sysComp in globalSysComponents">
+                            	<label><input type="checkbox" ng-model="sysComp.checked"/>{{sysComp.name}}</label>
+                             </div>
+                            
+                        </div>
+                        <div class="form-group">
       						<div style="color:red">* All fields are mandatory.</div>
       					</div>
-      					
       					
       					
 					</form>

@@ -66,7 +66,7 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 	
 }
 
-angular.module('fillTheCupApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','ngTagsInput','angularjs-dropdown-multiselect'])
+angular.module('fillTheCupApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','ngTagsInput','angularjs-dropdown-multiselect','ngHandsontable'])
 	.config(config)
 	.factory('myHttpInterceptor', function($q) {
 	    return {

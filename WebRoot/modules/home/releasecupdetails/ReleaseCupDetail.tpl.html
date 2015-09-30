@@ -1,31 +1,28 @@
-<!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        Release Cup: {{selectedReleaseCup.name}}
-                    </h1>
-                    
-                </section>
+<section class="content-header">
+	<h1>Release Cup: {{selectedReleaseCup.name}}</h1>
 
-                <!-- Main content -->
-                <section class="content">
-<div class="rows animated fadeInRight">
-                    <div class="error-page">
-                        <h2 class="headline text-info"> 404</h2>
-                        <div class="error-content">
-                            <h3><i class="fa fa-warning text-yellow"></i> Page Under Construction.</h3>
-                            <p>
-                                This page is under construction.
-                                Meanwhile, you may <a href='../../index.html'>return to dashboard</a> or try using the search form.
-                            </p>
-                            <form class='search-form'>
-                                <div class='input-group'>
-                                    <input type="text" name="search" class='form-control' placeholder="Search"/>
-                                    <div class="input-group-btn">
-                                        <button type="submit" name="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div><!-- /.input-group -->
-                            </form>
-                        </div><!-- /.error-content -->
-                    </div><!-- /.error-page -->
-</div>
-                </section><!-- /.content -->
+</section>
+
+<section class="content">
+	<div class="rows animated fadeInRight">
+	<div class="col-md-12">
+		<div class="box box-success">
+		<div class="box-header">
+		<i class="fa fa-table"></i>
+					<h3 class="box-title">Matrix</h3>
+
+				</div>
+			<div class="box-body">
+				<hot-table height="matrix.settings.width" width="matrix.settings.height"  settings="matrix.settings" datarows="matrix.data">
+					<hot-column ng-repeat="column in matrix.columns" title="column.name" width="matrix.settings.colWidth"></hot-column>
+				</hot-table>
+				</hot-table>
+			</div>
+		</div>
+		<div class="form-group">
+			<button ng-click="test()">Test</button>
+		</div>
+	</div>
+		
+	</div>
+</section>
