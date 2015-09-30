@@ -1,8 +1,21 @@
 angular.module('rest.service',['ngResource'])
 	.constant("CONSTANTS", {
-	    "BASE_REST_URL"	: "http://jbossews-abbasikov.rhcloud.com/fillthecupserver",
-		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"
-	    	
+	    "BASE_REST_URL"	: "https://jbossews-abbasikov.rhcloud.com/fillthecupserver",
+		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"			
+	})
+	.factory('ReleasesCupService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/releasecups/:id',{id:'@id'},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
 	})
 	.factory('ReleasesService',function($resource,CONSTANTS){
 		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/releases',{},{

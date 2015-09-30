@@ -1,6 +1,9 @@
 function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService){
-	$scope.selectedReleaseCup = $scope.lab.releaseCups[$stateParams.id];
-	
+	$scope.selectedLab 			= $scope.profileObject.labs[0];
+	$scope.selectedReleaseCup	= $scope.profileObject.labs[0].releaseCups[$stateParams.id];
+	console.log("selectedReleaseCup : ",$scope.selectedReleaseCup);
+	$scope.$parent.navsection = $stateParams.id;
+	//alert("ReleaseCupDetailController");
 }
 
 

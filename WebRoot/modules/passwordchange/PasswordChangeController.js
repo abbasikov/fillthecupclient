@@ -35,10 +35,10 @@ function PasswordChangeController($scope,$state,$timeout,$location,PasswordChang
 							context.setEmployee(data.data);
 							
 							//Remove old employee session
-							sessionStorage.removeItem('employee');
+							sessionStorage.removeItem('user');
 														
 							//Store employee in session storage
-							sessionStorage.setItem('employee',JSON.stringify(context.getEmployee()) );
+							sessionStorage.setItem('user',JSON.stringify(context.getEmployee()) );
 							
 							//Redirect to appropriate home page.
 							loadContext.redirectToHomePage();

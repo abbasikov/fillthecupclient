@@ -29,26 +29,29 @@
 						
 						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.availableDevDays.$dirty && rcForm.availableDevDays.$invalid) ? 'form-group has-error' : 'form-group' ">
 							<label for="adevDays">Available Dev Days:</label>
-							<input id="adevDays" class="form-control" name="availableDevDays" ng-model="availableDevDays" type="text" required>
+							<input id="adevDays" class="form-control" name="availableDevDays" ng-model="availableDevDays" type="text" ng-pattern="/^\d{0,9}$/" required>
 						</div>
 						
 						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.devDays.$dirty && rcForm.devDays.$invalid) ? 'form-group has-error' : 'form-group' ">
 							<label for="devDays">Dev Days:</label>
-							<input id="devDays" class="form-control" name="devDays" ng-model="devDays" type="text" required>
+							<input id="devDays" class="form-control" name="devDays" ng-model="devDays" type="text" ng-pattern="/^\d{0,9}$/" required>
 						</div>
 						
 						<div class="form-group" style="margin-bottom: 10px" ng-class="(rcForm.regDays.$dirty && rcForm.regDays.$invalid) ? 'form-group has-error' : 'form-group' ">
 							<label for="regDays">Regression Days:</label>
-							<input id="regDays" class="form-control" name="regDays" ng-model="regDays" type="text" required>
+							<input id="regDays" class="form-control" name="regDays" ng-model="regDays" type="text" ng-pattern="/^\d{0,9}$/" required>
 						</div>
 						<div class="form-group">
       						<div style="color:red">* All fields are mandatory.</div>
       					</div>
+      					
+      					
+      					
 					</form>
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<button ng-click="submitReleaseCup()" type="submit" ng-class="(rcForm.availableDevDays.$error.required || rcForm.devDays.$error.required || rcForm.regDays.$error.required || release.uuid =='0') ? 'btn btn-success disabled' : 'btn btn-success'">Submit</button>
+					<button ng-click="submitReleaseCup()" type="submit" ng-class="(rcForm.availableDevDays.$invalid || rcForm.devDays.$invalid || rcForm.regDays.$invalid || release.uuid =='0') ? 'btn btn-success disabled' : 'btn btn-success'">Submit</button>
 				</div>
 				<div class="overlay" 		ng-show="showReleaseCupsOverlay"></div>
 				<div class="loading-img" 	ng-show="showReleaseCupsLoading"></div>
@@ -81,15 +84,39 @@
 					<table style="font-size:12px" id="example1"
 						class="table table-bordered table-striped dataTable">
 						<thead>
-							
+							<tr>
+								<th>Release Name</th>
+								<th>Branch Cut Date</th>
+								<th>Hard Lock Date</th>
+								<th>MCOM Date</th>
+								<th>BCOM Date</th>
+								<th>Available Dev Days</th>
+								<th>Dev Days</th>
+								<th>Regression Days</th>
+								<th>Action</th>
+							</tr>							
 						</thead>
 						<tbody>
+							<tr ng-repeat="rc in profileObject.labs[0].releaseCups | filter:searchText">
+								
+								<td>{{rc.release.name}}</td>
+								<td>{{rc.release.branchCutDate}}</td>
+								<td>{{rc.release.branchHardLockDate}}</td>
+								<td>{{rc.release.mcomDate}}</td>
+								<td>{{rc.release.bcomDate}}</td>
+								<td>{{rc.availableDevDays}}</td>
+								<td>{{rc.devDays}}</td>
+								<td>{{rc.regressionDays}}</td>
+								<td>
+									<button class="btn btn-danger btn-xs" ng-click="deleteReleaseCup(rc.uuid,$index)">Delete</button>											
+								</td>
+							</tr>
 							
 						</tbody>
 					</table>
 				</div>
-				<div class="overlay ng-hide" ng-show="showMachineListOverlay"></div>
-				<div class="loading-img ng-hide" ng-show="showMachineListLoading"></div>
+				<div class="overlay ng-hide" ng-show="tableListOverlay"></div>
+				<div class="loading-img ng-hide" ng-show="tableListLoading"></div>
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->

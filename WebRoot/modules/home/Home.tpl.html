@@ -60,7 +60,7 @@
 
         
         
-        <div class="wrapper row-offcanvas row-offcanvas-left" ng-init="navsection = -1">
+        <div class="wrapper row-offcanvas row-offcanvas-left">
             <!-- Left side column. contains the logo and sidebar -->
             <aside class="left-side sidebar-offcanvas" style="min-height:1768px;">
                 <!-- sidebar: style can be found in sidebar.less -->
@@ -78,11 +78,11 @@
                     </div>
                      <ul class="sidebar-menu">
                         <li ng-class="(navsection == -1) ? 'active' : '' ">
-                            <a ui-sref="home.releasecups" ng-click="navsection = -1">
+                            <a ui-sref="home.releasecups">
                                 <i class="fa fa-coffee"></i> <span> Release Cups</span>
                             </a>
                         </li>
-                        <li ng-repeat="releaseCup in lab.releaseCups">
+                        <li ng-repeat="releaseCup in profileObject.labs[0].releaseCups" ng-class="(navsection == $index) ? 'active' : '' ">
                             <a ng-href="#home/releasecupdetail/{{$index}}">
                                 <i class="fa fa-coffee"></i> 
                                 <span>{{releaseCup.name}}</span><br>
@@ -101,7 +101,6 @@
                 <!-- /.sidebar -->
             </aside>
         
-        	<!-- Right side column. Contains the navbar and content of the page -->
         	<aside class="right-side ui-view">
                
             </aside>

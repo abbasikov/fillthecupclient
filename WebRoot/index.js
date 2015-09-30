@@ -110,6 +110,6 @@ angular.module('fillTheCupApp',['ngImgCrop','angucomplete','ui.router', 'ngAnima
 			}
 			else{
 				//re-route to home
-				$state.go("home");
+				$state.go("home.releasecups");
 			}
 	}]);

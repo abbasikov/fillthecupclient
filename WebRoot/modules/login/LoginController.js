@@ -3,9 +3,14 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 	
 	$scope.loginText = "SIGN IN";
 	$scope.showLoading = false;
+	$scope.signInProcess = false;
 	
 	$scope.login = function(){
 		
+		if($scope.signInProcess){
+			Notification.success({message:"Logging in. Please wait...", title: 'SignIn'});
+			return;
+		}
 		
 		if($scope.validate()){
 			var data = "userName="+$scope.username+"&password="+$scope.password;
@@ -84,17 +89,19 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 	
 	$scope.toggleLoading = function(){
 		if($scope.loginText == "SIGN IN"){
+			$scope.signInProcess = true;
 			$scope.loginText = "Signing in. Please wait..";
 			$scope.showLoading = true;
 		}
 		else{
 			$scope.loginText = "SIGN IN";
+			$scope.signInProcess = false;
 			$scope.showLoading = false;
 		}
 	};
 	
 	//Remove the employee from session storage and context.
-	sessionStorage.removeItem("employee");	
+	sessionStorage.removeItem("user");	
 	context.clearContext();
 	
 	//Add page-signin class in body tag 
