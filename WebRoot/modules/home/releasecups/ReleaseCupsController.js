@@ -32,6 +32,7 @@ function ReleaseCupsController($scope,$state,Notification,loadContext,ErrorUtils
 					"devDays="+$scope.devDays+"&" +
 					"regressionDays="+$scope.regDays+"&"+
 					"sysComponents="+$scope.getSelectedSysComponentsUuids();
+		console.log("data : ",data);
 		var rel = ReleasesCupService.save(data);
 		$scope.toggleLoadingRecordCreation();
 		rel.$promise.then(

@@ -14,17 +14,13 @@
 				</div>
 				
 			<div class="box-body">
-				<hot-table height="matrix.settings.width" width="matrix.settings.height"  settings="matrix.settings" datarows="matrix.data"  >
+				<hot-table height="matrix.settings.width" width="matrix.settings.height"  settings="matrix.settings" datarows="matrix.data" on-after-create-row="onAfterCreateRow" on-after-remove-row="onAfterRemoveRow"  >
 					<hot-column ng-repeat="column in matrix.columns" title="column.name" width="matrix.settings.colWidth"></hot-column>
 				</hot-table>
 				
 			</div>
 		</div>
-		<!-- 
-		<div class="form-group">
-			<button ng-click="test()">Test</button>
-		</div>
-		 -->
+		
 	</div>
 		
 	</div>

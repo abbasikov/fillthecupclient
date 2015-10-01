@@ -1,44 +1,35 @@
-function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService){
+function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService,UpdateObjectService){
 	
 	$scope.selectedLab 			= $scope.profileObject.labs[0];
-	$scope.sysComponents		= $scope.profileObject.labs[0].releaseCups[$stateParams.id].sysComponents;
 	$scope.$parent.navsection 	= $stateParams.id;
+	$scope.matrix 				= $scope.profileObject.labs[0].releaseCups[parseInt($stateParams.id)].matrix;
+
 	
-	$scope.sysComponentsSorted = [];
-	for(index1 in $scope.sysComponents){
-		if($scope.sysComponents[index1].name == 'MVPs'){
-			$scope.sysComponentsSorted.push($scope.sysComponents[index1]);
-			break;
-		}	
+	$scope.updateMatrix = function(){
+		var names 	= "names=matrixJson";
+		var values 	= "values="+encodeURIComponent($scope.matrix);
+		var data = "uuid="+$scope.profileObject.labs[0].releaseCups[parseInt($stateParams.id)].uuid+"&"+names+"&"+values;
+		console.log("Data To Update:"+data);
+		var update = UpdateObjectService.save(data);
+		update.$promise.then(
+				function(data){
+					console.log("Response: ",data);
+				},
+				function(error){
+					console.log("Error: ",error);
+				});
 	}
-	for(index2 in $scope.sysComponents){
-		if($scope.sysComponents[index2].name != 'MVPs'){
-			$scope.sysComponentsSorted.push($scope.sysComponents[index2]);
-		}	
-	}
-	$scope.matrix = {
-			settings:{
-				height: '400',
-				width : '100%',
-				colHeaders: true,
-				contextMenu: ['row_above', 'row_below', 'remove_row'],
-				colWidth : '200',
-				stretchH:'all',
-				className:'htCenter',
-				colHeaders : true
-				
-			},
-			columns:$scope.sysComponentsSorted,
-			data:[[]]			
-	};
-	  
-	console.log("Matrix : ",$scope.matrix);
 	
-	$scope.test = function(){
-		console.log("Data : "+$scope.matrix.data);
-	};
+	$scope.onAfterCreateRow = function(){
+		$scope.updateMatrix();
+	}
+	
+	$scope.onAfterRemoveRow = function(){
+		$scope.updateMatrix();
+	}
+	
 }
 
 
 angular.module('releasecupdetail',['ngAnimate','ui.router','ui-notification'])
-	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService',ReleaseCupDetailController]);
+	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService','UpdateObjectService',ReleaseCupDetailController]);
