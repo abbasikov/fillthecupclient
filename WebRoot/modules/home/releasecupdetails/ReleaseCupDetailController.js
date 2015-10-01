@@ -2,14 +2,22 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	
 	$scope.selectedLab 			= $scope.profileObject.labs[0];
 	$scope.$parent.navsection 	= $stateParams.id;
-	$scope.matrix 				= $scope.profileObject.labs[0].releaseCups[parseInt($stateParams.id)].matrix;
+	$scope.selectedReleaseCup	= $scope.releaseCupsList[parseInt($stateParams.id)];
+	$scope.matrix 				= $scope.selectedReleaseCup.matrix;
 
+	$scope.settings = {
+			height 		: "400",
+			width		: "100%",
+			contextMenu : ["row_above", "row_below", "remove_row"],
+			colWidth 	: "200",
+			stretchH	: "all",
+			className	: "htCenter"			
+	}
 	
 	$scope.updateMatrix = function(){
 		var names 	= "names=matrixJson";
-		var values 	= "values="+encodeURIComponent($scope.matrix);
-		var data = "uuid="+$scope.profileObject.labs[0].releaseCups[parseInt($stateParams.id)].uuid+"&"+names+"&"+values;
-		console.log("Data To Update:"+data);
+		var values 	= "values="+encodeURIComponent(angular.toJson($scope.matrix));
+		var data = "uuid="+$scope.selectedReleaseCup.uuid+"&"+names+"&"+values+"&"+"delimiter=;";
 		var update = UpdateObjectService.save(data);
 		update.$promise.then(
 				function(data){
@@ -25,6 +33,10 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	}
 	
 	$scope.onAfterRemoveRow = function(){
+		$scope.updateMatrix();
+	}
+	
+	$scope.onAfterChange = function(){
 		$scope.updateMatrix();
 	}
 	

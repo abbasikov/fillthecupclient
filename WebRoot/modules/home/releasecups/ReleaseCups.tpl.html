@@ -104,7 +104,7 @@
 							</tr>							
 						</thead>
 						<tbody>
-							<tr ng-repeat="rc in profileObject.labs[0].releaseCups | filter:searchText">
+							<tr ng-repeat="rc in $parent.releaseCupsList | filter:searchText">
 								
 								<td>{{rc.release.name}}</td>
 								<td>{{rc.release.branchCutDate}}</td>

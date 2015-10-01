@@ -1,6 +1,7 @@
 angular.module('rest.service',['ngResource'])
 	.constant("CONSTANTS", {
-	    "BASE_REST_URL"	: "https://jbossews-abbasikov.rhcloud.com/fillthecupserver",
+		//"BASE_REST_URL"	: "https://jbossews-abbasikov.rhcloud.com/fillthecupserver",
+	    "BASE_REST_URL"	: "http://localhost:8080/fillthecupserver",
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"			
 	})
 	.factory('ReleasesCupService',function($resource,CONSTANTS){

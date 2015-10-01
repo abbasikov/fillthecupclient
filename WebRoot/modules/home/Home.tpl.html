@@ -82,7 +82,7 @@
                                 <i class="fa fa-coffee"></i> <span> Release Cups</span>
                             </a>
                         </li>
-                        <li ng-repeat="releaseCup in profileObject.labs[0].releaseCups" ng-class="(navsection == $index) ? 'active' : '' ">
+                        <li ng-repeat="releaseCup in releaseCupsList" ng-class="(navsection == $index) ? 'active' : '' ">
                             <a ng-href="#home/releasecupdetail/{{$index}}">
                                 <i class="fa fa-coffee"></i> 
                                 <span>{{releaseCup.name}}</span><br>

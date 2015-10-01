@@ -172,7 +172,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		}
 		
 		if(update){
-			var data = "uuid="+selectedLabItem.users[0].uuid+"&"+names+"&"+values;
+			var data = "uuid="+selectedLabItem.users[0].uuid+"&"+names+"&"+values+"&delimeter=,";
 			var update = UpdateObjectService.save(data);
 			$scope.toggleListShow();
 			update.$promise.then(
@@ -212,7 +212,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		}
 		
 		if(update){
-			var data = "uuid="+selectedLabItem.uuid+"&"+names+"&"+values;
+			var data = "uuid="+selectedLabItem.uuid+"&"+names+"&"+values+"&delimeter=,";
 			var update = UpdateObjectService.save(data);
 			$scope.toggleListShow();
 			update.$promise.then(
