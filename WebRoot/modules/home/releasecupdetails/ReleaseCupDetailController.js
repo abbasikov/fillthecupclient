@@ -19,6 +19,8 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			remainingPercentageData : []
 	}
 	
+	$scope.ipmArray = [ { id: 'IPM1', ipm: 'IPM1' },{ id: 'IPM2', ipm: 'IPM2' },{ id: 'IPM3', ipm: 'IPM3' },{ id: 'IPM4', ipm: 'IPM4' }];
+	
 	$scope.colorListOccupied   	= ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	$scope.colorListRemaining   = ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	
@@ -121,6 +123,11 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	        var msg = 'row selected ' + row.isSelected;
 	        $scope.showDeleteButton = row.isSelected;
 	      });
+	      
+	      gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+	          console.log("afterCellEdit");  
+	    	  $scope.$apply();
+	      });
 	 
 //	      gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
 //	        var msg = 'rows changed ' + rows.length;
@@ -133,23 +140,36 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.selectedReleaseCup.matrix = JSON.parse($scope.selectedReleaseCup.matrix);
 		$scope.gridOptions.columnDefs  	= $scope.selectedReleaseCup.matrix.columns;
 		$scope.gridOptions.data  		=  $scope.selectedReleaseCup.matrix.data;
+		
+		//Iterate thru each colum
 		for(i in $scope.gridOptions.columnDefs){
 			$scope.gridOptions.columnDefs[i].enableCellEdit = true;
 			$scope.gridOptions.columnDefs[i].enableCellEdit = true;
-			if($scope.gridOptions.columnDefs[i].name == "MVPs"){
+			if($scope.gridOptions.columnDefs[i].name == "MVPs" ){
 				$scope.gridOptions.columnDefs[i].type	 		= "text";
+			}
+			else if($scope.gridOptions.columnDefs[i].name == "IPM"){
+				$scope.gridOptions.columnDefs[i].type	 				= "text";
+				$scope.gridOptions.columnDefs[i].editableCellTemplate 	= 'ui-grid/dropdownEditor';
+				//$scope.gridOptions.columnDefs[i].cellFilter 			= 'mapIPM';
+				$scope.gridOptions.columnDefs[i].editDropdownValueLabel	= 'ipm';
+				$scope.gridOptions.columnDefs[i].editDropdownOptionsArray= $scope.ipmArray;
 			}
 			else{
 				$scope.gridOptions.columnDefs[i].type	 		= "number";
 				$scope.gridOptions.columnDefs[i].aggregationType = uiGridConstants.aggregationTypes.sum;
-				//$scope.gridOptions.columnDefs[i].footerCellTemplate = footerCellTempateFunc();
+				$scope.gridOptions.columnDefs[i].footerCellTemplate = $scope.footerCellTempateFunc();
 			}
 				
 			$scope.gridOptions.columnDefs[i].cellClass		= 'grid-text-align';
 			$scope.gridOptions.columnDefs[i].headerCellClass		= 'grid-text-align grid-header';
-		}
+		}//end-for-loop
+		
 		$scope.gridOptions.showGridFooter = false;
 	};
+	
+	
+	
 	
 	$scope.footerCellTempateFunc = function(){
 		var template = '<div class="ui-grid-cell-contents" id="{{col.uid}}" col-index="renderIndex"><div">Total:&nbsp;{{col.getAggregationValue()}}</div></div>';
@@ -214,7 +234,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		//For Occupied
 		var occArray = [];
 		var remArray = [];
-		for(i=1;i<$scope.gridOptions.columnDefs.length;i++){
+		for(i=2;i<$scope.gridOptions.columnDefs.length;i++){
 			var occObj = {label:'', value:''};
 			var remObj = {label:'', value:''};
 			
@@ -224,7 +244,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			var devDays = parseInt($scope.selectedReleaseCup.devDays);
 			var gridApiColIndex= -1;
 			
-			//Find aggregation colum of occObj.label
+			//Find aggregation value of colum  occObj.label
 			for(j in $scope.gridApi.grid.columns){
 				if($scope.gridApi.grid.columns[j].name == occObj.label){
 					gridApiColIndex = j;
@@ -242,26 +262,9 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			
 			console.log("OP "+occObj.label+" :  aggregateValue: "+aggregateValue+", devDays:"+devDays+", Percent:"+occObj.value);
 			$scope.twoGraphs.occupiedPercentageData.push(occObj);
-			$scope.twoGraphs.remainingPercentageData.push(remObj);
-			
+			$scope.twoGraphs.remainingPercentageData.push(remObj);		
 			
 		}
-		
-//		if($scope.twoGraphs.occupiedPercentageData.length>0 && $scope.twoGraphs.remainingPercentageData.length>0){
-//			$scope.ocOverlay 	= true;
-//			$scope.ocLoading 	= true;
-//			//$scope.rpOverlay	= true;
-//			//$scope.rpLoading	= true;	
-//			setTimeout(function(){
-//				alert("fire");
-//				$scope.ocOverlay 	= false;
-//				$scope.ocLoading 	= false;
-//				//$scope.rpOverlay	= false;
-//				//$scope.rpLoading	= false;	
-//				
-//				
-//			},2000);
-//		}
 		
 	}
 	
@@ -272,3 +275,4 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 
 angular.module('releasecupdetail',['ngAnimate','ui.router','ui-notification'])
 	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService','UpdateObjectService','ReleasesCupService','uiGridConstants','$filter',ReleaseCupDetailController]);
+	
