@@ -41,6 +41,11 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 			templateUrl	:"modules/admin/releases/Releases.tpl.html",
 			controller	: ReleasesController
 		})
+		.state("admin.reports",{
+			url			:"/reports",
+			templateUrl	:"modules/admin/reports/Reports.tpl.html",
+			controller	: ReportsController
+		})
 		.state("home",{
 			url			:"/home",
 			templateUrl	:"modules/home/Home.tpl.html",
@@ -66,7 +71,7 @@ function config($stateProvider, $urlRouterProvider,$httpProvider){
 	
 }
 
-angular.module('fillTheCupApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','ngTagsInput','angularjs-dropdown-multiselect','ngHandsontable'])
+angular.module('fillTheCupApp',['ngImgCrop','angucomplete','ui.router', 'ngAnimate','ngResource','context.service','login','rest.service','error.utils','ngCookies','xeditable','ui.bootstrap','ngTagsInput','angularjs-dropdown-multiselect','ngTouch','ui.grid','ui.grid.edit','ui.grid.selection','ui.grid.grouping','angular.morris-chart'])
 	.config(config)
 	.factory('myHttpInterceptor', function($q) {
 	    return {

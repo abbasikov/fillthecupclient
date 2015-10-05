@@ -53,7 +53,7 @@
 				</div>
 				<div class="box-body">
 					
-					<div ng-repeat="item in globalSystemComponents" ng-if="item.name != 'MVPs'" style="background: rgb(248, 250, 255) none repeat scroll 0px 0px; border: 1px solid rgb(218, 226, 234); color: rgb(124, 158, 178); padding: 10px;">
+					<div ng-repeat="item in globalSystemComponents" style="background: rgb(248, 250, 255) none repeat scroll 0px 0px; border: 1px solid rgb(218, 226, 234); color: rgb(124, 158, 178); padding: 10px;">
                   		<a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-right"></span></a>
   						<span style="font-weight: 800; padding: 6px; font-size: 14px;">{{item.name}}</span>
                   		<a class="pull-right btn btn-danger btn-xs" ng-click="removeComponent($index)"><span class="glyphicon glyphicon-remove"></span></a>

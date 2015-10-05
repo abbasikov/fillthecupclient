@@ -10,7 +10,7 @@ angular.module('error.utils',[])
 						'1005':'Invalid business object type',
 						'1006':'Missing annotation',
 						'1007':'Invalid request',
-						'1008':'Length not equal',
+						'1008':'Metadatas and values length not equal.',
 						'1009':'Business object not found',
 						'1010':'Invalid path key. File upload failed',
 						'1015':'Username already exists.'
@@ -21,6 +21,8 @@ angular.module('error.utils',[])
 					try{
 						//If code is not found return detail message.
 						if(errorObj[meta.code] == undefined)
+							return meta.details;
+						else if(meta.code == 1004)
 							return meta.details;
 						else
 							return errorObj[meta.code];

@@ -24,6 +24,18 @@
                             </ul>
                         </li>
                         
+                        <li style="cursor:pointer" class="dropdown tasks-menu">
+                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-tasks"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 0 tasks</li>
+                                <li class="footer">
+                                    <a style="cursor:pointer">View all tasks</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
                         
                         <!-- User Account: style can be found in dropdown.less -->
                         <li style="cursor:pointer" class="dropdown user user-menu">
@@ -36,7 +48,7 @@
                                 <li class="user-header bg-macys">
                                     <img src="img/avatar5.png" class="img-circle" alt="User Image" />
                                     <p>
-                                        {{profileObject.username | uppercase}} - {{companyType}}
+                                        Manager - {{profileObject.labs[0].managerName}}
                                         <small>Member since Nov. 2015</small>
                                     </p>
                                 </li>
@@ -71,9 +83,8 @@
                             <img src="img/avatar5.png" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p class="macys-font-color">Hello, {{profileObject.firstName}}</p>
-
-                            <a ><i class="fa fa-circle text-success"></i> Online</a>
+                            <p class="macys-font-color">Manager:  {{profileObject.labs[0].managerName}}</p>
+                            <a><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
                      <ul class="sidebar-menu">
@@ -82,8 +93,8 @@
                                 <i class="fa fa-coffee"></i> <span> Release Cups</span>
                             </a>
                         </li>
-                        <li ng-repeat="releaseCup in releaseCupsList" ng-class="(navsection == $index) ? 'active' : '' ">
-                            <a ng-href="#home/releasecupdetail/{{$index}}">
+                        <li ng-repeat="releaseCup in releaseCupsList" ng-class="(navsection == releaseCup.uuid) ? 'active' : '' ">
+                            <a ng-href="#home/releasecupdetail/{{releaseCup.uuid}}">
                                 <i class="fa fa-coffee"></i> 
                                 <span>{{releaseCup.name}}</span><br>
                                 <span style="color:green;font-size:9px;">Available Dev Days:&nbsp;{{releaseCup.availableDevDays}}</span>

@@ -44,7 +44,7 @@
 						
       					<div class="form-group">
       					<label for="regDays">Select System Components:</label>
-      						<div class="checkbox" ng-repeat="sysComp in globalSysComponents" ng-if="sysComp.name != 'MVPs'">
+      						<div class="checkbox" ng-repeat="sysComp in globalSysComponents">
                             	<label><input type="checkbox" ng-model="sysComp.checked"/>{{sysComp.name}}</label>
                              </div>
                             
@@ -65,11 +65,7 @@
 			</div>
 			<!-- /.box -->
 		</div>
-	</div>
-
-
-	<div class="row animated fadeInRight">
-		<div class="col-xs-12">
+		<div class="col-md-6">
 			<div class="box box-success">
 				<div class="box-header">
 					<h3 class="box-title">Release Cups List</h3>
@@ -128,6 +124,11 @@
 			</div>
 			<!-- /.box -->
 		</div>
+	</div>
+
+
+	<div class="row animated fadeInRight">
+		
 	</div>
 
 </section>

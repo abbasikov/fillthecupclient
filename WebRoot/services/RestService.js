@@ -1,8 +1,22 @@
 angular.module('rest.service',['ngResource'])
 	.constant("CONSTANTS", {
 		//"BASE_REST_URL"	: "https://jbossews-abbasikov.rhcloud.com/fillthecupserver",
-	    "BASE_REST_URL"	: "http://localhost:8080/fillthecupserver",
+	    "BASE_REST_URL"	: "http://localhost:9090/fillthecupserver",
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"			
+	})
+	.factory('ReleasesCupByLabService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/labs/:id/releasecups',{id:'@id'},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
 	})
 	.factory('ReleasesCupService',function($resource,CONSTANTS){
 		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/releasecups/:id',{id:'@id'},{

@@ -1,9 +1,8 @@
-function HomeController($scope,$state,Notification,context,ReleasesCupService){
+function HomeController($scope,$state,Notification,context,ReleasesCupService,ReleasesCupByLabService){
 	
 	$scope.releaseCupsList		= [];
-	
 	$scope.getAllReleaseCupList = function(){
-		var rel = ReleasesCupService.get({id:$scope.profileObject.labs[0].uuid});
+		var rel = ReleasesCupByLabService.get({id:$scope.profileObject.labs[0].uuid});
 		rel.$promise.then(
 				function(data){
 					if(data.meta.code == 200){
@@ -34,8 +33,9 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService){
 		$state.go('login');
 	}
 	else{
-		console.log("Profile Object: ",$scope.profileObject);
 		$scope.profileObject 	= context.getUser();
+		console.log("Profile Object: ",$scope.profileObject);
+		
 		$scope.companyType  	= "Macys";
 		$scope.isSuperAdmin		= ($scope.profileObject.isSuperAdmin == undefined || $scope.profileObject.isSuperAdmin == 'false') ? false:true;
 		$scope.navsection 		= -1;
@@ -51,5 +51,5 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService){
 
 
 angular.module('home',['ngAnimate','ui.router','ui-notification','angularFileUpload'])
-	.controller('HomeController',['$scope','$state','Notification','context','ReleasesCupService',HomeController]);
+	.controller('HomeController',['$scope','$state','Notification','context','ReleasesCupService','ReleasesCupByLabService',HomeController]);
 	

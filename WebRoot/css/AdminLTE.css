@@ -693,9 +693,9 @@ body > .header .logo .icon {
   height: 45px;
 }
 .user-panel > .info {
-  font-weight: 600;
+  font-weight: 800;
   padding: 5px 5px 5px 15px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
 }
 .user-panel > .info > p {
@@ -3826,4 +3826,20 @@ a.expand {
 
 span.colHeader {
 	font-weight: 700;
+}
+
+.grid-text-align{
+	text-align: center;
+}
+
+.grid-text-align{
+	text-align: center;
+}
+
+.grid-header{
+	background-color:#C2CFD6;
+}
+
+.grid-col-sum-exceeded{
+	background-color:#c00;
 }

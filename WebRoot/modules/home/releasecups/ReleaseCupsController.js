@@ -1,7 +1,6 @@
 function ReleaseCupsController($scope,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService,ReleasesCupService,DeleteBusinessObject,SysComponentService){
 	
 	$scope.labUuid = $scope.profileObject.labs[0].uuid;
-	
 	$scope.availableDevDays = "";
 	$scope.devDays			= "";
 	$scope.regDays			= "";
@@ -161,7 +160,6 @@ function ReleaseCupsController($scope,$state,Notification,loadContext,ErrorUtils
 					if(data.meta.code == 200){
 						for(index in data.dataList){
 							var obj = data.dataList[index];
-							obj.checked = (obj.name == 'MVPs') ? true:false;
 							$scope.globalSysComponents.push(obj);
 						}
 						
