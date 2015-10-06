@@ -1,4 +1,4 @@
-function RegisterController($scope,$state,Notification,FileUploader,RegisterService,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
+function RegisterController($scope,$state,Notification,FileUploader,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
 	Notification.success({message: 'Please fill the form for new registration.', title: 'Welcome to FillTheCup'});
 	
 	$scope.registerText = "SIGN UP";
@@ -9,4 +9,4 @@ function RegisterController($scope,$state,Notification,FileUploader,RegisterServ
 			
 }
 angular.module('register',['ngAnimate','ui.router','ui-notification','angularFileUpload'])
-	.controller('RegisterController',['$scope','$state','Notification','FileUploader','RegisterService','ErrorUtils','CONSTANTS','context','$cookies','loadContext',RegisterController]);
+	.controller('RegisterController',['$scope','$state','Notification','FileUploader','ErrorUtils','CONSTANTS','context','$cookies','loadContext',RegisterController]);

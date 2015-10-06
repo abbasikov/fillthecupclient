@@ -15,9 +15,11 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.occupiedPercentageData = [];
 	$scope.remainingPercentageData= [];
 	$scope.twoGraphs = {
-			occupiedPercentageData : [],
+			occupiedPercentageData 	: [],
 			remainingPercentageData : []
 	}
+	
+	$scope.barGraphData 			= [];
 	
 	$scope.ipmArray = [ { id: 'IPM1', ipm: 'IPM1' },{ id: 'IPM2', ipm: 'IPM2' },{ id: 'IPM3', ipm: 'IPM3' },{ id: 'IPM4', ipm: 'IPM4' }];
 	
@@ -45,7 +47,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 					if(data.meta.code != 200){
 						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
 					}
-					$scope.rePopulateGraphData();
+					$scope.rePopulatebarGraphData();
 					console.log("Response: ",data);
 				},
 				function(error){
@@ -72,7 +74,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 						setTimeout(function(){
 							$('#idGraphBtn').click();
 						},1000);
-						
+						$scope.updateLastClicked();
 						
 					}
 					else{
@@ -226,7 +228,23 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		
 	}
 	
-	$scope.rePopulateGraphData = function(){
+	$scope.graphFormatter = function(input,suffix){
+		try{
+			var number  =$filter('number')( input, 2) + "";
+			var dotIndex = number.indexOf(".");
+			if(dotIndex>0){
+				if(number.charAt(dotIndex+1) == '0' && number.charAt(dotIndex+2) == '0')
+					return Math.round(number)+suffix;
+			}
+			return number+suffix;
+		}
+		catch(err){
+			return input+suffix;
+		}
+		
+	}
+	
+	$scope.rePopulateDonutGraphData = function(){
 		
 		$scope.twoGraphs.occupiedPercentageData = [];
 		$scope.twoGraphs.remainingPercentageData=[];
@@ -266,6 +284,57 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			
 		}
 		
+	}
+	
+	$scope.rePopulatebarGraphData = function(){
+		//$scope.barGraphData 			= [{ component: "2006", occ: 200, rem: 90 }];
+		$scope.barGraphData 			= [];
+		
+		for(i=2;i<$scope.gridOptions.columnDefs.length;i++){
+			var comObj 			= {component:'', occ:'', rem:''};
+			comObj.component 	= $scope.gridOptions.columnDefs[i].name;
+			
+			var devDays = parseInt($scope.selectedReleaseCup.devDays);
+			var gridApiColIndex= -1;
+			
+			//Find aggregation value of colum  occObj.label
+			for(j in $scope.gridApi.grid.columns){
+				if($scope.gridApi.grid.columns[j].name == comObj.component){
+					gridApiColIndex = j;
+					break;					
+				}
+			}
+			
+			//Calculating Percentage
+			var aggregateValue 		= $scope.gridApi.grid.columns[gridApiColIndex].getAggregationValue();
+			var percentValOcc		= (aggregateValue/devDays)*100;
+			var percentValRem		= ((devDays-aggregateValue)/devDays)*100
+			
+			comObj.occ = $scope.graphFormatter(percentValOcc,"");
+			comObj.rem = $scope.graphFormatter(percentValRem,"");
+			
+			$scope.barGraphData.push(comObj);
+				
+			
+		}
+		
+		//$scope.$apply();
+		
+	}
+	
+	$scope.updateLastClicked = function(){
+		var currentDate = new Date();
+		var names 	= "names=lastClicked";
+		var values 	= "values="+currentDate.toISOString();
+		var data = "uuid="+$scope.selectedReleaseCup.uuid+"&"+names+"&"+values+"&"+"delimiter=;;;";
+		var update = UpdateObjectService.save(data);
+		update.$promise.then(
+				function(data){
+					console.log("Response LastClick: ",data);
+				},
+				function(error){
+					console.log("Error: ",error);
+				});
 	}
 	
 	$scope.getReleaseCup();

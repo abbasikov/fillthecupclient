@@ -7,6 +7,7 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService,Re
 				function(data){
 					if(data.meta.code == 200){
 						$scope.releaseCupsList = data.dataList;
+						$scope.redirectToLastReleaseCup();
 					}
 					else{
 						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
@@ -15,7 +16,33 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService,Re
 				function(error){
 					Notification.error({message: "Some error occurred1. Please try again later.", title: 'Error'});
 			});
-	}
+	};
+	
+	$scope.redirectToLastReleaseCup = function(){
+		try{
+			var sortedReleaseCups = $scope.sortArray($scope.releaseCupsList,"lastClicked",true);
+			$state.go("home.releasecupdetail",{id:sortedReleaseCups[0].uuid});
+		}
+		catch(err){
+			console.log("Error In redirectToLastReleaseCup: Erorr: "+err.message);
+			$state.go("home.releasecups");
+		}
+	};
+	
+	$scope.sortArray = function(items, field, reverse) {
+	    var filtered = [];
+	    angular.forEach(items, function(item) {
+	      filtered.push(item);
+	    });
+	    filtered.sort(function (a, b) {
+	      return (a[field] > b[field] ? 1 : -1);
+	    });
+	    
+	    if(reverse) 
+	    	filtered.reverse();
+	    return filtered;
+	  };
+
 	
 	$scope.deleteReleaseCupFromList = function(index){
 		var from 	= index;

@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Release Cup : {{selectedReleaseCup.name}}</h1>
+	<h1 style="font-weight: 800;">Release Cup : {{selectedReleaseCup.name}}</h1>
 
 </section>
 
@@ -15,7 +15,7 @@
 				<i class="fa fa-table"></i>
 					<h3 class="box-title">Matrix</h3>
 					<div class="box-tools pull-right">
-					<button id="idGraphBtn" class="btn btn-primary" ng-click="rePopulateGraphData()">Show Graph</button>
+					<button id="idGraphBtn" class="btn btn-primary" ng-click="rePopulatebarGraphData()">Show Graph</button>
 						<button class="btn btn-danger" ng-click="deleteRow()"
 							ng-show="showDeleteButton">Delete Row</button>
 						<button class="btn btn-success" ng-click="addRow()">Add
@@ -23,10 +23,8 @@
 					</div>
 				</div>
 				<div class="box-body">
-					<div id="grid1" ui-grid="gridOptions" ui-grid-selection
-						ui-grid-edit style="width: 100%;height: 380px;"></div>
-				</div>
-
+					<div id="grid1" ui-grid="gridOptions" ui-grid-selection ui-grid-edit style="width: 100%;height: 291px;"></div>
+						
 				<div class="overlay" ng-show="mtOverlay"></div>
 				<div class="loading-img" ng-show="mtLoading"></div>
 
@@ -36,7 +34,8 @@
 	</div>
 	<!-- [END] MATRIX ROW -->
 	
-	<!-- [START] GRAPH ROW -->
+	<!-- [START] DONUT GRAPH ROW -->
+	<!-- 
 	<div class="rows animated fadeInRight">
 		<div class="col-md-6">
 			<div class="box box-success" ng-if="twoGraphs.occupiedPercentageData.length>0">
@@ -71,8 +70,29 @@
 			</div>
 		</div>
 	</div>
-	<!-- [END] GRAPH ROW -->
-	
+	 -->
+	<!-- [END] DONUT GRAPH ROW -->
+	<div class="rows animated fadeInRight" ng-if="barGraphData.length>0">
+		<div class="col-md-12">
+			<div class="box box-success">
+				<div class="box-header">
+					<i class="fa fa-bar-chart"></i>
+					<h3 class="box-title">Bar Graph</h3>	
+					<div class="box-tools pull-right">
+                      <div class="label bg-green" style="font-size:12px">Dev Days : {{selectedReleaseCup.devDays}}</div>
+                    </div>				
+				</div>
+				<div class="box-body">
+					<div bar-chart bar-data="barGraphData" bar-x="component" bar-y='["occ", "rem"]' bar-labels='["Occupied %", "Remaining %"]' bar-colors='["#31C0BE", "#c7254e"]'></div>
+				</div>
+				<!-- 
+				<div class="overlay" ng-show="Overlay"></div>
+				<div class="loading-img" ng-show="ocLoading"></div>
+				 -->
+			</div>
+		</div>
+		
+	</div>
 	
 </section>
 <!-- /.content -->
