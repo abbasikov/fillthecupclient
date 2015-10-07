@@ -19,7 +19,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.twoGraphs = {
 			occupiedPercentageData 	: [],
 			remainingPercentageData : []
-	}
+	};
 	
 	$scope.ipmView  	= false;
 	$scope.detailView 	= true;
@@ -134,7 +134,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.ipmView 		= false;
 		$scope.detailView 	= true;
 		//$state.go("home.releasecupdetail",{id:'RELCP-E93F2C65-0688'});
-	}
+	};
 	
 	
 	 $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -142,7 +142,6 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	      //set gridApi on scope
 	      $scope.gridApi = gridApi;
 	      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-	        var msg = 'row selected ' + row.isSelected;
 	        $scope.showDeleteButton = row.isSelected;
 	      });
 	      
@@ -196,7 +195,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.footerCellTempateFunc = function(){
 		var template = '<div class="ui-grid-cell-contents" id="{{col.uid}}" col-index="renderIndex"><div">Total:&nbsp;{{col.getAggregationValue()}}</div></div>';
 		return template;
-	}
+	};
 	
 	$scope.toggleMtLoading = function(){
 		if($scope.mtOverlay){
@@ -241,7 +240,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			$scope.bgOverlay			= true;
 			$scope.bgLoading			= true;
 		}		
-	}
+	};
 	
 	$scope.graphFormatter = function(input){
 		try{
@@ -257,7 +256,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			return input+"%";
 		}
 		
-	}
+	};
 	
 	$scope.graphFormatter = function(input,suffix){
 		try{
@@ -273,7 +272,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			return input+suffix;
 		}
 		
-	}
+	};
 	
 	$scope.rePopulateDonutGraphData = function(){
 		
@@ -281,9 +280,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.twoGraphs.remainingPercentageData=[];
 		
 		//For Occupied
-		var occArray = [];
-		var remArray = [];
-		for(i=2;i<$scope.gridOptions.columnDefs.length;i++){
+		for(var i=2;i<$scope.gridOptions.columnDefs.length;i++){
 			var occObj = {label:'', value:''};
 			var remObj = {label:'', value:''};
 			
@@ -304,7 +301,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			//Calculating Percentage
 			var aggregateValue 		= $scope.gridApi.grid.columns[gridApiColIndex].getAggregationValue();
 			var percentValOcc		= (aggregateValue/devDays)*100;
-			var percentValRem		= ((devDays-aggregateValue)/devDays)*100
+			var percentValRem		= ((devDays-aggregateValue)/devDays)*100;
 			
 			occObj.value = percentValOcc;
 			remObj.value = percentValRem;
@@ -315,17 +312,18 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			
 		}
 		
-	}
+	};
 	
 	$scope.rePopulatebarGraphData = function(){
 		
 		//For Best User Experience
-		$scope.toggleBgLoading();
-		$timeout(function(){
-			$scope.toggleBgLoading();
-		},2000);
+//		$scope.toggleBgLoading();
+//		$timeout(function(){
+//			$scope.toggleBgLoading();
+//		},2000);
 		$scope.barGraphData 			= [];
-		for(i=2;i<$scope.gridOptions.columnDefs.length;i++){
+		
+		for(var i=2;i<$scope.gridOptions.columnDefs.length;i++){
 			var comObj 			= {component:'', occ:'', rem:''};
 			comObj.component 	= $scope.gridOptions.columnDefs[i].name;
 			
@@ -343,7 +341,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			//Calculating Percentage
 			var aggregateValue 		= $scope.gridApi.grid.columns[gridApiColIndex].getAggregationValue();
 			var percentValOcc		= (aggregateValue/devDays)*100;
-			var percentValRem		= ((devDays-aggregateValue)/devDays)*100
+			var percentValRem		= ((devDays-aggregateValue)/devDays)*100;
 			
 			comObj.occ = $scope.graphFormatter(percentValOcc,"");
 			comObj.rem = $scope.graphFormatter(percentValRem,"");
@@ -351,7 +349,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			$scope.barGraphData.push(comObj);		
 		}
 		
-	}
+	};
 	
 	$scope.updateLastClicked = function(){
 		var currentDate = new Date();
@@ -366,7 +364,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				function(error){
 					console.log("Error: ",error);
 				});
-	}
+	};
 	
 	$scope.getReleaseCup();
 }
