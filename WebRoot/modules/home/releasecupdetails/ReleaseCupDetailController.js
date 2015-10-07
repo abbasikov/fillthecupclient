@@ -6,6 +6,8 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.ocLoading			= false;
 	$scope.rpOverlay			= false;
 	$scope.rpLoading			= false;
+	$scope.bgOverlay			= false;
+	$scope.bgLoading			= false;
 	
 	$scope.releaseCupUuid		= $stateParams.id;
 	$scope.selectedReleaseCup	= null;
@@ -18,6 +20,11 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			occupiedPercentageData 	: [],
 			remainingPercentageData : []
 	}
+	
+	$scope.ipmView  	= false;
+	$scope.detailView 	= true;
+	
+	
 	
 	$scope.barGraphData 			= [];
 	
@@ -35,6 +42,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			columnDefs 		: [],
 			data			: []
 	};
+	$scope.resize = true;
 	
 	$scope.updateMatrix = function(){
 		var names 	= "names=matrixJson";
@@ -116,6 +124,18 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.gridOptions.data.push(dataObj);
 		$scope.updateMatrix();
 	};
+	
+	$scope.showIPMView = function(){
+		$scope.ipmView 		= true;
+		$scope.detailView 	= false;
+	};
+	
+	$scope.showDetailView = function(){
+		$scope.ipmView 		= false;
+		$scope.detailView 	= true;
+		//$state.go("home.releasecupdetail",{id:'RELCP-E93F2C65-0688'});
+	}
+	
 	
 	 $scope.gridOptions.onRegisterApi = function(gridApi){
 		 
@@ -212,6 +232,17 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		
 	};
 	
+	$scope.toggleBgLoading = function(){
+		if($scope.bgOverlay){
+			$scope.bgOverlay			= false;
+			$scope.bgLoading			= false;
+		}
+		else{
+			$scope.bgOverlay			= true;
+			$scope.bgLoading			= true;
+		}		
+	}
+	
 	$scope.graphFormatter = function(input){
 		try{
 			var number  =$filter('number')( input, 2) + "";
@@ -287,9 +318,13 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	}
 	
 	$scope.rePopulatebarGraphData = function(){
-		//$scope.barGraphData 			= [{ component: "2006", occ: 200, rem: 90 }];
-		$scope.barGraphData 			= [];
 		
+		//For Best User Experience
+		$scope.toggleBgLoading();
+		$timeout(function(){
+			$scope.toggleBgLoading();
+		},2000);
+		$scope.barGraphData 			= [];
 		for(i=2;i<$scope.gridOptions.columnDefs.length;i++){
 			var comObj 			= {component:'', occ:'', rem:''};
 			comObj.component 	= $scope.gridOptions.columnDefs[i].name;
@@ -313,12 +348,8 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			comObj.occ = $scope.graphFormatter(percentValOcc,"");
 			comObj.rem = $scope.graphFormatter(percentValRem,"");
 			
-			$scope.barGraphData.push(comObj);
-				
-			
+			$scope.barGraphData.push(comObj);		
 		}
-		
-		//$scope.$apply();
 		
 	}
 	
@@ -338,7 +369,6 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	}
 	
 	$scope.getReleaseCup();
-	
 }
 
 

@@ -1,4 +1,4 @@
-angular.module('error.utils',[])
+angular.module('utils',[])
 	.factory('ErrorUtils',function(){
 		
 		var errorObj = {
@@ -35,4 +35,25 @@ angular.module('error.utils',[])
 		};
 		
 		return service;
-	});
+	})
+	.factory('ServiceUtils',function(){
+		
+		var service = {
+				sortArrayByField : function(items, field, reverse) {
+				    var filtered = [];
+				    angular.forEach(items, function(item) {
+				      filtered.push(item);
+				    });
+				    filtered.sort(function (a, b) {
+				      return (a[field] > b[field] ? 1 : -1);
+				    });
+				    
+				    if(reverse) 
+				    	filtered.reverse();
+				    return filtered;
+				}		
+		};
+		
+		return service;
+	})
+	;

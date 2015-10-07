@@ -1,4 +1,4 @@
-function HomeController($scope,$state,Notification,context,ReleasesCupService,ReleasesCupByLabService){
+function HomeController($scope,$state,Notification,context,ReleasesCupService,ReleasesCupByLabService,ServiceUtils){
 	
 	$scope.releaseCupsList		= [];
 	$scope.getAllReleaseCupList = function(){
@@ -20,7 +20,7 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService,Re
 	
 	$scope.redirectToLastReleaseCup = function(){
 		try{
-			var sortedReleaseCups = $scope.sortArray($scope.releaseCupsList,"lastClicked",true);
+			var sortedReleaseCups = ServiceUtils.sortArrayByField($scope.releaseCupsList,"lastClicked",true);
 			$state.go("home.releasecupdetail",{id:sortedReleaseCups[0].uuid});
 		}
 		catch(err){
@@ -29,19 +29,7 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService,Re
 		}
 	};
 	
-	$scope.sortArray = function(items, field, reverse) {
-	    var filtered = [];
-	    angular.forEach(items, function(item) {
-	      filtered.push(item);
-	    });
-	    filtered.sort(function (a, b) {
-	      return (a[field] > b[field] ? 1 : -1);
-	    });
-	    
-	    if(reverse) 
-	    	filtered.reverse();
-	    return filtered;
-	  };
+	
 
 	
 	$scope.deleteReleaseCupFromList = function(index){
@@ -78,5 +66,5 @@ function HomeController($scope,$state,Notification,context,ReleasesCupService,Re
 
 
 angular.module('home',['ngAnimate','ui.router','ui-notification','angularFileUpload'])
-	.controller('HomeController',['$scope','$state','Notification','context','ReleasesCupService','ReleasesCupByLabService',HomeController]);
+	.controller('HomeController',['$scope','$state','Notification','context','ReleasesCupService','ReleasesCupByLabService','ServiceUtils',HomeController]);
 	

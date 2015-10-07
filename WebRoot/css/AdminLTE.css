@@ -3843,3 +3843,8 @@ span.colHeader {
 .grid-col-sum-exceeded{
 	background-color:#c00;
 }
+
+
+.ftc-leaving.ng-leave,.ftc-leaving.ng-leave-active {
+  display:none;
+}
