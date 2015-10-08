@@ -21,10 +21,10 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			remainingPercentageData : []
 	};
 	
-	$scope.ipmView  	= false;
-	$scope.detailView 	= true;
+	$scope.ipmView  	= true;
+	$scope.detailView 	= false;
 	
-	
+	$scope.ipmTree 	= [];
 	
 	$scope.barGraphData 			= [];
 	
@@ -32,6 +32,63 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	
 	$scope.colorListOccupied   	= ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	$scope.colorListRemaining   = ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
+	
+	var columnDefs = [
+	                  {headerName: "Make", field: "make"},
+	                  {headerName: "Model", field: "model"},
+	                  {headerName: "Price", field: "price"}
+	              ];
+
+	              var rowData = [
+	                  {make: "Toyota", model: "Celica", price: 35000},
+	                  {make: "Ford", model: "Mondeo", price: 32000},
+	                  {make: "Porsche", model: "Boxter", price: 72000}
+	              ];
+
+	              $scope.gridOptionsInTree = {
+	                  columnDefs: columnDefs,
+	                  rowData: rowData
+	              };
+
+    
+	$scope.generateIpmNodeInTree = function(ipmName,mvpList,componentList){
+		var obj = {
+				ipmName:ipmName,
+				isCollapsed:false,
+				mvpList:[]
+		};
+		
+		//Iterate thru each mvpList
+		for(var i=0;i<mvpList.length;i++){
+			obj.mvpList.push({
+				mvpName		:mvpList[i],
+				isCollapsed : false,
+				gridOptionsForMVP : {
+						
+						
+						columnDefs 		: [],
+						data			: []
+				}
+			});
+			
+			for(var j=0;j<componentList.length;j++){
+				obj.mvpList[i].gridOptionsForMVP.columnDefs.push({
+					name		: componentList[j],
+					displayName	: componentList[j]
+				});
+				
+			}
+			
+			
+		};
+		obj.mvpList[0].gridOptionsForMVP.data.push({
+			"Controller":"fsafdsa",
+			"UI":"fdsa",
+			"QE":"fdsa",
+			"UX":"fsadfasd"
+		});
+		$scope.ipmTree.push(obj);
+	}
 	
 	$scope.gridOptions = {
 			
@@ -64,8 +121,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	};
 	
 	$scope.$on('uiGridEventEndCellEdit', function (data) {
-		$scope.updateMatrix();
-	    
+		$scope.updateMatrix();	   
 	});
 	
 	$scope.getReleaseCup = function(){
@@ -367,9 +423,10 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	};
 	
 	$scope.getReleaseCup();
+	$scope.generateIpmNodeInTree("IPM1",["Smart Prompt"],["Controller","UI","QE","UX"]);
 }
 
 
-angular.module('releasecupdetail',['ngAnimate','ui.router','ui-notification'])
+angular.module('releasecupdetail',['ngAnimate','ui.router','ui-notification','ui.tree'])
 	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService','UpdateObjectService','ReleasesCupService','uiGridConstants','$filter',ReleaseCupDetailController]);
 	

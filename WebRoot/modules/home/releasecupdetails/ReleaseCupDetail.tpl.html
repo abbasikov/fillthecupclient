@@ -15,7 +15,10 @@
 					<h3>{{selectedReleaseCup.release.branchCutDate}}</h3>
 					<p style="font-weight: bold">Branch Cut</p>
 				</div>
-
+				<div class="icon">
+                	<i class="ion ion-scissors"></i>
+                </div>
+				<a href="#" class="small-box-footer" style="height: 15px;"></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -26,7 +29,10 @@
 					<h3>{{selectedReleaseCup.release.branchHardLockDate}}</h3>
 					<p style="font-weight: bold">Hardlock</p>
 				</div>
-
+				<div class="icon">
+                	<i class="ion ion-locked"></i>
+                </div>
+				<a href="#" class="small-box-footer" style="height: 15px;"></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -37,7 +43,10 @@
 					<h3>{{selectedReleaseCup.release.branchFreezeDate}}</h3>
 					<p style="font-weight: bold">Freeze</p>
 				</div>
-
+				<div class="icon">
+                	<i class="ion ion-locked"></i>
+                </div>
+				<a href="#" class="small-box-footer" style="height: 15px;"></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -48,7 +57,10 @@
 					<h3>{{selectedReleaseCup.release.branchProductionDate}}</h3>
 					<p style="font-weight: bold">Production</p>
 				</div>
-
+				<div class="icon">
+                	<i class="ion ion-merge"></i>
+                </div>
+				<a href="#" class="small-box-footer" style="height: 15px;"></a>
 			</div>
 		</div>
 		<!-- ./col -->
@@ -66,13 +78,61 @@
 						<button class="btn btn-primary" ng-click="showDetailView()">Detail View</button>
 					</div>
 				</div>
+				
 				<div class="box-body">
-					<div ng-repeat="item in ipmArray" style="background: rgb(248, 250, 255) none repeat scroll 0px 0px; border: 1px solid rgb(218, 226, 234); color: rgb(124, 158, 178); padding: 10px;" class="ng-scope">
-                  		<a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-right"></span></a>
-  						<span style="font-weight: 800; padding: 6px; font-size: 14px;" class="ng-binding">{{item.ipm}}</span>
-                  		<a class="pull-right btn btn-danger btn-xs" ng-click="removeComponent($index)"><span class="glyphicon glyphicon-remove"></span></a>
-                  	</div>
+				
+				<div class="angular-ui-tree">
+							<ol class="angular-ui-tree-nodes">
+								<!-- [START] IPM NODE -->
+								<li style="margin-bottom: 5px;" class="angular-ui-tree-node" ng-repeat="ipmNode in ipmTree">
+                					<div class="angular-ui-tree-handle">
+                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="ipmNode.isCollapsed = !ipmNode.isCollapsed">
+                  							<span ng-class="ipmNode.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
+                  						</a>
+                  						{{ipmNode.ipmName}}
+                					</div>
+		                			<ol  ng-class="ipmNode.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
+		                			
+		                				<!-- [START] MVP NODE -->
+		                  				<li class="angular-ui-tree-node" ng-repeat="mvp in ipmNode.mvpList">
+		                					<div class="angular-ui-tree-handle">
+		                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="mvp.isCollapsed = !mvp.isCollapsed">
+		                  						<span ng-class="mvp.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span></a>
+		                  						{{mvp.mvpName}}
+		                					</div>
+				                			<ol ng-class="mvp.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
+				                  				<li class="angular-ui-tree-node">
+				                					<table style="font-size:12px; table-layout: fixed;" id="example1" class="table table-bordered  dataTable">
+														<thead>
+															<tr>
+																<th style="text-align: center;">Tasks</th>
+																<th style="text-align: center;">SDP</th>
+																<th style="text-align: center;">QE</th>
+																<th style="text-align: center;">Controller</th>
+															</tr>
+														</thead>
+														<tbody>
+							
+														</tbody>
+
+													</table>
+				                  				</li>
+				              					
+		                					</ol>
+		              					</li>
+		              					<!-- [END] MVP NODE -->
+		              					
+		                			</ol>
+              					</li>
+              					<!-- [END] IPM NODE -->
+								
+							</ol>
+						</div>
 				</div>
+					
+				
+				
+				
 			</div>
 		</div>
 	</div>
