@@ -1,4 +1,5 @@
-function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService,UpdateObjectService,ReleasesCupService,uiGridConstants,$filter,IPMService){
+function ReleaseCupDetailController($scope,$stateParams,$state,Notification,loadContext,ErrorUtils,context,$timeout,ReleasesService,UpdateObjectService,ReleasesCupService,uiGridConstants,$filter,IPMService,ServiceUtils,editableOptions){
+	editableOptions.theme = 'bs3';
 	
 	$scope.mtOverlay 			= false;
 	$scope.mtLoading 			= false;
@@ -21,13 +22,19 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			remainingPercentageData : []
 	};
 	
-	$scope.ipmView  	= true;
-	$scope.detailView 	= false;
+	$scope.ipmView  	= false;
+	$scope.detailView 	= true;
+	
 	$scope.ipmTree		= [];
 	
 	$scope.barGraphData 			= [];
+	$scope.barGraphIPMData 			= [];
 	
-	$scope.ipmArray = [ { id: 'IPM1', ipm: 'IPM1' },{  id: 'IPM2', ipm: 'IPM2' },{ id: 'IPM3', ipm: 'IPM3' },{ id: 'IPM4', ipm: 'IPM4' }];
+	$scope.ipmArray = [ 
+	                    { id: 'IPM1', ipm: 'IPM1', isCollapsed:true },
+	                    {  id: 'IPM2', ipm: 'IPM2', isCollapsed:true },
+	                    { id: 'IPM3', ipm: 'IPM3', isCollapsed:true },
+	                    { id: 'IPM4', ipm: 'IPM4', isCollapsed:true }];
 	
 	$scope.colorListOccupied   	= ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	$scope.colorListRemaining   = ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
@@ -47,7 +54,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	$scope.updateMatrix = function(){
 		var names 	= "names=matrixJson";
 		$scope.selectedReleaseCup.matrix.data = $scope.gridOptions.data;
-		var values 	= "values="+encodeURIComponent(angular.toJson($scope.selectedReleaseCup.matrix));
+		var values 	= "values="+encodeURIComponent(angular.toJson($scope.selectedReleaseCup.matrix))+";;;";
 		var data = "uuid="+$scope.selectedReleaseCup.uuid+"&"+names+"&"+values+"&"+"delimiter=;;;";
 		var update = UpdateObjectService.save(data);
 		update.$promise.then(
@@ -56,7 +63,26 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
 					}
 					$scope.rePopulatebarGraphData();
-					console.log("Response: ",data);
+					$scope.rePopulatebarGraphIPMData();
+					console.log("Update Matrix Response: ",data);
+				},
+				function(error){
+					console.log("Error: ",error);
+				});
+	};
+	
+	$scope.updateTree = function(){
+		var names 	= "names=ipmTree";
+		$scope.selectedReleaseCup.ipmTree = $scope.ipmTree;
+		var values 	= "values="+encodeURIComponent( angular.toJson($scope.selectedReleaseCup.ipmTree));
+		var data = "uuid="+$scope.selectedReleaseCup.uuid+"&"+names+"&"+values+"&"+"delimiter=;;;";
+		var update = UpdateObjectService.save(data);
+		update.$promise.then(
+				function(data){
+					if(data.meta.code != 200){
+						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
+					}
+					console.log("Update Tree Response: ",data);
 				},
 				function(error){
 					console.log("Error: ",error);
@@ -64,7 +90,8 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	};
 	
 	$scope.$on('uiGridEventEndCellEdit', function (data) {
-		$scope.updateMatrix();	   
+		$scope.updateMatrix();
+		$scope.reCalculateIpmTree();
 	});
 	
 	$scope.getReleaseCup = function(){
@@ -77,11 +104,16 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 						$scope.selectedReleaseCup = data.data;
 						console.log("selectedReleaseCup : ",$scope.selectedReleaseCup);
 						$scope.pushDataInGrid();
+						
 						setTimeout(function(){
 							$('#idGraphBtn').click();
+							$('#idGraphBtn2').click();
 						},1000);
 						$scope.updateLastClicked();
+						
+						$scope.ipmTree = JSON.parse($scope.selectedReleaseCup.ipmTree);
 						$scope.reCalculateIpmTree();
+						
 					}
 					else{
 						$scope.toggleMtLoading();
@@ -94,9 +126,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				});
 	};
 	
-	$scope.reCalculateIpmTree = function(){
-		$scope.ipmTree = [];
-	}
+	
 	
 	$scope.deleteRow = function(){
 		if($scope.gridApi.selection.getSelectedRows().length > 0){
@@ -105,8 +135,17 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				$scope.deleteItemFromList(indexToDel);
 			}
 		}
-		
+		$scope.reCalculateIpmTree();
 	};
+	
+	$scope.saveTree = function(rowform,taskObject){
+		var colums = $scope.getColumsForTasksListInTree();
+		for(index in colums){
+			taskObject[colums[index].name] = rowform.$data["taskObj."+colums[index].name] 
+		}
+		
+		$scope.reCalculateIpmTree();
+	}
 	
 	$scope.deleteItemFromList = function(index){
 		var from 	= index;
@@ -116,6 +155,33 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.gridOptions.data.push.apply($scope.gridOptions.data, rest);
 		$scope.updateMatrix();
 	};
+	
+	$scope.deleteMVPFromTreeList =  function(list,index){
+		var from 	= index;
+		var to		= 0;
+		var rest = list.slice((to || from) + 1 || list.length);
+		list.length = from < 0 ?list.length + from : from;
+		list.push.apply(list, rest);
+		
+	}
+	
+	$scope.deleteTaskObjectFromList = function(list,index){
+		var from 	= index;
+		var to		= 0;
+		var rest = list.slice((to || from) + 1 || list.length);
+		list.length = from < 0 ?list.length + from : from;
+		list.push.apply(list, rest);
+		$scope.reCalculateIpmTree();
+	}
+	
+	$scope.addRowInTaskList = function(ipmObject){
+		var obj		= {};
+		for(colIndex in ipmObject.columns){
+			var colName = ipmObject.columns[colIndex].name;
+			obj[colName] = ""
+		}
+		ipmObject.taskList.push(obj);
+	}
 	
 	$scope.addRow = function(){
 		var dataObj = { };
@@ -158,6 +224,112 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 //	        $log.log(msg);
 //	      });
 	};
+	
+	$scope.reCalculateIpmTree = function(){
+		console.log("reCalculateIpmTree");
+		$scope.ipmTree.ipms["IPM1"] = $scope.ipmTree.ipms["IPM1"] == null ? [] : $scope.ipmTree.ipms["IPM1"];
+		$scope.ipmTree.ipms["IPM2"] = $scope.ipmTree.ipms["IPM2"] == null ? [] : $scope.ipmTree.ipms["IPM2"];
+		$scope.ipmTree.ipms["IPM3"] = $scope.ipmTree.ipms["IPM3"] == null ? [] : $scope.ipmTree.ipms["IPM3"];
+		$scope.ipmTree.ipms["IPM4"] = $scope.ipmTree.ipms["IPM4"] == null ? [] : $scope.ipmTree.ipms["IPM4"];
+
+		//For Adding
+		for(index in $scope.gridOptions.data){
+			var matrixRow = $scope.gridOptions.data[index];
+			if(matrixRow.IPM != undefined && matrixRow.IPM != ''){
+				var ipmObject = { mvpName : '',isCollapsed:true,columns:null,taskList:[{}] };
+				ipmObject.mvpName = matrixRow.MVPs;
+				
+				//Adding colums
+				ipmObject.columns = $scope.getColumsForTasksListInTree();
+				
+				//Now add default tasks
+				ipmObject.taskList = $scope.getDefaultTasks(ipmObject.columns);
+				
+				//Before pushing in ipmTree check if the MVP already exists
+				if($scope.mvpAlreadyExists(matrixRow.IPM,ipmObject.mvpName) == false)
+					$scope.ipmTree.ipms[matrixRow.IPM].push(ipmObject);
+//				else
+//					console.log("MVP:"+ipmObject.mvpName+" Already Exists in IPM:"+matrixRow.IPM+". Not adding.");
+			}
+		}
+		
+		//For Deleting
+		for(var index1 = 0;index1 < $scope.ipmArray.length ; index1++){
+			var ipmName = $scope.ipmArray[index1];
+			var mvpRowsInTree = $scope.ipmTree.ipms[ipmName.ipm];
+			for(index2 in mvpRowsInTree){
+				var mvpRowInTree =mvpRowsInTree[index2];
+				if($scope.combinationExistsInMatrix(mvpRowInTree.mvpName,ipmName.ipm) == false){
+					$scope.deleteMVPFromTreeList(mvpRowsInTree,index2);
+				}
+			}
+		}
+		
+		console.log("ipmTree : ",$scope.ipmTree);
+		console.log("updating tree");
+		$scope.updateTree();
+	}
+	
+	$scope.combinationExistsInMatrix = function(mvpName,ipmName){
+		for(index in $scope.gridOptions.data){
+			var matrixRow = $scope.gridOptions.data[index];
+			if(matrixRow.IPM == ipmName && matrixRow.MVPs == mvpName){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	$scope.mvpAlreadyExists = function(ipm,mvp){
+		
+		var particularIPMArray = $scope.ipmTree.ipms[ipm];
+		for(var h = 0 ; h < particularIPMArray.length; h++){
+			if(particularIPMArray[h].mvpName == mvp){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	$scope.getColumsForTasksListInTree = function(){
+		
+		var columns = [];
+		columns.push({displayName:'Tasks', name:'Tasks'});
+		for(var i=2;i<$scope.selectedReleaseCup.matrix.columns.length;i++){
+			columns.push({
+				displayName	: $scope.selectedReleaseCup.matrix.columns[i].displayName, 
+				name		: $scope.selectedReleaseCup.matrix.columns[i].name
+				});
+		}
+		return columns;
+	}
+	
+	$scope.getDefaultTasks = function(columsList){
+		var arr = [];
+		//Number of rows
+		for(var rowIndex=0;rowIndex<3;rowIndex++){
+			var obj		= {};
+			for(colIndex in columsList){
+				var colName = columsList[colIndex].name;
+				
+				if(colName == 'Tasks'){
+					if(rowIndex == 0)
+						obj[colName] = "Kill Switch";
+					if(rowIndex == 1)
+						obj[colName] = "Segmentation";
+					if(rowIndex == 2)
+						obj[colName] = "PRC";
+				}
+				else
+					obj[colName] = "0";
+			}
+			arr.push(obj);
+		}
+		console.log("arr: ",arr);
+		
+		return arr;
+	}
 	
 	$scope.pushDataInGrid = function(){
 		$scope.selectedReleaseCup.matrix = JSON.parse($scope.selectedReleaseCup.matrix);
@@ -318,11 +490,6 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	
 	$scope.rePopulatebarGraphData = function(){
 		
-		//For Best User Experience
-//		$scope.toggleBgLoading();
-//		$timeout(function(){
-//			$scope.toggleBgLoading();
-//		},2000);
 		$scope.barGraphData 			= [];
 		
 		for(var i=2;i<$scope.gridOptions.columnDefs.length;i++){
@@ -353,6 +520,50 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		
 	};
 	
+	$scope.rePopulatebarGraphIPMData = function(){
+		
+		$scope.barGraphIPMData = [];
+		var devDays = parseInt($scope.selectedReleaseCup.devDays);
+		
+		//Iterate Each IPM
+		for(var i=0;i<$scope.ipmArray.length;i++){
+			var ipmName = $scope.ipmArray[i].ipm;
+			
+			var comObj 			= {ipmName:'', occ:'', rem:''};
+			comObj.ipmName 		= ipmName;
+			
+			var IPMRow = null;
+			//Iterate thru Matrix to Get Appropriate IPM ROW
+			for(index in $scope.gridOptions.data){
+				var matrixRow = $scope.gridOptions.data[index];
+				if(matrixRow.IPM == ipmName){
+					IPMRow = matrixRow;
+					break;
+				}
+			}
+			var percentValOcc		= 0;
+			var percentValRem		= 0;
+			
+			if(IPMRow != null){
+				var total = 0;
+				for(var j=2;j<$scope.gridOptions.columnDefs.length;j++){
+					var columName = $scope.gridOptions.columnDefs[j].name;
+					var value = (IPMRow[columName] == undefined || IPMRow[columName] == '' || isNaN(IPMRow[columName]) ) ? 0 : parseInt(IPMRow[columName]);
+					total += value;
+				}
+				percentValOcc		= (total/devDays)*100;
+				percentValRem		= ((devDays-total)/devDays)*100;
+			}
+			
+			
+			comObj.occ = $scope.graphFormatter(percentValOcc,"");
+			comObj.rem = $scope.graphFormatter(percentValRem,"");
+			
+			$scope.barGraphIPMData.push(comObj);
+			
+		}
+	};
+	
 	$scope.updateLastClicked = function(){
 		var currentDate = new Date();
 		var names 	= "names=lastClicked";
@@ -375,5 +586,5 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 
 
 angular.module('releasecupdetail',['ngAnimate','ui.router','ui-notification','ui.tree'])
-	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService','UpdateObjectService','ReleasesCupService','uiGridConstants','$filter','IPMService',ReleaseCupDetailController]);
+	.controller('ReleaseCupDetailController',['$scope','$stateParams','$state','Notification','loadContext','ErrorUtils','context','$timeout','ReleasesService','UpdateObjectService','ReleasesCupService','uiGridConstants','$filter','IPMService','ServiceUtils','editableOptions',ReleaseCupDetailController]);
 	

@@ -83,50 +83,76 @@
 				
 				<div class="angular-ui-tree">
 							<ol class="angular-ui-tree-nodes">
-								<!-- [START] IPM NODE -->
-								<li style="margin-bottom: 5px;" class="angular-ui-tree-node" ng-repeat="ipmNode in ipmTree">
+								<!-- [START] IPM1 NODE -->
+								<li style="margin-bottom: 5px;" class="angular-ui-tree-node" ng-repeat="item in ipmArray">
                 					<div class="angular-ui-tree-handle">
-                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="ipmNode.isCollapsed = !ipmNode.isCollapsed">
-                  							<span ng-class="ipmNode.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
+                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="item.isCollapsed = !item.isCollapsed">
+                  							<span ng-class="item.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
                   						</a>
-                  						{{ipmNode.ipmName}}
+                  						{{item.ipm}}
                 					</div>
-		                			<ol  ng-class="ipmNode.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
+		                			<ol  ng-class="item.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
+		                		
 		                			
 		                				<!-- [START] MVP NODE -->
-		                  				<li class="angular-ui-tree-node" ng-repeat="mvp in ipmNode.mvpList">
+		                  				<li class="angular-ui-tree-node" ng-repeat="ipmObject in ipmTree.ipms[item.ipm]">
 		                					<div class="angular-ui-tree-handle">
-		                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="mvp.isCollapsed = !mvp.isCollapsed">
-		                  						<span ng-class="mvp.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span></a>
-		                  						{{mvp.mvpName}}
+		                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="ipmObject.isCollapsed = !ipmObject.isCollapsed">
+		                  						<span ng-class="ipmObject.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span></a>
+		                  						{{ipmObject.mvpName}}
+		                  						<a class="pull-right btn btn-success btn-xs" ng-click="addRowInTaskList(ipmObject)">Add Row</span></a>
 		                					</div>
-				                			<ol ng-class="mvp.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
+				                			<ol ng-class="ipmObject.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
 				                  				<li class="angular-ui-tree-node">
-				                					<table style="font-size:12px; table-layout: fixed;" id="example1" class="table table-bordered  dataTable">
+				                					<table style="font-size:12px; table-layout: fixed;" id="example1" class="table table-bordered table-striped  dataTable" >
 														<thead>
 															<tr>
-																<th style="text-align: center;">Tasks</th>
-																<th style="text-align: center;">SDP</th>
-																<th style="text-align: center;">QE</th>
-																<th style="text-align: center;">Controller</th>
+																<th style="text-align: center;" ng-repeat="col in ipmObject.columns" >{{col.name}}</th>
+																<th style="text-align: center;" >Action</th>
 															</tr>
 														</thead>
 														<tbody>
+															<tr ng-repeat="taskObj in ipmObject.taskList">
+        														<td style="text-align: center;" ng-repeat="col in ipmObject.columns">
+        															<span editable-text="taskObj.{{col.name}}" e-name="taskObj.{{col.name}}"  e-form="rowform" e-required>
+         	 															{{taskObj[col.name]}}
+       			 													</span>
+        														</td>
+        														
+        														<td style="white-space: nowrap">
+      													        	<form editable-form name="rowform"  ng-show="rowform.$visible" class="form-buttons form-inline">
+															          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" ng-click="saveTree(rowform,taskObj)">
+															            Save
+															          </button>
+															          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+															            Cancel
+															          </button>
+															     	</form>
+															        <div class="buttons" ng-show="!rowform.$visible">
+															          <button class="btn btn-primary btn-xs" ng-click="rowform.$show()">Edit</button>
+															          <button class="btn btn-danger btn-xs" ng-click="deleteTaskObjectFromList(ipmObject.taskList,$index)">Del</button>
+															        </div>  
+      															</td>
+        														
+    														</tr>
 							
 														</tbody>
 
 													</table>
-				                  				</li>
-				              					
+				                  				</li>				              					
 		                					</ol>
 		              					</li>
+		              					
 		              					<!-- [END] MVP NODE -->
 		              					
 		                			</ol>
+		                			
               					</li>
+              					
               					<!-- [END] IPM NODE -->
 								
 							</ol>
+							
 						</div>
 				</div>
 					
@@ -145,10 +171,11 @@
 		<div class="col-md-12">
 			<div class="box box-success">
 				<div class="box-header">
-					<i class="fa fa-table"></i>
-					<h3 class="box-title">Matrix</h3>
+					
+					<h3 class="box-title">The Cup - {{selectedReleaseCup.name}}</h3>
 					<div class="box-tools pull-right">
 						<button id="idGraphBtn" class="btn btn-primary ng-hide" ng-click="rePopulatebarGraphData()">Show Graph</button>
+						<button id="idGraphBtn2" class="btn btn-primary ng-hide" ng-click="rePopulatebarGraphIPMData()">Show Graph2</button>
 						<button class="btn btn-primary" ng-click="showIPMView()">IPM View</button>
 						<button class="btn btn-danger" ng-click="deleteRow()" ng-show="showDeleteButton">Delete Row</button>
 						<button class="btn btn-success" ng-click="addRow()">Add Row</button>
@@ -164,13 +191,14 @@
 	</div>
 	<!-- [END] MATRIX ROW -->
 	
-	<!-- [START] BAR GRAPH ROW -->
+	<!-- [START] TWO BAR GRAPH ROW -->
 	<div class="rows animated fadeInRight ftc-leaving" ng-if="barGraphData.length>0 && detailView == true">
+		<!-- [START] BAR GRAPGH PER COMPONENT -->
 		<div class="col-md-6">
 			<div class="box box-success">
 				<div class="box-header">
-					<i class="fa fa-bar-chart"></i>
-					<h3 class="box-title">Bar Graph Per Component </h3>	
+					<i class="fa fa-bar-chart" style="font-size: 17px;"></i>
+					<h3 class="box-title" style="font-size: 17px;">Graph Per Subject Matter Experts/Functions</h3>	
 					<div class="box-tools pull-right">
                       <div class="label bg-green" style="font-size:12px">Dev Days : {{selectedReleaseCup.devDays}}</div>
                     </div>				
@@ -184,26 +212,32 @@
 				
 			</div>
 		</div>	
+		<!-- [END] BAR GRAPGH PER COMPONENT -->
+		
+		<!-- [START] BAR GRAPGH PER IPM -->
 		<div class="col-md-6">
 			<div class="box box-success">
 				<div class="box-header">
-					<i class="fa fa-bar-chart"></i>
-					<h3 class="box-title">Bar Graph Per IPM</h3>	
+					<i class="fa fa-bar-chart" style="font-size: 17px;"></i>
+					<h3 class="box-title" style="font-size: 17px;">Graph Per IPM</h3>	
 					<div class="box-tools pull-right">
                       <div class="label bg-green" style="font-size:12px">Dev Days : {{selectedReleaseCup.devDays}}</div>
                     </div>				
 				</div>
 				<div class="box-body">
-					<div bar-chart bar-data="barGraphData" bar-x="component" bar-y='["occ", "rem"]' bar-labels='["Occupied %", "Remaining %"]' bar-colors='["#31C0BE", "#c7254e"]'></div>
+				
+				<div bar-chart bar-data="barGraphIPMData" bar-x="ipmName" bar-y='["occ", "rem"]' bar-labels='["Occupied %", "Remaining %"]' bar-colors='["#31C0BE", "#c7254e"]'></div>
+				
 				</div>
 				
 				<div class="overlay" ng-show="bgOverlay"></div>
 				<div class="loading-img" ng-show="bgLoading"></div>
 				
 			</div>
-		</div>		
+		</div>	
+		<!-- [END] BAR GRAPGH PER IPM -->	
 	</div>
-	<!-- [END] BAR GRAPH ROW -->
+	<!-- [END] TWO BAR GRAPH ROW -->
 	
 </section>
 <!-- /.content -->

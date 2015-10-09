@@ -51,8 +51,7 @@
 					<h3 class="box-title">Subject Matter Experts/Functions</h3>
 
 				</div>
-				<div class="box-body">
-					
+				<div class="box-body" style="overflow: scroll;height: 407px;">
 					<div ng-repeat="item in globalSystemComponents" style="background: rgb(248, 250, 255) none repeat scroll 0px 0px; border: 1px solid rgb(218, 226, 234); color: rgb(124, 158, 178); padding: 10px;">
                   		<a class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-right"></span></a>
   						<span style="font-weight: 800; padding: 6px; font-size: 14px;">{{item.name}}</span>
@@ -60,7 +59,7 @@
                   	</div>
                   	<div class="form-group" style="margin-top: 25px;">
 	                  	<div class="input-group">
-			                <input type="text" ng-model="componentName" placeholder="Enter component name" class="form-control">
+			                <input type="text" ng-model="componentName" placeholder="Enter function name" class="form-control">
 			                	<span class="input-group-btn">
 			                		<span class="btn btn-file btn-success" ng-click="addComponent()">Add</span>
 			                    </span>
