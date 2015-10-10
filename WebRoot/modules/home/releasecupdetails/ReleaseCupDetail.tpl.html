@@ -164,8 +164,6 @@
 	</div>
 	<!-- [END] IPM View -->
 	
-	
-
 <!-- [START] MATRIX ROW -->
 	<div class="rows animated fadeInRight ftc-leaving" ng-if="detailView == true">
 		<div class="col-md-12">
@@ -240,4 +238,10 @@
 	<!-- [END] TWO BAR GRAPH ROW -->
 	
 </section>
+
+<script type="text/ng-template" id="mapAddress.html">
+      <div class="ui-grid-cell-contents">
+		<a style="text-decoration: none;color: #428bca;border-bottom: dashed 1px #428bca;" title="To make a Confluence link, edit it and put a semicolon b/w MVP and Confluence URL"  href="{{ COL_FIELD.substring(COL_FIELD.indexOf(';')+1,COL_FIELD.length) }}" target="_blank">{{ COL_FIELD.substring(0,(COL_FIELD.indexOf(';') == -1 ? COL_FIELD.length : COL_FIELD.indexOf(';')))  }}</a>
+      </div>
+</script>
 <!-- /.content -->

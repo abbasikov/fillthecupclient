@@ -187,7 +187,9 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		var dataObj = { };
 		for(i in $scope.selectedReleaseCup.matrix.columns){
 			var columName = $scope.selectedReleaseCup.matrix.columns[i].name;
-			dataObj[columName] = "";
+			var confLink  		= "";
+			dataObj[columName] 	= "";
+			dataObj[confLink]	= "";
 		}
 		$scope.gridOptions.data.push(dataObj);
 		$scope.updateMatrix();
@@ -331,6 +333,10 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		return arr;
 	}
 	
+	$scope.openAddress = function(){
+		alert("hello");
+	}
+	
 	$scope.pushDataInGrid = function(){
 		$scope.selectedReleaseCup.matrix = JSON.parse($scope.selectedReleaseCup.matrix);
 		$scope.gridOptions.columnDefs  	= $scope.selectedReleaseCup.matrix.columns;
@@ -342,6 +348,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			$scope.gridOptions.columnDefs[i].enableCellEdit = true;
 			if($scope.gridOptions.columnDefs[i].name == "MVPs" ){
 				$scope.gridOptions.columnDefs[i].type	 		= "text";
+				$scope.gridOptions.columnDefs[i].cellTemplate	= 'mapAddress.html';
 			}
 			else if($scope.gridOptions.columnDefs[i].name == "IPM"){
 				$scope.gridOptions.columnDefs[i].type	 				= "text";
