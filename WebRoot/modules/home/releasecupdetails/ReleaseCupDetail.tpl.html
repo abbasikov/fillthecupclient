@@ -99,7 +99,7 @@
 		                					<div class="angular-ui-tree-handle">
 		                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="ipmObject.isCollapsed = !ipmObject.isCollapsed">
 		                  						<span ng-class="ipmObject.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span></a>
-		                  						{{ipmObject.mvpName}}
+		                  						{{ipmObject.mvpName | formatmvptitle}}
 		                  						<a class="pull-right btn btn-success btn-xs" ng-click="addRowInTaskList(ipmObject)">Add Row</span></a>
 		                					</div>
 				                			<ol ng-class="ipmObject.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">
@@ -184,6 +184,9 @@
 					<div class="overlay" ng-show="mtOverlay"></div>
 					<div class="loading-img" ng-show="mtLoading"></div>
 				</div>
+				<div class="box-footer" style="font-size: 12px;font-style: italic;color: #c00;font-weight: bold;">
+					Note: To make MVP as Confluence link, edit it and put a semicolon b/w MVP and Confluence URL
+				</div>
 			</div>
 		</div>
 	</div>
@@ -241,7 +244,7 @@
 
 <script type="text/ng-template" id="mapAddress.html">
       <div class="ui-grid-cell-contents">
-		<a style="text-decoration: none;color: #428bca;border-bottom: dashed 1px #428bca;" title="To make a Confluence link, edit it and put a semicolon b/w MVP and Confluence URL"  href="{{ COL_FIELD.substring(COL_FIELD.indexOf(';')+1,COL_FIELD.length) }}" target="_blank">{{ COL_FIELD.substring(0,(COL_FIELD.indexOf(';') == -1 ? COL_FIELD.length : COL_FIELD.indexOf(';')))  }}</a>
+		<a style="text-decoration: none;color: #428bca;border-bottom: dashed 1px #428bca;"   href="{{ COL_FIELD | formatmvplink }}" target="_blank">{{ COL_FIELD | formatmvptitle  }}</a>
       </div>
 </script>
 <!-- /.content -->
