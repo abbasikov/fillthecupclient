@@ -21,34 +21,42 @@
 		<div class="signup-form">
 		
 			<form id="signup-form_id"   name="registerForm" novalidate>
-                    <div class="form-group">
-						<input class="form-control" type="text" name="firstName" placeholder="First Name" required>
-						                    
-                    </div>
+                    <div class="form-group" style="margin-bottom: 5px;" ng-class="(registerForm.firstName.$dirty && registerForm.firstName.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input class="form-control" type="text" ng-model="firstName" name="firstName" placeholder="Enter First Name" required>
+					</div>
+                    <div class="form-group" style="margin-bottom: 5px;" ng-class="(registerForm.lastName.$dirty && registerForm.lastName.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input class="form-control" type="text" ng-model="lastName" name="lastName" placeholder="Enter Last Name" required>
+					</div>
+                    <div class="form-group" style="margin-bottom: 5px;" ng-class="(registerForm.email.$dirty && registerForm.email.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input class="form-control" type="email" ng-model="userEmail" name="email" placeholder="Enter Email" required>
+					</div>
                     
-                    <div class="form-group">
-						<input class="form-control" type="text" name="lastName" placeholder="Last Name" required>
-						                    
-                    </div>
+                    <!-- LAB INFO -->
+                    <div style="margin-bottom: 5px;" ng-class="(registerForm.labname.$dirty && registerForm.labname.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input type="text" title="Lab Name" name="labname"	ng-model="labName" placeholder="Enter Lab Name" class="form-control" required>
+					</div>
+					<div style="margin-bottom: 5px;" ng-class="(registerForm.managername.$dirty && registerForm.managername.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input type="text" title="Manager Name" name="managername" ng-model="managerName" placeholder="Enter Manager Name" class="form-control" required>
+					</div>
+					<div class="form-group" style="margin-bottom: 5px;">
+						<input type="text" title="PDM Name" 	ng-model="pdmName" placeholder="Enter PDM Name" class="form-control">
+					</div>
+					<div style="margin-bottom: 5px;" ng-class="(registerForm.username.$dirty && registerForm.username.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input type="text" title="User Name" name="username"	ng-model="userName" placeholder="Enter UserName" class="form-control" required>
+					</div>
+					<!-- LAB INFO -->	
                     
-                     <div class="form-group">
-						<input class="form-control" type="email" name="email" placeholder="Email" required>
-						                    
+	                <div class="form-group" style="margin-bottom: 5px;">
+						<input class="form-control" type="password" name="password" placeholder="Enter Password" required>
                     </div>
-                   <div class="form-group">
-						<input class="form-control" type="password" name="password" placeholder="Password" required>
-						                    
+                    <div class="form-group" style="margin-bottom: 5px;">
+						<input class="form-control" type="password" name="password1" placeholder="Enter Confirm Password" required>
                     </div>
-                     <div class="form-group">
-						<input class="form-control" type="password" name="password1" placeholder="Confirm Password" required>
-						                    
-                    </div>
-                <div class="form-actions">
-                    <button type="button" class="signup-btn bg-primary-macys">
-                    	<img ng-show="showLoading" ng-src="img/ajax-loader_signup.gif" >&nbsp;{{registerText}}
-                    </button>
-                   
-                </div>
+                	<div class="form-actions">
+	                    <button type="button" class="signup-btn bg-primary-macys">
+	                    	<img ng-show="showLoading" ng-src="img/ajax-loader_signup.gif" >&nbsp;{{registerText}}
+	                    </button>
+                   	</div>
             </form>
 			
 			
