@@ -36,6 +36,13 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	                    { id: 'IPM3', ipm: 'IPM3', isCollapsed:true },
 	                    { id: 'IPM4', ipm: 'IPM4', isCollapsed:true }];
 	
+	$scope.mostModelArray = [
+						{ id: 'Minimize', mostmodelname: 'Minimize', isCollapsed:true },
+						{ id: 'Optimize', mostmodelname: 'Optimize', isCollapsed:true },
+						{ id: 'Scale', mostmodelname: 'Scale', isCollapsed:true },
+						{ id: 'Test', mostmodelname: 'Test', isCollapsed:true }
+	                         ];
+	
 	$scope.colorListOccupied   	= ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	$scope.colorListRemaining   = ["#3c8dbc", "#f56954", "#00a65a",'#8A2BE2',"#31C0BE","#c7254e",'#5F9EA0','#6495ED','#DC143C','#00008B',"#f56954", '#483D8B','#483D8B','#483D8B'];
 	
@@ -228,7 +235,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	};
 	
 	$scope.reCalculateIpmTree = function(){
-		console.log("reCalculateIpmTree");
+		
 		$scope.ipmTree.ipms["IPM1"] = $scope.ipmTree.ipms["IPM1"] == null ? [] : $scope.ipmTree.ipms["IPM1"];
 		$scope.ipmTree.ipms["IPM2"] = $scope.ipmTree.ipms["IPM2"] == null ? [] : $scope.ipmTree.ipms["IPM2"];
 		$scope.ipmTree.ipms["IPM3"] = $scope.ipmTree.ipms["IPM3"] == null ? [] : $scope.ipmTree.ipms["IPM3"];
@@ -241,6 +248,9 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				var ipmObject = { mvpName : '',isCollapsed:true,columns:null,taskList:[{}] };
 				ipmObject.mvpName = matrixRow.MVPs;
 				
+				//Adding MOST variable
+				ipmObject.mostModel = matrixRow.MOSTModel;
+				
 				//Adding colums
 				ipmObject.columns = $scope.getColumsForTasksListInTree();
 				
@@ -248,10 +258,10 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				ipmObject.taskList = $scope.getDefaultTasks(ipmObject.columns);
 				
 				//Before pushing in ipmTree check if the MVP already exists
-				if($scope.mvpAlreadyExists(matrixRow.IPM,ipmObject.mvpName) == false)
+				if($scope.mvpAlreadyExists(matrixRow.IPM,ipmObject.mvpName,ipmObject.mostModel) == false)
 					$scope.ipmTree.ipms[matrixRow.IPM].push(ipmObject);
-//				else
-//					console.log("MVP:"+ipmObject.mvpName+" Already Exists in IPM:"+matrixRow.IPM+". Not adding.");
+				else
+					console.log("MVP:"+ipmObject.mvpName+", MostModel:"+ipmObject.mostModel+" Already Exists in IPM:"+matrixRow.IPM+". Not adding.");
 			}
 		}
 		
@@ -261,7 +271,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			var mvpRowsInTree = $scope.ipmTree.ipms[ipmName.ipm];
 			for(index2 in mvpRowsInTree){
 				var mvpRowInTree =mvpRowsInTree[index2];
-				if($scope.combinationExistsInMatrix(mvpRowInTree.mvpName,ipmName.ipm) == false){
+				if($scope.combinationExistsInMatrix(mvpRowInTree.mvpName,ipmName.ipm,mvpRowInTree.mostModel) == false){
 					$scope.deleteMVPFromTreeList(mvpRowsInTree,index2);
 				}
 			}
@@ -272,22 +282,21 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 		$scope.updateTree();
 	}
 	
-	$scope.combinationExistsInMatrix = function(mvpName,ipmName){
+	$scope.combinationExistsInMatrix = function(mvpName,ipmName,mostModel){
 		for(index in $scope.gridOptions.data){
 			var matrixRow = $scope.gridOptions.data[index];
 			if(matrixRow.IPM == ipmName && matrixRow.MVPs == mvpName){
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
-	$scope.mvpAlreadyExists = function(ipm,mvp){
+	$scope.mvpAlreadyExists = function(ipm,mvp,mostModel){
 		
 		var particularIPMArray = $scope.ipmTree.ipms[ipm];
 		for(var h = 0 ; h < particularIPMArray.length; h++){
-			if(particularIPMArray[h].mvpName == mvp){
+			if(particularIPMArray[h].mvpName == mvp && particularIPMArray[h].mostModel == mostModel){
 				return true;
 			}
 		}
@@ -349,6 +358,13 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 			if($scope.gridOptions.columnDefs[i].name == "MVPs" ){
 				$scope.gridOptions.columnDefs[i].type	 		= "text";
 				$scope.gridOptions.columnDefs[i].cellTemplate	= 'mapAddress.html';
+			}
+			else if($scope.gridOptions.columnDefs[i].name == "MOSTModel" ){
+				$scope.gridOptions.columnDefs[i].type	 				= "text";
+				$scope.gridOptions.columnDefs[i].editableCellTemplate 	= 'ui-grid/dropdownEditor';
+				//$scope.gridOptions.columnDefs[i].cellFilter 			= 'mapIPM';
+				$scope.gridOptions.columnDefs[i].editDropdownValueLabel	= 'mostmodelname';
+				$scope.gridOptions.columnDefs[i].editDropdownOptionsArray= $scope.mostModelArray;
 			}
 			else if($scope.gridOptions.columnDefs[i].name == "IPM"){
 				$scope.gridOptions.columnDefs[i].type	 				= "text";
@@ -496,10 +512,9 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 	};
 	
 	$scope.rePopulatebarGraphData = function(){
-		
 		$scope.barGraphData 			= [];
 		
-		for(var i=2;i<$scope.gridOptions.columnDefs.length;i++){
+		for(var i=3;i<$scope.gridOptions.columnDefs.length;i++){
 			var comObj 			= {component:'', occ:'', rem:''};
 			comObj.component 	= $scope.gridOptions.columnDefs[i].name;
 			
@@ -549,7 +564,7 @@ function ReleaseCupDetailController($scope,$stateParams,$state,Notification,load
 				}
 			}
 			var percentValOcc		= 0;
-			var percentValRem		= 0;
+			var percentValRem		= 100;
 			
 			if(IPMRow != null){
 				var total = 0;

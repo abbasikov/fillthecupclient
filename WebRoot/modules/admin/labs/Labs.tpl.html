@@ -98,8 +98,6 @@
 								<th>Lab Name</th>
 								<th>Manager Name</th>
 								<th>PDM Name</th>
-								<th>User Name</th>
-								<th>SuperAdmin</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -109,8 +107,6 @@
 								<td>{{lab.name}}</td>
 								<td>{{lab.managerName}}</td>
 								<td>{{lab.pdmName}}</td>
-								<td>{{lab.users[0].username}}</td>
-								<td>{{lab.users[0].isSuperAdmin == 'true' ? 'Yes' : 'No'}}</td>
 								<td>
 									<button class="btn btn-primary btn-xs" ng-click="editLab($index)">Edit</button>
 									<button class="btn btn-danger btn-xs" ng-click="deleteLab(lab.uuid,$index)">Delete</button>											

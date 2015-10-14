@@ -39,7 +39,6 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 									loadContext.redirectToHomePage();
 								else
 									Notification.error({message:"No labs assigned. Please check with admin.", title: 'UnAuthorized'});
-																
 							}							
 							
 						}

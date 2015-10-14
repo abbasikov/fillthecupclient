@@ -99,7 +99,7 @@
 		                					<div class="angular-ui-tree-handle">
 		                  						<a class="btn btn-success btn-xs" style="margin-right: 2px;" ng-click="ipmObject.isCollapsed = !ipmObject.isCollapsed">
 		                  						<span ng-class="ipmObject.isCollapsed == true ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span></a>
-		                  						{{ ipmObject.mvpName | formatmvptitle }}
+		                  						{{ ipmObject.mvpName | formatmvptitle }} - {{ipmObject.mostModel}}
 		                  						<a class="pull-right btn btn-success btn-xs" ng-click="addRowInTaskList(ipmObject)">Add Row</span></a>
 		                					</div>
 				                			<ol ng-class="ipmObject.isCollapsed == true ? 'angular-ui-tree-nodes hidden' : 'angular-ui-tree-nodes'">

@@ -50,7 +50,8 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 					"pdmName="+$scope.pdmname+"&"+
 					"userName="+$scope.username+"&"+
 					"password="+$scope.password+"&"+
-					"isSuperAdmin="+$scope.makeSuperAdmin;
+					"isSuperAdmin="+$scope.makeSuperAdmin+"&"+
+					"isLabManager=true&isLabUser=false";
 		
 		$scope.toggleRecordCreation();
 		var register = LabService.save(data);
@@ -258,6 +259,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		labs.$promise.then(
 				function(data){
 					if(data.meta.code == 200){
+						console.log("AllLabs : ",data)
 						$scope.labsList = data.dataList;
 					}
 					else{
