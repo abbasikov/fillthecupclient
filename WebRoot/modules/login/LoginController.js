@@ -38,7 +38,7 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 								if($scope.profileObject.labs.length > 0)
 									loadContext.redirectToHomePage();
 								else
-									Notification.error({message:"No labs assigned. Please check with admin.", title: 'UnAuthorized'});
+									Notification.error({message:"Either No labs are assigned OR assigned labs are deactivated. Please check with Super Admin.", title: 'UnAuthorized'});
 							}							
 							
 						}

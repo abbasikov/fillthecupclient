@@ -20,7 +20,7 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
             template: function (element, attrs) {
                 var checkboxes = attrs.checkboxes ? true : false;
                 var groups = attrs.groupBy ? true : false;
-
+                
                 var template = '<div class="multiselect-parent btn-group dropdown-multiselect">';
                 template += '<button type="button" class="dropdown-toggle" ng-class="settings.buttonClasses" ng-click="toggleDropdown()">{{getButtonText()}}&nbsp;<span class="caret"></span></button>';
                 template += '<ul class="dropdown-menu dropdown-menu-form" ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\' }" style="overflow: scroll" >';
@@ -96,7 +96,7 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
                     smartButtonMaxItems: 0,
                     smartButtonTextConverter: angular.noop
                 };
-
+                
                 $scope.texts = {
                     checkAll: 'Check All',
                     uncheckAll: 'Uncheck All',

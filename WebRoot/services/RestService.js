@@ -3,6 +3,62 @@ angular.module('rest.service',['ngResource'])
 		"BASE_REST_URL"	: "http://localhost:8080/fillthecupserver",
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"			
 	})
+	.factory('AssignLabToUser',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/assignlabstouser',{},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
+	.factory('UsersService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/users',{},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
+	.factory('GetAllUsersByLab',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/labs/:id/users',{id:'@id'},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
+	.factory('GetAllLabsByUser',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/users/:id/labs',{id:'@id'},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			},
+			update:{
+				method:'PUT',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
 	.factory('ReleasesCupByLabService',function($resource,CONSTANTS){
 		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/labs/:id/releasecups',{id:'@id'},{
 			save:{
@@ -115,8 +171,8 @@ angular.module('rest.service',['ngResource'])
 		
 		return data;
 	})
-	.factory('DeleteLabService',function($resource,CONSTANTS){
-		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/deletelab',{},{
+	.factory('DeleteService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/deletebusinessobject',{},{
 			save:{
 				method:'POST',
 				headers:{'Content-Type':'application/x-www-form-urlencoded '}
@@ -127,6 +183,16 @@ angular.module('rest.service',['ngResource'])
 	})
 	.factory('LabService',function($resource,CONSTANTS){
 		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/labs',{},{
+			save:{
+				method:'POST',
+				headers:{'Content-Type':'application/x-www-form-urlencoded '}
+			}
+		});
+		
+		return data;
+	})
+	.factory('RegisterService',function($resource,CONSTANTS){
+		var data = $resource(CONSTANTS.BASE_REST_URL+'/rest/public/register',{},{
 			save:{
 				method:'POST',
 				headers:{'Content-Type':'application/x-www-form-urlencoded '}

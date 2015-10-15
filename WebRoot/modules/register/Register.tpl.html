@@ -41,11 +41,11 @@
 					<div class="form-group" style="margin-bottom: 5px;">
 						<input type="text" title="PDM Name" 	ng-model="pdmName" placeholder="Enter PDM Name" class="form-control">
 					</div>
-					<div style="margin-bottom: 5px;" ng-class="(registerForm.username.$dirty && registerForm.username.$invalid) ? 'form-group has-error' : 'form-group' ">
-						<input type="text" title="User Name" name="username"	ng-model="userName" placeholder="Enter UserName" class="form-control" required>
-					</div>
 					<!-- LAB INFO -->	
                     
+                    <div style="margin-bottom: 5px;" ng-class="(registerForm.username.$dirty && registerForm.username.$invalid) ? 'form-group has-error' : 'form-group' ">
+						<input type="text" title="User Name" name="username"	ng-model="userName" placeholder="Enter UserName" class="form-control" required>
+					</div>
 	                <div class="form-group" style="margin-bottom: 5px;" ng-class="(registerForm.password.$dirty && registerForm.password.$invalid) ? 'form-group has-error' : 'form-group' ">
 						<input class="form-control" type="password" ng-model="password" name="password" placeholder="Enter Password" required>
 					</div>

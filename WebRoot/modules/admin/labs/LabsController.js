@@ -28,7 +28,76 @@ function LabUpdateController($scope,$modalInstance,labItem){
 	
 }
 
-function LabsController($scope,$state,Notification,context,ErrorUtils,LabService,DeleteLabService,$modal,UpdateObjectService,SysComponentService,DeleteSysComponentService){
+function UserUpdateController($scope,$modalInstance,userItem,labsList,GetAllLabsByUser){
+	
+	$scope.isError = false;
+	$scope.errorMsg = "";
+	
+	$scope.updatedObj = {
+			firstName	: '',
+			lastName	: '',
+			userEmail	: '',
+			userName	: '',
+			password	: '',
+			userName	: '',
+			isLabManager: '',
+			isSuperAdmin: '',
+			labsList	:[],
+			selectedLabs:[]
+	};
+	
+	
+	$scope.updatedObj.firstName		= userItem.firstName;
+	$scope.updatedObj.lastName		= userItem.lastName;
+	$scope.updatedObj.userEmail		= userItem.userEmail;
+	$scope.updatedObj.userName		= userItem.username;
+	$scope.updatedObj.isSuperAdmin	= (userItem.isSuperAdmin == "true") ? true : false;
+	$scope.updatedObj.isLabManager	= (userItem.isLabManager == "true") ? true : false;
+	
+	$scope.getAssignedLabsToUser = function(){
+		var rel = GetAllLabsByUser.get({id:userItem.uuid});
+		rel.$promise.then(
+				function(data){
+					if(data.meta.code == 200){
+						console.log(data.dataList);
+						for(index in data.dataList){
+							$scope.updatedObj.selectedLabs.push({
+								label	: 	data.dataList[index].name,
+								id		:	data.dataList[index].uuid
+							});
+						}
+					}
+					else{
+						console.log("Error: "+data.meta.details);
+					}
+				},
+				function(error){
+					console.log("Error: ",error);
+		});
+	}
+	
+	$scope.update = function(){
+		$modalInstance.close($scope.updatedObj);
+	};
+	
+	$scope.cancel = function(){
+		$modalInstance.dismiss('cancel');
+	};
+	
+	$scope.getAssignedLabsToUser();
+	
+	for(i in labsList){
+		if(labsList[i].isActivated == 'true'){
+			$scope.updatedObj.labsList.push({
+				label	: 	labsList[i].name,
+				id		:	labsList[i].uuid
+			});
+		}
+		
+	}
+}
+
+function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUtils,RegisterService,DeleteService,$modal,UpdateObjectService,SysComponentService,DeleteSysComponentService,LabService,UsersService,GetAllLabsByUser,AssignLabToUser){
 	
 	$scope.rcOverlay = false;
 	$scope.rcLoading = false;
@@ -36,22 +105,30 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 	$scope.listOverlay = false;
 	$scope.listLoading = false;
 	
+	$scope.usrOverlay	= false;
+	$scope.usrLoading	= false;
+	
+	$scope.listOverlayForUser = false;
+	$scope.listLoadingForUser = false;
+	
 	$scope.componentOverlay = false;
 	$scope.componentLoading = false;
 	
 	$scope.makeSuperAdmin = false;
 	
 	$scope.labsList = [];
+	$scope.usersList = [];
 	$scope.globalSystemComponents = [];
+	
+	$scope.settingsLabs = {
+			displayProp: 'name', idProp: 'uuid'
+	}
 	
 	$scope.submitLab = function(){
 		var data = 	"labName="+$scope.labname+"&" +
 					"managerName="+$scope.managername+"&"+
 					"pdmName="+$scope.pdmname+"&"+
-					"userName="+$scope.username+"&"+
-					"password="+$scope.password+"&"+
-					"isSuperAdmin="+$scope.makeSuperAdmin+"&"+
-					"isLabManager=true&isLabUser=false";
+					"createdBy=Super Admin";
 		
 		$scope.toggleRecordCreation();
 		var register = LabService.save(data);
@@ -73,6 +150,8 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 				});
 	};
 	
+	$scope.selectedLabs = []; 
+	
 	$scope.toggleRecordCreation = function(){
 		if($scope.rcOverlay){
 			$scope.rcOverlay = false;
@@ -84,16 +163,42 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		}
 	};
 	
-	$scope.toggleListShow = function(){
-		if($scope.listOverlay){
-			$scope.listOverlay = false;
-			$scope.listLoading = false;
+	$scope.toggleUserCreation = function(){
+		if($scope.usrOverlay){
+			$scope.usrOverlay	= false;
+			$scope.usrLoading	= false;
 		}
 		else{
-			$scope.listOverlay = true;
-			$scope.listLoading = true;
+			$scope.usrOverlay	= true;
+			$scope.usrLoading	= true;
 		}
+		
 	};
+	
+	$scope.toggleListShow = function(flag){
+		if(flag=="lab")
+		{
+			if($scope.listOverlay){
+				$scope.listOverlay = false;
+				$scope.listLoading = false;
+			}
+			else{
+				$scope.listOverlay = true;
+				$scope.listLoading = true;
+			}
+		}
+		if(flag == 'user'){
+			if($scope.listOverlayForUser){
+				$scope.listOverlayForUser = false;
+				$scope.listLoadingForUser = false;
+			}
+			else{
+				$scope.listOverlayForUser = true;
+				$scope.listLoadingForUser = true;
+			}
+		}
+		
+	}
 	
 	$scope.toggleComponentShow = function(){
 		if($scope.componentOverlay){
@@ -106,24 +211,52 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		}
 	};
 	
-	$scope.deleteLab = function(uuid,index){
-		var labs = DeleteLabService.save("uuid="+uuid);
-		$scope.toggleListShow();
-		labs.$promise.then(
+	$scope.activateLab = function(lab,flag){
+		var names 	= "names=isActivated";
+		var values 	= "values="+flag;
+		var data = "uuid="+lab.uuid+"&"+names+"&"+values+"&delimiter=,";
+		var update = UpdateObjectService.save(data);
+		$scope.toggleListShow('lab');
+		update.$promise.then(
 				function(data){
-					$scope.toggleListShow();
+					$scope.toggleListShow('lab');
 					if(data.meta.code == 200){
-						$scope.deleteItemFromLabsList(index);
+						lab.isActivated = flag;
 					}
 					else{
 						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
 					}
-					
 				},
 				function(error){
-					$scope.toggleListShow();
+					$scope.toggleListShow('lab');
 					Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
 				});
+		
+	}
+	
+	$scope.deleteBusinessObject = function(uuid,index,list,toggleFlag){
+		var res = confirm("Are you sure you want to delete ? ");
+		if (res == true) {
+			var labs = DeleteService.save("uuid="+uuid);
+			$scope.toggleListShow(toggleFlag);
+			labs.$promise.then(
+					function(data){
+						$scope.toggleListShow(toggleFlag);
+						if(data.meta.code == 200){
+							$scope.deleteItemList(index,list);
+						}
+						else{
+							Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
+						}
+						
+					},
+					function(error){
+						$scope.toggleListShow(toggleFlag);
+						Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
+					});
+		   
+		} 
+		
 	};
 	
 	
@@ -143,10 +276,6 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		    });
 		
 		modalInstance.result.then(function (updatedObj) {
-			 console.log("SelectedMachine:",$scope.selectedLabItem);
-			 console.log("UpdatedObj:",updatedObj);
-			 
-			 $scope.updateUser($scope.selectedLabItem, updatedObj);
 			 $scope.updateLab($scope.selectedLabItem, updatedObj);
 			 	 
 		    }, function () {
@@ -155,45 +284,120 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 		 
 	};
 	
-	$scope.updateUser = function(selectedLabItem,updatedObj){
+	$scope.editUser = function(index){
+		
+		$scope.selectedUserItem = $scope.usersList[index];
+		
+		var modalInstanceUser = $modal.open({
+		      templateUrl	: 'modules/admin/labs/updateUser.tpl.html',
+		      controller	: UserUpdateController,
+		      scope			: $scope,
+		      resolve		: {
+		          userItem: function () {
+		            return $scope.selectedUserItem;
+		          },
+		          labsList : function(){
+		        	  return $scope.labsList;
+		          },
+		          GetAllLabsByUser : function(){
+		        	  return GetAllLabsByUser;
+		          }
+		        }
+		    });
+		
+		modalInstanceUser.result.then(function (updatedObj) {
+			 $scope.updateUser($scope.selectedUserItem, updatedObj);
+		}, function () {});		 
+	};
+	
+	$scope.updateUser = function(selectedUserItem,updatedObj){
 		var names 	= "names=";
 		var values 	= "values=";
 		var update	= false;
 		
-		if(selectedLabItem.users[0].username	!= updatedObj.userName){
+		if(selectedUserItem.firstName	!= updatedObj.firstName){
+			names += "firstName"+",";
+			values += encodeURIComponent(updatedObj.firstName)+",";
+			update = true;
+		}
+		
+		if(selectedUserItem.lastName	!= updatedObj.lastName){
+			names += "lastName"+",";
+			values += encodeURIComponent(updatedObj.lastName)+",";
+			update = true;
+		}
+		
+		if(selectedUserItem.username	!= updatedObj.userName){
 			names += "userName"+",";
 			values += encodeURIComponent(updatedObj.userName)+",";
 			update = true;
 		}
 		
-		if(selectedLabItem.users[0].isSuperAdmin	!= (updatedObj.isSuperAdmin+"")){
+		if(selectedUserItem.userEmail	!= updatedObj.userEmail){
+			names += "userEmail"+",";
+			values += encodeURIComponent(updatedObj.userEmail)+",";
+			update = true;
+		}
+		
+		if(selectedUserItem.isSuperAdmin	!= (updatedObj.isSuperAdmin+"")){
 			names += "isSuperAdmin"+",";
 			values += (updatedObj.isSuperAdmin+"")+",";
 			update = true;
 		}
 		
+		if(selectedUserItem.isLabManager	!= (updatedObj.isLabManager+"")){
+			names += "isLabManager"+",";
+			values += (updatedObj.isLabManager+"")+",";
+			update = true;
+		}
+		
 		if(update){
-			var data = "uuid="+selectedLabItem.users[0].uuid+"&"+names+"&"+values+"&delimeter=,";
+			var data = "uuid="+selectedUserItem.uuid+"&"+names+"&"+values+"&delimiter=,";
 			var update = UpdateObjectService.save(data);
-			$scope.toggleListShow();
+			$scope.toggleListShow('user');
 			update.$promise.then(
 					function(data){
-						$scope.toggleListShow();
+						$scope.toggleListShow('user');
 						if(data.meta.code == 200){
-							$scope.selectedLabItem.users[0].username 		= updatedObj.userName;
-							$scope.selectedLabItem.users[0].isSuperAdmin 	= (updatedObj.isSuperAdmin+"");
+							selectedUserItem.username 		= updatedObj.userName;
+							selectedUserItem.isSuperAdmin 	= (updatedObj.isSuperAdmin+"");
+							selectedUserItem.isLabManager 	= (updatedObj.isLabManager+"");
+							selectedUserItem.firstName 		= updatedObj.firstName;
+							selectedUserItem.lastName 		= updatedObj.lastName;
+							selectedUserItem.userEmail 		= updatedObj.userEmail;
+							
 						}
 						else{
 							Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
 						}
 					},
 					function(error){
-						$scope.toggleListShow();
+						$scope.toggleListShow('user');
 						Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
 					});
 			
 		}
+		
+		$scope.updateLabAssignmentOfUser(updatedObj.selectedLabs,selectedUserItem.uuid);
 	};
+	
+	$scope.updateLabAssignmentOfUser = function(updatedSelectedLabs,userUuid){
+		var updatedPipeSeperateLabs = $scope.getFormattedSelectedLabs(updatedSelectedLabs);
+		console.log("Updated Labs: "+updatedPipeSeperateLabs);
+		var data = "userUuid="+userUuid+"&labUuids="+updatedPipeSeperateLabs+"&createdBy=Super Admin";
+		var assign = AssignLabToUser.save(data);
+		$scope.toggleListShow('user');
+		assign.$promise.then(
+				function(data){
+					$scope.toggleListShow('user');
+					console.log("Updated Lab Response : ",data);
+				},
+				function(error){
+					$scope.toggleListShow('user');
+					Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
+				});
+	};
+	
 	
 	$scope.updateLab = function(selectedLabItem,updatedObj){
 		var names 	= "names=";
@@ -237,13 +441,56 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 	};
 	
 	
-	$scope.deleteItemFromLabsList = function(index){
+	$scope.deleteItemList = function(index,list){
 		var from 	= index;
 		var to		= 0;
-		var rest = $scope.labsList.slice((to || from) + 1 || $scope.labsList.length);
-		$scope.labsList.length = from < 0 ? $scope.labsList.length + from : from;
-		$scope.labsList.push.apply($scope.labsList, rest);
+		var rest = list.slice((to || from) + 1 || list.length);
+		list.length = from < 0 ? list.length + from : from;
+		list.push.apply(list, rest);
 	};
+	
+	$scope.submitUser = function(){
+		var data = 	"firstName="+$scope.firstName+"&"+
+		 			"lastName="+$scope.lastName+"&"+
+		 			"userEmail="+$scope.userEmail+"&"+
+		 			"userName="+$scope.userName+"&"+
+		 			"password="+$scope.password+"&"+
+					"isSuperAdmin="+$scope.makeSuperAdmin+"&"+
+					"isLabManager="+$scope.makeLabManager+"&"+
+					"isLabUser=true&"+
+					"isPasswordReset=true&"+
+					"createdBy=Super Admin&"+
+					"labUuids="+$scope.getFormattedSelectedLabs($scope.selectedLabs);
+		var save = UsersService.save(data);
+		$scope.toggleUserCreation();
+		save.$promise.then(
+				function(data){
+					$scope.toggleUserCreation();
+					if(data.meta.code == 200){
+						Notification.success({message:"Record Created", title: 'Success'});
+						$scope.usersList.push(data.data);
+					}
+					else{
+						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
+					}
+				},
+				function(error){
+					$scope.toggleUserCreation();
+					Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
+				});
+	};
+	
+	$scope.getFormattedSelectedLabs = function(list){
+		if(list.length <1 ){
+			return "";
+		}
+		var labsList = "";
+		for(index in list){
+			labsList += list[index].id +";";
+		}
+		
+		return labsList;
+	}
 	
 	$scope.deleteItemFromComponentList = function(index){
 		var from 	= index;
@@ -270,6 +517,24 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 					Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
 				});
 	};
+	
+	$scope.getAllUsers = function(){
+		var get = UsersService.get();
+		
+		get.$promise.then(
+				function(data){
+					if(data.meta.code == 200){
+						console.log("AllUsers : ",data)
+						$scope.usersList = data.dataList;
+					}
+					else{
+						Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
+					}
+				},
+				function(error){
+					Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
+				});
+	}
 	
 	$scope.addComponent = function(){
 		if($scope.componentName){
@@ -332,10 +597,11 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,LabService
 	};
 	
 	$scope.getAllLabs();
+	$scope.getAllUsers();
 	$scope.getAllSysComponents();
 }
 
 
 angular.module('labs',['ngAnimate','ui.router','ui-notification','angularFileUpload','ng.httpLoader','angularFileUpload'])
-	.controller('LabsController',['$scope','$state','Notification','context','ErrorUtils','LabService','DeleteLabService','$modal','UpdateObjectService','SysComponentService','DeleteSysComponentService',LabsController])
+	.controller('LabsController',['$scope','$state','Notification','context','ErrorUtils','ServiceUtils','RegisterService','DeleteService','$modal','UpdateObjectService','SysComponentService','DeleteSysComponentService','LabService','UsersService','GetAllLabsByUser','AssignLabToUser',LabsController])
 	

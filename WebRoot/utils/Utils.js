@@ -3,7 +3,6 @@ angular.module('utils',[])
 		
 		var errorObj = {
 						'1000':'Email already exists',
-						'1001':'Blank field not allowed',
 						'1002':'User not found',
 						'1003':'Invalid credentials',
 						'1004':'Internal server error',
@@ -51,7 +50,17 @@ angular.module('utils',[])
 				    if(reverse) 
 				    	filtered.reverse();
 				    return filtered;
-				}		
+				},
+				toggleLoading : function(overlayParam,loadingParam){
+					if(overlayParam){
+						overlayParam = false;
+						loadingParam = false;
+					}
+					else{
+						overlayParam = true;
+						loadingParam = true;
+					}
+				}
 		};
 		
 		return service;

@@ -1,4 +1,4 @@
-function RegisterController($scope,$state,Notification,FileUploader,ErrorUtils,CONSTANTS,context,$cookies,loadContext,LabService){
+function RegisterController($scope,$state,Notification,FileUploader,ErrorUtils,CONSTANTS,context,$cookies,loadContext,RegisterService){
 	Notification.success({message: 'Please fill the form for new registration.', title: 'Welcome to FillTheCup'});
 	
 	$scope.registerText = "SIGN UP";
@@ -37,7 +37,7 @@ function RegisterController($scope,$state,Notification,FileUploader,ErrorUtils,C
 					"password="+$scope.password+"&"+
 					"isSuperAdmin=false&isLabManager=true&isLabUser=false";
 
-		var register = LabService.save(data);
+		var register = RegisterService.save(data);
 		$scope.toggleRecordCreation();
 		register.$promise.then(
 			function(data){
@@ -86,4 +86,4 @@ function RegisterController($scope,$state,Notification,FileUploader,ErrorUtils,C
 	}
 }
 angular.module('register',['ngAnimate','ui.router','ui-notification','angularFileUpload'])
-	.controller('RegisterController',['$scope','$state','Notification','FileUploader','ErrorUtils','CONSTANTS','context','$cookies','loadContext','LabService',RegisterController]);
+	.controller('RegisterController',['$scope','$state','Notification','FileUploader','ErrorUtils','CONSTANTS','context','$cookies','loadContext','RegisterService',RegisterController]);
