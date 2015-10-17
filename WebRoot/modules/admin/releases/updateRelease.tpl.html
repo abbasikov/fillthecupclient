@@ -1,28 +1,36 @@
 <div class="modal-header">
-	<h3 class="modal-title">Update Lab</h3>
+	<h3 class="modal-title">Update Release</h3>
 </div>
 
 <div class="modal-body">
-	<form role="form" name="labForm" novalidate>
-		<div class="form-group" style="margin-bottom: 10px" ng-class="(labForm.labName.$dirty && labForm.labName.$invalid) ? 'form-group has-error' : 'form-group' ">
-			<input type="text" name="labName" ng-model="updatedObj.labName" placeholder="Enter Lab Name" class="form-control" disabled="disabled" required>
-		</div>
-		<div class="form-group" style="margin-bottom: 10px" ng-class="(labForm.managerName.$dirty && labForm.managerName.$invalid) ? 'form-group has-error' : 'form-group' ">
-			<input type="text" name="managerName" ng-model="updatedObj.managerName" placeholder="Enter Manager Name" class="form-control" required>
-		</div>
-		<div class="form-group" style="margin-bottom: 10px">
-			<input type="text" name="pdmName" ng-model="updatedObj.pdmName" placeholder="Enter PDM Name" class="form-control">
-		</div>
-		<div class="form-group" style="margin-bottom: 10px" ng-class="(labForm.username.$dirty && labForm.username.$invalid) ? 'form-group has-error' : 'form-group' ">
-			<input type="text" name="username" ng-model="updatedObj.userName" placeholder="Enter User Name" class="form-control" required>
-		</div>
-		<div class="checkbox">
-  			<label><input type="checkbox" ng-model="updatedObj.isSuperAdmin">Make Super Admin</label>
-		</div>	
-	</form>
-
+	<form role="form" name="createReleaseForm" novalidate>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.name.$dirty && createReleaseForm.name.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="name" ng-model="updatedObject.name" placeholder="Enter Release Name" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.branchCutDate.$dirty && createReleaseForm.branchCutDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="branchCutDate" ng-model="updatedObject.branchCutDate" placeholder="Enter Branch Cut Date" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.branchFreezeDate.$dirty && createReleaseForm.branchFreezeDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="branchFreezeDate" ng-model="updatedObject.branchFreezeDate" placeholder="Enter Freeze Date" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.branchHardLockDate.$dirty && createReleaseForm.branchHardLockDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="branchHardLockDate" ng-model="updatedObject.branchHardLockDate" placeholder="Enter Hardlock Date" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.branchProductionDate.$dirty && createReleaseForm.branchProductionDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="branchProductionDate" ng-model="updatedObject.branchProductionDate" placeholder="Enter Production Date" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.mcomDate.$dirty && createReleaseForm.mcomDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="mcomDate" ng-model="updatedObject.mcomDate" placeholder="Enter MCOM Date" required>
+						</div>
+						<div style="margin-bottom: 5px" ng-class="(createReleaseForm.bcomDate.$dirty && createReleaseForm.bcomDate.$invalid) ? 'form-group has-error' : 'form-group' ">
+							<input class="form-control" type="text" name="bcomDate" ng-model="updatedObject.bcomDate" placeholder="Enter BCOM Date" required>
+						</div>
+						<div class="form-group">
+      						<div style="color:red">* All fields are mandatory.</div>
+      					</div>
+					</form>
 </div>
 <div class="modal-footer">
-	<button ng-click="update()" ng-class="(labForm.labName.$error.required || labForm.managerName.$error.required || labForm.username.$error.required) ? 'btn btn-primary disabled' : 'btn btn-primary'">Update</button>
+	<button ng-click="update()" ng-class="(createReleaseForm.name.$error.required || createReleaseForm.branchCutDate.$error.required || createReleaseForm.branchFreezeDate.$error.required || createReleaseForm.branchHardLockDate.$error.required || createReleaseForm.branchProductionDate.$error.required || createReleaseForm.mcomDate.$error.required || createReleaseForm.bcomDate.$error.required ) ? 'btn btn-success disabled' : 'btn btn-success'">Update</button>
 	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

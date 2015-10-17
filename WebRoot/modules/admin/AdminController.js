@@ -7,6 +7,7 @@ function AdminController($scope,$state,context){
 	else{
 		$scope.profileObject = context.getUser();
 		$scope.companyType  = 'Macys';
+		$scope.navsection 	= 1;
 		
 		//Add page-signin class in body tag
 		angular.element('#id-body').removeClass('page-signin');

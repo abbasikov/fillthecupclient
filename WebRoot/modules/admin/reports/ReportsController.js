@@ -1,5 +1,5 @@
 function ReportsController($scope,$state,Notification,context,ErrorUtils,DeleteService,$modal,UpdateObjectService){
-	
+	$scope.$parent.navsection 	= 3;
 }
 
 

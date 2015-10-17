@@ -14,8 +14,8 @@ function LabUpdateController($scope,$modalInstance,labItem){
 	$scope.updatedObj.labName		= labItem.name;
 	$scope.updatedObj.managerName	= labItem.managerName;
 	$scope.updatedObj.pdmName		= labItem.pdmName;
-	$scope.updatedObj.userName		= labItem.users[0].username;
-	$scope.updatedObj.isSuperAdmin	= (labItem.users[0].isSuperAdmin == "true") ? true : false;
+	//$scope.updatedObj.userName		= labItem.users[0].username;
+	//$scope.updatedObj.isSuperAdmin	= (labItem.users[0].isSuperAdmin == "true") ? true : false;
 	
 	
 	$scope.update = function(){
@@ -115,6 +115,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUti
 	$scope.componentLoading = false;
 	
 	$scope.makeSuperAdmin = false;
+	$scope.$parent.navsection 	= 1;
 	
 	$scope.labsList = [];
 	$scope.usersList = [];
@@ -264,7 +265,7 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUti
 		
 		$scope.selectedLabItem = $scope.labsList[index];
 		
-		var modalInstance = $modal.open({
+		var modalInstanceForLab = $modal.open({
 		      templateUrl	: 'modules/admin/labs/updateLab.tpl.html',
 		      controller	: LabUpdateController,
 		      scope			: $scope,
@@ -273,9 +274,9 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUti
 		            return $scope.selectedLabItem;
 		          }
 		        }
-		    });
+		});
 		
-		modalInstance.result.then(function (updatedObj) {
+		modalInstanceForLab.result.then(function (updatedObj) {
 			 $scope.updateLab($scope.selectedLabItem, updatedObj);
 			 	 
 		    }, function () {
