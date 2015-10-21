@@ -36,7 +36,12 @@ function LoginController($scope,$state,Notification,FileUploader,LoginService,lo
 							else{
 								//If no labs assigned. dont redirect to home page
 								if($scope.profileObject.labs.length > 0)
-									loadContext.redirectToHomePage();
+								{
+									if($scope.profileObject.isPasswordReset == 'true')
+										$state.go('passwordchange');
+									else
+										loadContext.redirectToHomePage();
+								}
 								else
 									Notification.error({message:"Either No labs are assigned OR assigned labs are deactivated. Please check with Super Admin.", title: 'UnAuthorized'});
 							}							

@@ -97,7 +97,7 @@ function UserUpdateController($scope,$modalInstance,userItem,labsList,GetAllLabs
 	}
 }
 
-function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUtils,RegisterService,DeleteService,$modal,UpdateObjectService,SysComponentService,DeleteSysComponentService,LabService,UsersService,GetAllLabsByUser,AssignLabToUser){
+function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUtils,RegisterService,DeleteService,$modal,UpdateObjectService,SysComponentService,DeleteSysComponentService,LabService,UsersService,GetAllLabsByUser,AssignLabToUser,PasswordResetService){
 	
 	$scope.rcOverlay = false;
 	$scope.rcLoading = false;
@@ -382,6 +382,26 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUti
 		$scope.updateLabAssignmentOfUser(updatedObj.selectedLabs,selectedUserItem.uuid);
 	};
 	
+	$scope.resetPassword = function(index){
+		var user = $scope.usersList[index];
+		var res = confirm("Are you sure you want to reset password ? ");
+		if (res == true) {
+		var save = PasswordResetService.save("username="+user.username);
+		save.$promise.then(
+					function(data){
+						if(data.meta.code == 200){
+							Notification.success({message:"Password has been reset. New password is temp123", title: 'Success',delay:6000});
+						}
+						else{
+							Notification.error({message:ErrorUtils.getMessageByMetadata(data.meta), title: 'Error'});
+						}
+					},
+					function(error){
+						Notification.error({message: "Some error occurred. Please try again later.", title: 'Error'});
+					});
+		}
+	}
+	
 	$scope.updateLabAssignmentOfUser = function(updatedSelectedLabs,userUuid){
 		var updatedPipeSeperateLabs = $scope.getFormattedSelectedLabs(updatedSelectedLabs);
 		console.log("Updated Labs: "+updatedPipeSeperateLabs);
@@ -604,5 +624,5 @@ function LabsController($scope,$state,Notification,context,ErrorUtils,ServiceUti
 
 
 angular.module('labs',['ngAnimate','ui.router','ui-notification','angularFileUpload','ng.httpLoader','angularFileUpload'])
-	.controller('LabsController',['$scope','$state','Notification','context','ErrorUtils','ServiceUtils','RegisterService','DeleteService','$modal','UpdateObjectService','SysComponentService','DeleteSysComponentService','LabService','UsersService','GetAllLabsByUser','AssignLabToUser',LabsController])
+	.controller('LabsController',['$scope','$state','Notification','context','ErrorUtils','ServiceUtils','RegisterService','DeleteService','$modal','UpdateObjectService','SysComponentService','DeleteSysComponentService','LabService','UsersService','GetAllLabsByUser','AssignLabToUser','PasswordResetService',LabsController])
 	

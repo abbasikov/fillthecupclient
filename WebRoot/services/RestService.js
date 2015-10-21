@@ -1,6 +1,6 @@
 angular.module('rest.service',['ngResource'])
 	.constant("CONSTANTS", {
-		"BASE_REST_URL"	: "http://localhost:8080/fillthecupserver",
+		"BASE_REST_URL"	: document.location.origin+"/fillthecupserver",
 		"DATE_FORMAT"	: "DD MMM YYYY hh:mm A"			
 	})
 	.factory('AssignLabToUser',function($resource,CONSTANTS){

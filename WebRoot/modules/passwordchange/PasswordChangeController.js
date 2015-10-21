@@ -1,4 +1,4 @@
-function PasswordChangeController($scope,$state,$timeout,$location,PasswordChangeService,Notification,FileUploader,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
+function PasswordChangeController($scope,$state,$timeout,$location,PasswordChangeService,Notification,ErrorUtils,CONSTANTS,context,$cookies,loadContext){
 	Notification.success({message: 'Please provide Email to recover Password.', title: 'Welcome to FillTheCup'});
 	
 	//Add page-signup class in body tag 
@@ -17,9 +17,9 @@ function PasswordChangeController($scope,$state,$timeout,$location,PasswordChang
 			
 			$scope.toggleLoading();
 			
-			$scope.profileObject = context.getEmployee();
-			$scope.email = $scope.profileObject['email'];
-			var data = "newpassword="+$scope.newPassword+"&email="+$scope.email;
+			$scope.profileObject = context.getUser();
+			$scope.username = $scope.profileObject['username'];
+			var data = "newpassword="+$scope.newPassword+"&username="+$scope.username;
 			
 			var passwordChange = PasswordChangeService.save(data);
 			
@@ -31,14 +31,14 @@ function PasswordChangeController($scope,$state,$timeout,$location,PasswordChang
 							//Clear old context
 							context.clearContext();
 							
-							//Set new employee data
-							context.setEmployee(data.data);
+							//Set new user data
+							context.setUser(data.data);
 							
-							//Remove old employee session
+							//Remove old user session
 							sessionStorage.removeItem('user');
 														
-							//Store employee in session storage
-							sessionStorage.setItem('user',JSON.stringify(context.getEmployee()) );
+							//Store user in session storage
+							sessionStorage.setItem('user',JSON.stringify(context.getUser) );
 							
 							//Redirect to appropriate home page.
 							loadContext.redirectToHomePage();
